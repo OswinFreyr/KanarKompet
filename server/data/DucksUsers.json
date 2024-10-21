@@ -1,0 +1,7 @@
+{
+    "DucksUsers": [
+      { "id": 1, "id_duck": 1, "id_user": 1 },
+      { "id": 2, "id_duck": 2, "id_user": 2 }
+    ]
+  }
+  

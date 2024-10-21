@@ -1,0 +1,7 @@
+{
+  "DucksCompetitions": [
+    { "id": 1, "id_duck": 1, "id_competition": 1 },
+    { "id": 2, "id_duck": 2, "id_competition": 1 },
+    { "id": 3, "id_duck": 1, "id_competition": 2 }
+  ]
+}

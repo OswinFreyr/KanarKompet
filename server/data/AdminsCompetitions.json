@@ -1,0 +1,7 @@
+{
+    "AdminsCompetitions": [
+      { "id": 1, "id_admin": 1, "id_competition": 1 },
+      { "id": 2, "id_admin": 2, "id_competition": 2 }
+    ]
+  }
+  

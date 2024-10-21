@@ -1,0 +1,8 @@
+{
+    "Ducks": [
+      { "id": 1, "name": "Quacky", "title": "Champion", "color": "Green", "rating": 4.9, "vmx": 20.5, "vmoy": 18.0, "id_race": 1, "nb_participation": 10, "nb_win": 7 },
+      { "id": 2, "name": "Speedy", "title": "Contender", "color": "White", "rating": 4.5, "vmx": 22.0, "vmoy": 19.0, "id_race": 2, "nb_participation": 15, "nb_win": 5 },
+      { "id": 3, "name": "Fluffy", "title": "Rookie", "color": "Brown", "rating": 3.8, "vmx": 19.2, "vmoy": 16.5, "id_race": 3, "nb_participation": 5, "nb_win": 1 }
+    ]
+  }
+  

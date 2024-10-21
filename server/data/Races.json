@@ -1,0 +1,8 @@
+{
+    "Races": [
+      { "id": 1, "name": "Mallard", "origin": "North America" },
+      { "id": 2, "name": "Pekin", "origin": "China" },
+      { "id": 3, "name": "Rouen", "origin": "France" }
+    ]
+  }
+  
