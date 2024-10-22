@@ -4,6 +4,7 @@
 
 <template>
   <div>
+    <AppConnexion/>
     <AppFooter/>
   </div>
 </template>
