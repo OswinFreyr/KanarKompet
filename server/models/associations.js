@@ -1,5 +1,5 @@
 const { Admin } = require("./adminModel");
-const { Commentaire } = require("./commentaireModel");
+const { Commentaire } = require("./commentaireCanardModel");
 const { Competition } = require("./competitionModel");
 const { Canard } = require("./canardModel");
 const { Localisation } = require("./localisationModel");
@@ -10,14 +10,20 @@ const { Utilisateur } = require("./utilisateurModel");
 Race.hasMany(Duck);
 Canard.belongsTo(Race);
 
-Canard.hasMany(Commentaire);
-Commentaire.belongsTo(Canard);
+Canard.hasMany(CommentaireCanard);
+CommentaireCanard.belongsTo(Canard);
 
-Utilisateur.hasMany(Commentaire);
-Commentaire.belongsTo(Utilisateur);
+Utilisateur.hasMany(CommentaireCanard);
+CommentaireCanard.belongsTo(Utilisateur);
 
-Competition.hasMany(Commentaire);
-Commentaire.belongsTo(Competition);
+Utilisateur.hasMany(CommentaireCompetition);
+CommentaireCompetition.belongsTo(Utilisateur);
+
+Utilisateur.hasMany(Canard);
+Canard.belongsTo(Utilisateur);
+
+Competition.hasMany(CommentaireCompetition);
+CommentaireCompetition.belongsTo(Competition);
 
 Admin.hasMany(Commentaire);
 Commentaire.belongsTo(Admin);
@@ -30,9 +36,6 @@ Competition.belongsTo(Localisation);
 
 Canard.belongsToMany(Competition, { through: "canardCompetition" });
 Competition.belongsToMany(Canard, { through: "canardCompetition" });
-
-Canard.belongsToMany(Utilisateur, { through: "canardUtilisateur" });
-Utilisateur.belongsToMany(Canard, { through: "canardUtilisateur" });
 
 Utilisateur.belongsToMany(Competition, { through: "utilisateurCompetition" });
 Competition.belongsToMany(Utilisateur, { through: "utilisateurCompetition" });
