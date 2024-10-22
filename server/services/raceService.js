@@ -114,4 +114,4 @@ async function deleteRace(raceId) {
 }
 
 
-module.exports = { createRace, getAllRaces, addCanardToRace, getRaceById, updateRace, deleteRace, }
+module.exports = { createRace, getAllRaces, addCanardToRace, getRaceById, updateRace, deleteRace,getLimitedRaces }

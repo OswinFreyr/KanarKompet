@@ -74,8 +74,9 @@ async function addRaceToCanard(req, res){
     try {
         const idCanard = req.params.idCanard;
         const idRace = req.params.idRace;
-        const canardRace = await canardService.addRaceToCanard(idRace,idCanard);
-        res.json(canardRace);
+        const raceCanard = await canardService.addRaceToCanard(idRace,idCanard);
+        const canardRace = await raceService.addCanardToRace(idCanard, idRace);
+        res.json({canardRace: canardRace, raceCanard: raceCanard});
         
     } catch (err) {
         res.status(500).json({message: err.message})
