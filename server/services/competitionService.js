@@ -155,21 +155,6 @@ async function addLocalisationToCompetition(idLocalisation, competitionId) {
     }
 }
 
-async function addUtilisateurToCompetition(idUtilisateur, competitionId) {
-    const competition = await Competition.findByPk(competitionId);
-    const isUtilisateur = await Utilisateur.findByPk(idUtilisateur)
-    if (isUtilisateur) {
-        // verifier si Utilisateur et Competition deja associés
-        const isUtilisateurCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: Utilisateur, where: { id: idUtilisateur } } });
-        if (isUtilisateurCompetition.lenght > 0) {
-            return null;
-        }
-        else {
-            return competition.addUtilisateur(idUtilisateur);
-        }
-    }
-}
-
 async function addCanardToCompetition(idCanard, competitionId) {
     const competition = await Competition.findByPk(competitionId);
     const isCanard = await Canard.findByPk(idCanard)

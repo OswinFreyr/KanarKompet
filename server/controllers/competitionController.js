@@ -103,6 +103,19 @@ async function addLocalisationToCompetition (req, res){
     }
 };
 
+async function addCanardToCompetition (req, res){
+    try {
+        const idCompetition = req.params.idCompetition;
+        const idCanard = req.params.idCanard;
+        const competitionCanard = await canardService.addCompetitionToCanard(idCompetition, idCanard);
+        const canardCompetition = await competitionService.addCanardToCompetition(idCanard, idCompetition);
+        res.json({competitionCanard: competitionCanard,canardCompetition: canardCompetition} );
+        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
 async function updateCompetition (req, res){
     try {
         const idCompetition = req.params.idCompetition;
@@ -125,3 +138,5 @@ async function deleteCompetition (req, res){
         res.status(500).json({message: error.message})
     }
 }
+
+module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addLocalisationToCompetition, addCanardToCompetition, updateCompetition, deleteCompetition, }

@@ -112,9 +112,9 @@ async function addCompetitionToCanard (req, res){
     try {
         const idCompetition = req.params.idCompetition;
         const idCanard = req.params.idCanard;
-        const CompetitionCanard = await canardService.addCompetitionToCanard(idCompetition, idCanard);
+        const competitionCanard = await canardService.addCompetitionToCanard(idCompetition, idCanard);
         const canardCompetition = await competitionService.addCanardToCompetition(idCanard, idCompetition);
-        res.json({CompetitionCanard: CompetitionCanard,canardCompetition: canardCompetition} );
+        res.json({competitionCanard: competitionCanard,canardCompetition: canardCompetition} );
         
     } catch (error) {
         res.status(500).json({message: error.message})
