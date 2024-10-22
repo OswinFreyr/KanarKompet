@@ -39,4 +39,4 @@ Canard.belongsToMany(Competition, { through: "canardCompetition" });
 Competition.belongsToMany(Canard, { through: "canardCompetition" });
 
 
-module.exports = { Admin, Commentaire, Competition, Canard, Localisation, Race, Utilisateur };
+module.exports = { Admin, CommentaireCanard, CommentaireCompetition, Competition, Canard, Localisation, Race, Utilisateur };

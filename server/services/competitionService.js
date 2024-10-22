@@ -1,4 +1,4 @@
-const { Canard, Race, Commentaire, Competition, Localisation, Utilisateur, Admin } = require('../models/associations.js');
+const { Canard, CommentaireCompetition, Competition, Localisation, Utilisateur, Admin } = require('../models/associations.js');
 
 async function createCompetition(competition) {
     return await Competition.create(competition);
@@ -32,10 +32,11 @@ async function getAllCompetitions(criterias = {}) {
     const competitions = await Competition.findAll({
         where,
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
             model: Utilisateur,
+            model: Localisation,
         },
         limit,
         offset
@@ -48,7 +49,7 @@ async function getAllCompetitions(criterias = {}) {
     }
 }
 
-async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
+async function getLimitedCompetitions(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
     if (criterias.titre) {
@@ -75,10 +76,11 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
     const {count, rows} = await Competition.findAndCountAll({
         where,
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
             model: Utilisateur,
+            model: Localisation,
         },
         limit: itemsPerPage,
         offset,
@@ -93,10 +95,11 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
 async function getCompetitionById(id) {
     const competition = await Competition.findByPk(id, {
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
             model: Utilisateur,
+            model: Localisation,
         }
     });
     if (competition) {
@@ -122,17 +125,17 @@ async function addAdminToCompetition(idAdmin, competitionId) {
     }
 }
 
-async function addCommentaireToCompetition(idCommentaire, competitionId) {
+async function addCommentaireCompetitionToCompetition(idCommentaireCompetition, competitionId) {
     const competition = await Competition.findByPk(competitionId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Competition et Commentaire deja associés
-        const isCommentaireCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireCompetition.lenght > 0) {
+    const isCommentaireCompetition = await CommentaireCompetition.findByPk(idCommentaireCompetition)
+    if (isCommentaireCompetition) {
+        // verifier si Competition et CommentaireCompetition deja associés
+        const isCommentaireCompetitionCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: CommentaireCompetition, where: { id: idCommentaireCompetition } } });
+        if (isCommentaireCompetitionCompetition.lenght > 0) {
             return null;
         }
         else {
-            return competition.addCommentaire(idCommentaire);
+            return competition.addCommentaireCompetition(idCommentaireCompetition);
         }
     }
 }
@@ -229,4 +232,4 @@ async function createAllFestivals(festivals, regions, communes, disciplines, env
     }
 }
 
-module.exports = { createCompetition, getAllCompetitions, getLimitedCanards, getCompetitionById, addAdminToCompetition, addCommentaireToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, createAllFestivals }
+module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, createAllFestivals }

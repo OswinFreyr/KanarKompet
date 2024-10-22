@@ -1,38 +1,22 @@
-const { Commentaire, Region, Commune, Discipline, Envergure, Localisation, Mois, Canard, Utilisateur, Competition, Admin } = require('../models/associations.js');
+const { CommentaireCompetition, Canard, Utilisateur, Competition, Admin } = require('../models/associations.js');
 
-async function createCommentaire(commentaire) {
-    return await Commentaire.create(commentaire);
+async function createCommentaireCompetition(commentaireCompetition) {
+    return await CommentaireCompetition.create(commentaireCompetition);
 }
 
-async function getAllCommentaires(criterias = {}) {
+async function getAllCommentairesCompetition(criterias = {}) {
     const where = {};
     const offset = 0;
     const limit = 10;
-    if (criterias.identifiant) {
-        where.identifiant = criterias.identifiant;
-    }
-    if (criterias.nom) {
-        where.nom = criterias.nom;
-    }
-    if (criterias.site_internet) {
-        where.site_internet = criterias.site_internet;
-    }
-    if (criterias.e_mail) {
-        where.e_mail = criterias.e_mail;
-    }
-    if (criterias.sous_categorie) {
-        where.sous_categorie = criterias.sous_categorie;
-    }
     if (criterias.offset) {
         offset = criterias.offset;
     }
     if (criterias.limit) {
         limit = criterias.limit;
     }
-    const commentaires = await Commentaire.findAll({
+    const commentairesCompetition = await CommentaireCompetition.findAll({
         where,
         include: {
-            model: Canard,
             model: Utilisateur,
             model: Competition,
             model: Admin,
@@ -40,15 +24,15 @@ async function getAllCommentaires(criterias = {}) {
         limit,
         offset
     });
-    if (commentaires) {
-        return commentaires;
+    if (commentairesCompetition) {
+        return commentairesCompetition;
     }
     else {
         return null;
     }
 }
 
-async function getLimitedCommentaires(criterias = {}, pageId, itemsPerPage) {
+async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
     if (criterias.identifiant) {
@@ -72,10 +56,9 @@ async function getLimitedCommentaires(criterias = {}, pageId, itemsPerPage) {
     if (criterias.limit) {
         limit = criterias.limit;
     }
-    const {count, rows} = await Commentaire.findAndCountAll({
+    const {count, rows} = await CommentaireCompetition.findAndCountAll({
         where,
         include: {
-            model: Canard,
             model: Utilisateur,
             model: Competition,
             model: Admin,
@@ -84,14 +67,14 @@ async function getLimitedCommentaires(criterias = {}, pageId, itemsPerPage) {
         offset,
     });
     return {
-        commentaires: rows,
+        commentairesCompetition: rows,
         count: count,
         hasMore: count > offset + rows.length
     };
 }
 
-async function getCommentaireById(id) {
-    const commentaire = await Commentaire.findByPk(id, {
+async function getCommentaireCompetitionById(id) {
+    const commentaireCompetition = await CommentaireCompetition.findByPk(id, {
         include: {
             model: Canard,
             model: Utilisateur,
@@ -99,83 +82,64 @@ async function getCommentaireById(id) {
             model: Admin,
         }
     });
-    if (commentaire) {
-        return commentaire.toJSON();
+    if (commentaireCompetition) {
+        return commentaireCompetition.toJSON();
     }
     else {
         return null;
     }
 }
 
-async function addCanardToCommentaire(idCanard, CommentaireId) {
-    const commentaire = await Commentaire.findByPk(CommentaireId);
-    const isCanard = await Canard.findByPk(idCanard)
-    if (isCanard) {
-        // verifier si Commentaire et Canard deja associés
-        const isCanardCommentaire = await Commentaire.findAll({ where: { id: CommentaireId }, include: { model: Canard, where: { id: idCanard } } });
-        if (isCanardCommentaire.lenght > 0) {
-            return null;
-        }
-        else {
-            return commentaire.addCanard(idCanard);
-        }
-    }
-}
-
-async function addUtilisateurToCommentaire(idUtilisateur, CommentaireId) {
-    const commentaire = await Commentaire.findByPk(CommentaireId);
+async function addUtilisateurToCommentaireCompetition(idUtilisateur, CommentaireCompetitionId) {
+    const commentaireCompetition = await CommentaireCompetition.findByPk(CommentaireCompetitionId);
     const isUtilisateur = await Utilisateur.findByPk(idUtilisateur)
     if (isUtilisateur) {
-        // verifier si Commentaire et Utilisateur deja associés
-        const isUtilisateurCommentaire = await Commentaire.findAll({ where: { id: CommentaireId }, include: { model: Utilisateur, where: { id: idUtilisateur } } });
-        if (isUtilisateurCommentaire.lenght > 0) {
+        // verifier si CommentaireCompetition et Utilisateur deja associés
+        const isUtilisateurCommentaireCompetition = await CommentaireCompetition.findAll({ where: { id: CommentaireCompetitionId }, include: { model: Utilisateur, where: { id: idUtilisateur } } });
+        if (isUtilisateurCommentaireCompetition.lenght > 0) {
             return null;
         }
         else {
-            return commentaire.addUtilisateur(idUtilisateur);
+            return commentaireCompetition.addUtilisateur(idUtilisateur);
         }
     }
 }
 
-async function addCompetitionToCommentaire(idCompetition, CommentaireId) {
-    const commentaire = await Commentaire.findByPk(CommentaireId);
+async function addCompetitionToCommentaireCompetition(idCompetition, CommentaireCompetitionId) {
+    const commentaireCompetition = await CommentaireCompetition.findByPk(CommentaireCompetitionId);
     const isCompetition = await Competition.findByPk(idCompetition)
     if (isCompetition) {
-        // verifier si Commentaire et Competition deja associés
-        const isCompetitionCommentaire = await Commentaire.findAll({ where: { id: CommentaireId }, include: { model: Competition, where: { id: idCompetition } } });
-        if (isCompetitionCommentaire.lenght > 0) {
+        // verifier si CommentaireCompetition et Competition deja associés
+        const isCompetitionCommentaireCompetition = await CommentaireCompetition.findAll({ where: { id: CommentaireCompetitionId }, include: { model: Competition, where: { id: idCompetition } } });
+        if (isCompetitionCommentaireCompetition.lenght > 0) {
             return null;
         }
         else {
-            return commentaire.addCompetition(idCompetition);
+            return commentaireCompetition.addCompetition(idCompetition);
         }
     }
 }
 
-async function addAdminToCommentaire(idAdmin, CommentaireId) {
-    const commentaire = await Commentaire.findByPk(CommentaireId);
+async function addAdminToCommentaireCompetition(idAdmin, CommentaireCompetitionId) {
+    const commentaireCompetition = await CommentaireCompetition.findByPk(CommentaireCompetitionId);
     const isAdmin = await Admin.findByPk(idAdmin)
     if (isAdmin) {
-        // verifier si Commentaire et Admin deja associés
-        const isAdminCommentaire = await Commentaire.findAll({ where: { id: CommentaireId }, include: { model: Admin, where: { id: idAdmin } } });
-        if (isAdminCommentaire.lenght > 0) {
+        // verifier si CommentaireCompetition et Admin deja associés
+        const isAdminCommentaireCompetition = await CommentaireCompetition.findAll({ where: { id: CommentaireCompetitionId }, include: { model: Admin, where: { id: idAdmin } } });
+        if (isAdminCommentaireCompetition.lenght > 0) {
             return null;
         }
         else {
-            return commentaire.addAdmin(idAdmin);
+            return commentaireCompetition.addAdmin(idAdmin);
         }
     }
 }
 
-async function updateCommentaire(id) {
+async function deleteCommentaireCompetition(id) {
 
 }
 
-async function deleteCommentaire(id) {
-
-}
-
-async function createAllCommentaires(commentaires, regions, communes, disciplines, envergures, localisations, mois) {
+async function createAllCommentairesCompetition(commentaires, regions, communes, disciplines, envergures, localisations, mois) {
     try {
 
         const tabCommentaires = [];
@@ -214,4 +178,4 @@ async function createAllCommentaires(commentaires, regions, communes, discipline
     }
 }
 
-module.exports = { createCommentaire, getAllCommentaires, getLimitedCommentaires, getCommentaireById, addCanardToCommentaire, addUtilisateurToCommentaire, addCompetitionToCommentaire, addAdminToCommentaire, updateCommentaire, deleteCommentaire, createAllCommentaires }
+module.exports = { createCommentaireCompetition, getAllCommentairesCompetition, getLimitedCommentairesCompetition, getCommentaireCompetitionById, addUtilisateurToCommentaireCompetition, addCompetitionToCommentaireCompetition, addAdminToCommentaireCompetition, deleteCommentaireCompetition, createAllCommentairesCompetition }

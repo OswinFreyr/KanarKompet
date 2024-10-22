@@ -1,4 +1,4 @@
-const { Utilisateur, Competition, Canard, Commentaire } = require('../models/associations.js');
+const { Utilisateur, Canard, CommentaireCanard, CommentaireCompetition } = require('../models/associations.js');
 
 async function createUtilisateur(utilisateur) {
     return await Utilisateur.create(utilisateur);
@@ -26,9 +26,9 @@ async function getAllUtilisateurs(criterias = {}) {
     const utilisateurs = await Utilisateur.findAll({
         where,
         include: {
-            model: Commentaire,
+            model: CommentaireCanard,
+            model: CommentaireCompetition,
             model: Canard,
-            model: Competition,
         },
         limit,
         offset
@@ -62,9 +62,9 @@ async function getLimitedUtilisateurs(criterias = {}, pageId, itemsPerPage) {
     const {count, rows} = await Competition.findAndCountAll({
         where,
         include: {
-            model: Commentaire,
+            model: CommentaireCanard,
+            model: CommentaireCompetition,
             model: Canard,
-            model: Competition,
         },
         limit: itemsPerPage,
         offset,
@@ -79,7 +79,7 @@ async function getLimitedUtilisateurs(criterias = {}, pageId, itemsPerPage) {
 async function getUtilisateurById(id) {
     const utilisateur = await utilisateur.findByPk(id, {
         include: {
-            model: Commentaire,
+            model: CommentaireCanard,
             model: Canard,
             model: Competition,
         }
@@ -107,32 +107,32 @@ async function addCanardToUtilisateur(idCanard, utilisateurId) {
     }
 }
 
-async function addCommentaireToUtilisateur(idCommentaire, utilisateurId) {
+async function addCommentaireCanardToUtilisateur(idCommentaireCanard, utilisateurId) {
     const utilisateur = await Utilisateur.findByPk(utilisateurId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Utilisateur et Commentaire deja associés
-        const isCommentaireUtilisateur = await Utilisateur.findAll({ where: { id: utilisateurId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireUtilisateur.lenght > 0) {
+    const isCommentaireCanard = await CommentaireCanard.findByPk(idCommentaireCanard)
+    if (isCommentaireCanard) {
+        // verifier si Utilisateur et CommentaireCanard deja associés
+        const isCommentaireCanardUtilisateur = await Utilisateur.findAll({ where: { id: utilisateurId }, include: { model: CommentaireCanard, where: { id: idCommentaireCanard } } });
+        if (isCommentaireCanardUtilisateur.lenght > 0) {
             return null;
         }
         else {
-            return utilisateur.addCommentaire(idCommentaire);
+            return utilisateur.addCommentaireCanard(idCommentaireCanard);
         }
     }
 }
 
-async function addCompetitionToUtilisateur(idCompetition, utilisateurId) {
+async function addCommentaireCompetitionToUtilisateur(idCommentaireCompetition, utilisateurId) {
     const utilisateur = await Utilisateur.findByPk(utilisateurId);
-    const isCompetition = await Competition.findByPk(idCompetition)
-    if (isCompetition) {
-        // verifier si Utilisateur et Competition deja associés
-        const isCompetitionUtilisateur = await Utilisateur.findAll({ where: { id: utilisateurId }, include: { model: Competition, where: { id: idCompetition } } });
-        if (isCompetitionUtilisateur.lenght > 0) {
+    const isCommentaireCompetition = await CommentaireCompetition.findByPk(idCommentaireCompetition)
+    if (isCommentaireCompetition) {
+        // verifier si Utilisateur et CommentaireCompetition deja associés
+        const isCommentaireCompetitionUtilisateur = await Utilisateur.findAll({ where: { id: utilisateurId }, include: { model: CommentaireCompetition, where: { id: idCommentaireCompetition } } });
+        if (isCommentaireCompetitionUtilisateur.lenght > 0) {
             return null;
         }
         else {
-            return utilisateur.addCompetition(idCompetition);
+            return utilisateur.addCommentaireCompetition(idCommentaireCompetition);
         }
     }
 }
@@ -146,4 +146,4 @@ async function deleteUtilisateur(id) {
 }
 
 
-module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCanardToUtilisateur, addCommentaireToUtilisateur, addCompetitionToUtilisateur, updateUtilisateur, deleteUtilisateur }
+module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCanardToUtilisateur, addCommentaireCanardToUtilisateur, addCommentaireCompetitionToUtilisateur, updateUtilisateur, deleteUtilisateur }

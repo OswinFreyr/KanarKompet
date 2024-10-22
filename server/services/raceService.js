@@ -7,6 +7,8 @@ async function createRace(Race) {
 
 async function getAllRaces(criterias = {}) {
     const where = {}
+    const offset = 0;
+    const limit = 10;
     if (criterias.nom) {
         where.nom = criterias.nom;
     }
@@ -17,7 +19,9 @@ async function getAllRaces(criterias = {}) {
         where,
         include: {
             model: Canard,
-        }
+        },
+        limit,
+        offset
     });
     if(Races) {
         return Races;
@@ -25,6 +29,30 @@ async function getAllRaces(criterias = {}) {
     else {
         return null;
     }
+}
+
+async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
+    const where = {};
+    const offset = (pageId - 1) * itemsPerPage;
+    if (criterias.nom) {
+        where.nom = criterias.nom;
+    }
+    if (criterias.origine) {
+        where.origine = criterias.origine;
+    }
+    const {count, rows} = await Commentaire.findAndCountAll({
+        where,
+        include: {
+            model: Canard,
+        },
+        limit: itemsPerPage,
+        offset,
+    });
+    return {
+        races: rows,
+        count: count,
+        hasMore: count > offset + rows.length
+    };
 }
 
 async function getRaceById(id) {
@@ -68,4 +96,4 @@ async function deleteRace(id) {
 }
 
 
-module.exports = { createRace, getAllRaces, addCanardToRace, getRaceById, }
+module.exports = { createRace, getAllRaces, addCanardToRace, updateRace, deleteRace, getRaceById, }
