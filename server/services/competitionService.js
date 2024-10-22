@@ -185,14 +185,25 @@ async function addCanardToCompetition(idCanard, competitionId) {
     }
 }
 
-async function updateCompetition(id) {
-
+async function updateCompetition(competitionId, updatedData) {
+    const competition = await Competition.findByPk(competitionId);
+    if (competition) {
+        return competition.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteCompetition(id) {
-
+async function deleteCompetition(competitionId) {
+    const competition = await Competition.findByPk(competitionId);
+    if (competition) {
+        return competition.destroy();
+    }
+    else {
+        return null;
+    }
 }
-
 async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
     try {
 

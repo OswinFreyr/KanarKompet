@@ -59,12 +59,24 @@ async function addCompetitionToLocalisation(idCompetitions, localisationId) {
     })
 }
 
-async function updateLocalisation(id) {
-
+async function updateLocalisation(localisationId, updatedData) {
+    const localisation = await Localisation.findByPk(localisationId);
+    if (localisation) {
+        return localisation.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteLocalisation(id) {
-
+async function deleteLocalisation(localisationId) {
+    const localisation = await Localisation.findByPk(localisationId);
+    if (localisation) {
+        return localisation.destroy();
+    }
+    else {
+        return null;
+    }
 }
 
 async function createAllLocalisations(localisations) {

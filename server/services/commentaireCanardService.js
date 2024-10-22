@@ -107,47 +107,15 @@ async function addUtilisateurToCommentaireCanard(idUtilisateur, commentaireCanar
     }
 }
 
-async function deleteCommentaire(id) {
 
-}
-
-async function createAllCommentairesCanard(commentairesCanard, regions, communes, disciplines, envergures, localisations, mois) {
-    try {
-
-        const tabCommentairesCanard = [];
-        commentairesCanard.forEach(async CommentaireCanardData => {
-            const CommentaireCanardMoisIds = [];
-            CommentaireCanardData.periode_mois?.forEach(el => {
-                CommentaireCanardMoisIds.push(mois[el])
-            });
-
-            tabCommentairesCanard.push({
-                identifiant: CommentaireCanardData.identifiant,
-                nom: CommentaireCanardData.nom_du_CommentaireCanard,
-                site_internet: CommentaireCanardData.site_internet_du_CommentaireCanard,
-                e_mail: CommentaireCanardData.adresse_e_mail,
-                sous_categorie: CommentaireCanardData.sous_categorie,
-                regionId: regions[CommentaireCanardData.region_principale_de_deroulement],
-                communeId: communes[CommentaireCanardData.commune_principale_de_deroulement],
-                disciplineId: disciplines[CommentaireCanardData.discipline_dominante],
-                envergureId: envergures[CommentaireCanardData.envergure_territoriale],
-                localisationId: localisations[CommentaireCanardData.geocodage_xy?.lat + "; " + CommentaireCanardData.geocodage_xy?.lon],
-                mois: CommentaireCanardMoisIds
-            })
-        });
-
-        commentairesCanard = await CommentaireCanard.bulkCreate(tabCommentairesCanard, {ignoreDuplicates: true })
-
-        for (const commentaireCanard of commentairesCanard) {
-            let moisList = tabCommentairesCanard.filter(el => el.identifiant === commentaireCanard.identifiant)[0].mois
-            await commentaireCanard.addMois(moisList)
-        }
-        
-        console.log('Tous les CommentairesCanard ont été créés avec succès.');
-
-    } catch (err) {
-        console.error('Erreur lors de la création des CommentairesCanard :', err);
+async function deleteCommentaireCanard(commentaireCanardId) {
+    const commentaireCanard = await CommentaireCanard.findByPk(commentaireCanardId);
+    if (commentaireCanard) {
+        return commentaireCanard.destroy();
+    }
+    else {
+        return null;
     }
 }
 
-module.exports = { createCommentaireCanard, getAllCommentairesCanard, getLimitedCommentairesCanard, getCommentaireCanardById, addCanardToCommentaireCanard, addUtilisateurToCommentaireCanard, deleteCommentaire, createAllCommentairesCanard }
+module.exports = { createCommentaireCanard, getAllCommentairesCanard, getLimitedCommentairesCanard, getCommentaireCanardById, addCanardToCommentaireCanard, addUtilisateurToCommentaireCanard, deleteCommentaireCanard, }

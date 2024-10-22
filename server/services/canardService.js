@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { Canard, Race, CommentaireCanard, Competition, Utilisateur } = require('../models/associations.js');
 
 async function createCanard(canard) {
@@ -191,12 +192,55 @@ async function addCompetitionToCanard(idCompetition, canardId) {
     }
 }
 
-async function updateCanard(id) {
-
+async function updateCanard(canardId, updatedData) {
+    const canard = await Canard.findByPk(canardId);
+    if (canard) {
+        if (updatedData.raceId) {
+            const race = await Race.findByPk(updatedData.raceId);
+            if (race) {
+              await canard.setRace(race); // Updates the association
+            } else {
+              return { success: false, message: "Race not found" };
+            }
+          }
+      
+          // Update the Utilisateur if utilisateurId is provided in updatedData
+          if (updatedData.utilisateurId) {
+            const utilisateur = await Utilisateur.findByPk(updatedData.utilisateurId);
+            if (utilisateur) {
+              await canard.setUtilisateur(utilisateur); // Updates the association
+            } else {
+              return { success: false, message: "Utilisateur not found" };
+            }
+          }
+      
+          // Update Competitions if competitionIds are provided in updatedData
+          if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+            const competitions = await Competition.findAll({
+              where: { id: updatedData.competitionIds }
+            });
+      
+            if (competitions.length === updatedData.competitionIds.length) {
+              await canard.setCompetitions(competitions); // Updates the many-to-many association
+            } else {
+              return { success: false, message: "One or more Competitions not found" };
+            }
+          }
+        return canard.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteCanard(id) {
-
+async function deleteCanard(canardId) {
+    const canard = await Canard.findByPk(canardId);
+    if (canard) {
+        return canard.destroy();
+    }
+    else {
+        return null;
+    }
 }
 
 async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
