@@ -35,21 +35,6 @@ async function getAllCommentairesCompetition(criterias = {}) {
 async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
-    if (criterias.identifiant) {
-        where.identifiant = criterias.identifiant;
-    }
-    if (criterias.nom) {
-        where.nom = criterias.nom;
-    }
-    if (criterias.site_internet) {
-        where.site_internet = criterias.site_internet;
-    }
-    if (criterias.e_mail) {
-        where.e_mail = criterias.e_mail;
-    }
-    if (criterias.sous_categorie) {
-        where.sous_categorie = criterias.sous_categorie;
-    }
     if (criterias.offset) {
         offset = criterias.offset;
     }
@@ -76,7 +61,6 @@ async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPe
 async function getCommentaireCompetitionById(id) {
     const commentaireCompetition = await CommentaireCompetition.findByPk(id, {
         include: {
-            model: Canard,
             model: Utilisateur,
             model: Competition,
             model: Admin,

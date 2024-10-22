@@ -58,7 +58,7 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
     if (criterias.limit) {
         limit = criterias.limit;
     }
-    const {count, rows} = await Competition.findAndCountAll({
+    const {count, rows} = await Admin.findAndCountAll({
         where,
         include: {
             model: CommentaireCompetition,
@@ -68,7 +68,7 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
         offset,
     });
     return {
-        utilisateurs: rows,
+        admins: rows,
         count: count,
         hasMore: count > offset + rows.length
     };

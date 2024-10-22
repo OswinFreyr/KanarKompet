@@ -102,15 +102,4 @@ async function updateAdmin (req, res){
 }
 
 
-async function deleteAdmin (req, res){
-    try {
-        const idAdmin = req.params.idAdmin;
-        const admin = await adminService.deleteAdmin(idAdmin, req.body);
-        res.json(admin)
-        
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-}
-
 module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin,deleteAdmin}

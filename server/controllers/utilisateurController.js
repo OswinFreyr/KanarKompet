@@ -126,4 +126,4 @@ async function deleteUtilisateur (req, res){
     }
 }
 
-module.exports = {createUtilisateur, getAllUtilisateurs,getLimitedUtilisateurs,getUtilisateurById,addCommentaireCompetitionToUtilisateur,addCommentaireCanardToUtilisateur,addCanardToUtilisateur,addCompetitionToUtilisateur,updateUtilisateur,deleteUtilisateur}
+module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCommentaireCompetitionToUtilisateur, addCommentaireCanardToUtilisateur, addCanardToUtilisateur, updateUtilisateur, deleteUtilisateur }

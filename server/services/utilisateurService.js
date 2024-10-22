@@ -81,7 +81,7 @@ async function getUtilisateurById(id) {
         include: {
             model: CommentaireCanard,
             model: Canard,
-            model: Competition,
+            model: CommentaireCompetition,
         }
     });
     if (utilisateur) {
