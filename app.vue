@@ -3,10 +3,11 @@
 </script>
 
 <template>
-  <div>
-    <AppHeader />
-    <h1>Hello World</h1>
-    <AppFooter/>
-  </div>
+  <div> 
+    <AppHeader/>
+  <index/>
+  <NuxtPage/>
+  <AppFooter/>
+</div>
+ 
 </template>
-
