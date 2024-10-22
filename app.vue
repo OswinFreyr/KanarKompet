@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const { data } = await useFetch('/api/hello')
+
 </script>
 
 <template>
-  <pre>{{ data }}</pre>
+  <div>
+    <AppHeader />
+    <h1>Hello World</h1>
+  </div>
 </template>
