@@ -66,9 +66,9 @@ async function addCompetitionToCommentaireCompetition(req, res){
     try {
         const idCompetition = req.params.idCompetition;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
-        const competitionCommentaireCompetition = await commentaireCanardService.addCanardToCommentaireCanard(idCompetition, idCommentaireCompetition);
-        const commentaireCompetitionCompetition = await canardService.addCommentaireCanardToCanard(idCommentaireCompetition,idCompetition);
-        res.json({canardCommentaireCanard: competitionCommentaireCompetition, commentaireCanardCanard: commentaireCompetitionCompetition});
+        const competitionCommentaireCompetition = await commentaireCompetitionService.addCompetitionToCommentaireCompetition(idCompetition, idCommentaireCompetition);
+        const commentaireCompetitionCompetition = await competitionService.addCommentaireCompetitionToCompetition(idCommentaireCompetition,idCompetition);
+        res.json({competitionCommentaireCompetition: competitionCommentaireCompetition, commentaireCompetitionCompetition: commentaireCompetitionCompetition});
         
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -113,4 +113,4 @@ async function deletecommentaireCompetition (req, res){
     }
 }
 
-module.exports = {createCommentaireCompetition, getAllCommentairesCompetition, getLimitedCommentairesCompetition,getCommentaireCompetitionById, getCommentaireCompetitionById, addCompetitionToCommentaireCompetition, addAdminToCommentaireCompetition, deletecommentaireCompetition}
+module.exports = {createCommentaireCompetition, getAllCommentairesCompetition, getLimitedCommentairesCompetition,getCommentaireCompetitionById, getCommentaireCompetitionById, addCompetitionToCommentaireCompetition, addUtilisateurToCommentaireCompetition, addAdminToCommentaireCompetition, deletecommentaireCompetition}
