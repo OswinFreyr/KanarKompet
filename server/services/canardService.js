@@ -1,4 +1,4 @@
-const { Canard, Race, Commentaire, Competition, Localisation, Utilisateur } = require('../models/associations.js');
+const { Canard, Race, CommentaireCanard, Competition, Utilisateur } = require('../models/associations.js');
 
 async function createCanard(canard) {
     return await Canard.create(canard);
@@ -45,7 +45,7 @@ async function getAllCanards(criterias = {}) {
         where,
         include: {
             model: Race,
-            model: Commentaire,
+            model: CommentaireCanard,
             model: Competition,
             model: Utilisateur,
         },
@@ -94,7 +94,7 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
             where,
             include: {
                 model: Race,
-                model: Commentaire,
+                model: CommentaireCanard,
                 model: Competition,
                 model: Utilisateur,
             },
@@ -112,7 +112,7 @@ async function getCanardById(id) {
     const canard = await Canard.findByPk(id, {
         include: {
             model: Race,
-            model: Commentaire,
+            model: CommentaireCanard,
             model: Competition,
             model: Utilisateur,
         }
@@ -140,17 +140,17 @@ async function addRaceToCanard(idRace, canardId) {
     }
 }
 
-async function addCommentaireToCanard(idCommentaire, canardId) {
+async function addCommentaireCanardToCanard(idCommentaireCanard, canardId) {
     const canard = await Canard.findByPk(canardId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Canard et Commentaire deja associés
-        const isCommentaireCanard = await Canard.findAll({ where: { id: canardId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireCanard.lenght > 0) {
+    const isCommentaireCanard = await CommentaireCanard.findByPk(idCommentaireCanard)
+    if (isCommentaireCanard) {
+        // verifier si Canard et CommentaireCanard deja associés
+        const isCommentaireCanardCanard = await Canard.findAll({ where: { id: canardId }, include: { model: CommentaireCanard, where: { id: idCommentaireCanard } } });
+        if (isCommentaireCanardCanard.lenght > 0) {
             return null;
         }
         else {
-            return canard.addCommentaire(idCommentaire);
+            return canard.addCommentaireCanard(idCommentaireCanard);
         }
     }
 }
@@ -232,4 +232,4 @@ async function createAllFestivals(festivals, regions, communes, disciplines, env
     }
 }
 
-module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, createAllFestivals }
+module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireCanardToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, createAllFestivals }
