@@ -1,4 +1,5 @@
-const { Canard, Race, Commentaire, Competition, Localisation, Utilisateur } = require('../models/associations.js');
+const { where } = require('sequelize');
+const { Canard, Race, CommentaireCanard, Competition, Utilisateur } = require('../models/associations.js');
 
 async function createCanard(canard) {
     return await Canard.create(canard);
@@ -45,7 +46,7 @@ async function getAllCanards(criterias = {}) {
         where,
         include: {
             model: Race,
-            model: Commentaire,
+            model: CommentaireCanard,
             model: Competition,
             model: Utilisateur,
         },
@@ -63,11 +64,17 @@ async function getAllCanards(criterias = {}) {
 async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
-    if (criterias.genre) {
-        where.genre = criterias.genre;
+    if (criterias.nom) {
+        where.nom = criterias.nom;
     }
     if (criterias.age) {
         where.age = criterias.age;
+    }
+    if (criterias.genre) {
+        where.genre = criterias.genre;
+    }
+    if (criterias.titre) {
+        where.titre = criterias.titre;
     }
     if (criterias.poids) {
         where.poids = criterias.poids;
@@ -94,7 +101,7 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
             where,
             include: {
                 model: Race,
-                model: Commentaire,
+                model: CommentaireCanard,
                 model: Competition,
                 model: Utilisateur,
             },
@@ -112,7 +119,7 @@ async function getCanardById(id) {
     const canard = await Canard.findByPk(id, {
         include: {
             model: Race,
-            model: Commentaire,
+            model: CommentaireCanard,
             model: Competition,
             model: Utilisateur,
         }
@@ -140,17 +147,17 @@ async function addRaceToCanard(idRace, canardId) {
     }
 }
 
-async function addCommentaireToCanard(idCommentaire, canardId) {
+async function addCommentaireCanardToCanard(idCommentaireCanard, canardId) {
     const canard = await Canard.findByPk(canardId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Canard et Commentaire deja associés
-        const isCommentaireCanard = await Canard.findAll({ where: { id: canardId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireCanard.lenght > 0) {
+    const isCommentaireCanard = await CommentaireCanard.findByPk(idCommentaireCanard)
+    if (isCommentaireCanard) {
+        // verifier si Canard et CommentaireCanard deja associés
+        const isCommentaireCanardCanard = await Canard.findAll({ where: { id: canardId }, include: { model: CommentaireCanard, where: { id: idCommentaireCanard } } });
+        if (isCommentaireCanardCanard.lenght > 0) {
             return null;
         }
         else {
-            return canard.addCommentaire(idCommentaire);
+            return canard.addCommentaireCanard(idCommentaireCanard);
         }
     }
 }
@@ -185,51 +192,53 @@ async function addCompetitionToCanard(idCompetition, canardId) {
     }
 }
 
-async function updateCanard(id) {
-
-}
-
-async function deleteCanard(id) {
-
-}
-
-async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
-    try {
-
-        const tabFestivals = [];
-        festivals.forEach(async festivalData => {
-            const festivalMoisIds = [];
-            festivalData.periode_mois?.forEach(el => {
-                festivalMoisIds.push(mois[el])
+async function updateCanard(canardId, updatedData) {
+    const canard = await Canard.findByPk(canardId);
+    if (canard) {
+        if (updatedData.raceId) {
+            const race = await Race.findByPk(updatedData.raceId);
+            if (race) {
+              await canard.setRace(race);
+            } else {
+              return { success: false, message: "Race not found" };
+            }
+          }
+      
+          if (updatedData.utilisateurId) {
+            const utilisateur = await Utilisateur.findByPk(updatedData.utilisateurId);
+            if (utilisateur) {
+              await canard.setUtilisateur(utilisateur);
+            } else {
+              return { success: false, message: "Utilisateur not found" };
+            }
+          }
+      
+          if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+            const competitions = await Competition.findAll({
+              where: { id: updatedData.competitionIds }
             });
-
-            tabFestivals.push({
-                identifiant: festivalData.identifiant,
-                nom: festivalData.nom_du_festival,
-                site_internet: festivalData.site_internet_du_festival,
-                e_mail: festivalData.adresse_e_mail,
-                sous_categorie: festivalData.sous_categorie,
-                regionId: regions[festivalData.region_principale_de_deroulement],
-                communeId: communes[festivalData.commune_principale_de_deroulement],
-                disciplineId: disciplines[festivalData.discipline_dominante],
-                envergureId: envergures[festivalData.envergure_territoriale],
-                localisationId: localisations[festivalData.geocodage_xy?.lat + "; " + festivalData.geocodage_xy?.lon],
-                mois: festivalMoisIds
-            })
-        });
-
-        festivals = await Festival.bulkCreate(tabFestivals, {ignoreDuplicates: true })
-
-        for (const festival of festivals) {
-            let moisList = tabFestivals.filter(el => el.identifiant === festival.identifiant)[0].mois
-            await festival.addMois(moisList)
-        }
-        
-        console.log('Tous les festivals ont été créés avec succès.');
-
-    } catch (err) {
-        console.error('Erreur lors de la création des festivals :', err);
+      
+            if (competitions.length === updatedData.competitionIds.length) {
+              await canard.setCompetitions(competitions); 
+            } else {
+              return { success: false, message: "One or more Competitions not found" };
+            }
+          }
+        return canard.update(updatedData);
+    }
+    else {
+        return null;
     }
 }
 
-module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, createAllFestivals }
+async function deleteCanard(canardId) {
+    const canard = await Canard.findByPk(canardId);
+    if (canard) {
+        return canard.destroy();
+    }
+    else {
+        return null;
+    }
+}
+
+module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireCanardToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, }

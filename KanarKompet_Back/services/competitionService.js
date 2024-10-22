@@ -1,4 +1,4 @@
-const { Canard, Race, Commentaire, Competition, Localisation, Utilisateur, Admin } = require('../models/associations.js');
+const { Canard, CommentaireCompetition, Competition, Localisation, Utilisateur, Admin } = require('../models/associations.js');
 
 async function createCompetition(competition) {
     return await Competition.create(competition);
@@ -32,10 +32,10 @@ async function getAllCompetitions(criterias = {}) {
     const competitions = await Competition.findAll({
         where,
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
+            model: Localisation,
         },
         limit,
         offset
@@ -48,7 +48,7 @@ async function getAllCompetitions(criterias = {}) {
     }
 }
 
-async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
+async function getLimitedCompetitions(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
     if (criterias.titre) {
@@ -75,10 +75,10 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
     const {count, rows} = await Competition.findAndCountAll({
         where,
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
+            model: Localisation,
         },
         limit: itemsPerPage,
         offset,
@@ -93,10 +93,10 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
 async function getCompetitionById(id) {
     const competition = await Competition.findByPk(id, {
         include: {
-            model: Race,
-            model: Commentaire,
+            model: Admin,
+            model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
+            model: Localisation,
         }
     });
     if (competition) {
@@ -122,17 +122,17 @@ async function addAdminToCompetition(idAdmin, competitionId) {
     }
 }
 
-async function addCommentaireToCompetition(idCommentaire, competitionId) {
+async function addCommentaireCompetitionToCompetition(idCommentaireCompetition, competitionId) {
     const competition = await Competition.findByPk(competitionId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Competition et Commentaire deja associés
-        const isCommentaireCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireCompetition.lenght > 0) {
+    const isCommentaireCompetition = await CommentaireCompetition.findByPk(idCommentaireCompetition)
+    if (isCommentaireCompetition) {
+        // verifier si Competition et CommentaireCompetition deja associés
+        const isCommentaireCompetitionCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: CommentaireCompetition, where: { id: idCommentaireCompetition } } });
+        if (isCommentaireCompetitionCompetition.lenght > 0) {
             return null;
         }
         else {
-            return competition.addCommentaire(idCommentaire);
+            return competition.addCommentaireCompetition(idCommentaireCompetition);
         }
     }
 }
@@ -152,21 +152,6 @@ async function addLocalisationToCompetition(idLocalisation, competitionId) {
     }
 }
 
-async function addUtilisateurToCompetition(idUtilisateur, competitionId) {
-    const competition = await Competition.findByPk(competitionId);
-    const isUtilisateur = await Utilisateur.findByPk(idUtilisateur)
-    if (isUtilisateur) {
-        // verifier si Utilisateur et Competition deja associés
-        const isUtilisateurCompetition = await Competition.findAll({ where: { id: competitionId }, include: { model: Utilisateur, where: { id: idUtilisateur } } });
-        if (isUtilisateurCompetition.lenght > 0) {
-            return null;
-        }
-        else {
-            return competition.addUtilisateur(idUtilisateur);
-        }
-    }
-}
-
 async function addCanardToCompetition(idCanard, competitionId) {
     const competition = await Competition.findByPk(competitionId);
     const isCanard = await Canard.findByPk(idCanard)
@@ -182,51 +167,56 @@ async function addCanardToCompetition(idCanard, competitionId) {
     }
 }
 
-async function updateCompetition(id) {
-
-}
-
-async function deleteCompetition(id) {
-
-}
-
-async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
-    try {
-
-        const tabFestivals = [];
-        festivals.forEach(async festivalData => {
-            const festivalMoisIds = [];
-            festivalData.periode_mois?.forEach(el => {
-                festivalMoisIds.push(mois[el])
-            });
-
-            tabFestivals.push({
-                identifiant: festivalData.identifiant,
-                nom: festivalData.nom_du_festival,
-                site_internet: festivalData.site_internet_du_festival,
-                e_mail: festivalData.adresse_e_mail,
-                sous_categorie: festivalData.sous_categorie,
-                regionId: regions[festivalData.region_principale_de_deroulement],
-                communeId: communes[festivalData.commune_principale_de_deroulement],
-                disciplineId: disciplines[festivalData.discipline_dominante],
-                envergureId: envergures[festivalData.envergure_territoriale],
-                localisationId: localisations[festivalData.geocodage_xy?.lat + "; " + festivalData.geocodage_xy?.lon],
-                mois: festivalMoisIds
-            })
-        });
-
-        festivals = await Festival.bulkCreate(tabFestivals, {ignoreDuplicates: true })
-
-        for (const festival of festivals) {
-            let moisList = tabFestivals.filter(el => el.identifiant === festival.identifiant)[0].mois
-            await festival.addMois(moisList)
+async function updateCompetition(competitionId, updatedData) {
+    const competition = await Competition.findByPk(competitionId);
+    if (competition) {
+        if (updatedData.adminId) {
+            const admin = await Admin.findByPk(updatedData.adminId);
+            if (admin) {
+                await competition.setAdmin(admin);
+            } else {
+                return { success: false, message: "Admin not found" };
+            }
         }
-        
-        console.log('Tous les festivals ont été créés avec succès.');
 
-    } catch (err) {
-        console.error('Erreur lors de la création des festivals :', err);
+        if (updatedData.localisationId) {
+            const localisation = await Localisation.findByPk(updatedData.localisationId);
+            if (localisation) {
+                await competition.setLocalisation(localisation);
+            } else {
+                return { success: false, message: "Localisation not found" };
+            }
+        }
+
+        if (updatedData.commentaireCompetitionIds && Array.isArray(updatedData.commentaireCompetitionIds)) {
+            const commentairesCompetition = await CommentaireCompetition.findAll({
+                where: { id: updatedData.commentaireCompetitionIds }
+            });
+            await competition.setCommentaireCompetitions(commentairesCompetition);
+        }
+
+        if (updatedData.canardIds && Array.isArray(updatedData.canardIds)) {
+            const canards = await Canard.findAll({
+                where: { id: updatedData.canardIds }
+            });
+            await competition.setCanards(canards);
+        }
+        return competition.update(updatedData);
+    }
+    else {
+        return null;
     }
 }
 
-module.exports = { createCompetition, getAllCompetitions, getLimitedCanards, getCompetitionById, addAdminToCompetition, addCommentaireToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, createAllFestivals }
+async function deleteCompetition(competitionId) {
+    const competition = await Competition.findByPk(competitionId);
+    if (competition) {
+        return competition.destroy();
+    }
+    else {
+        return null;
+    }
+}
+
+
+module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, }
