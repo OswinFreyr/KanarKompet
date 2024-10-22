@@ -6,5 +6,7 @@
   <div>
     <AppHeader />
     <h1>Hello World</h1>
+    <AppFooter/>
   </div>
 </template>
+
