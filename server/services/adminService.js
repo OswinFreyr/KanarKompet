@@ -122,6 +122,18 @@ async function addCompetitionToAdmin(idCompetition, adminId) {
 async function updateAdmin(adminId, updatedData) {
     const admin = await Admin.findByPk(adminId);
     if (admin) {
+        if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+            const competitions = await Competition.findAll({
+                where: { id: updatedData.competitionIds }
+            });
+            await admin.setCompetitions(competitions);
+        }
+        if (updatedData.commentaireCompetitionIds && Array.isArray(updatedData.commentaireCompetitionIds)) {
+            const commentairesCompetition = await CommentaireCompetition.findAll({
+                where: { id: updatedData.commentaireCompetitionIds }
+            });
+            await admin.setCommentaireCompetitions(commentairesCompetition);
+        }
         return admin.update(updatedData);
     }
     else {

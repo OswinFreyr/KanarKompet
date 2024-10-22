@@ -198,30 +198,28 @@ async function updateCanard(canardId, updatedData) {
         if (updatedData.raceId) {
             const race = await Race.findByPk(updatedData.raceId);
             if (race) {
-              await canard.setRace(race); // Updates the association
+              await canard.setRace(race);
             } else {
               return { success: false, message: "Race not found" };
             }
           }
       
-          // Update the Utilisateur if utilisateurId is provided in updatedData
           if (updatedData.utilisateurId) {
             const utilisateur = await Utilisateur.findByPk(updatedData.utilisateurId);
             if (utilisateur) {
-              await canard.setUtilisateur(utilisateur); // Updates the association
+              await canard.setUtilisateur(utilisateur);
             } else {
               return { success: false, message: "Utilisateur not found" };
             }
           }
       
-          // Update Competitions if competitionIds are provided in updatedData
           if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
             const competitions = await Competition.findAll({
               where: { id: updatedData.competitionIds }
             });
       
             if (competitions.length === updatedData.competitionIds.length) {
-              await canard.setCompetitions(competitions); // Updates the many-to-many association
+              await canard.setCompetitions(competitions); 
             } else {
               return { success: false, message: "One or more Competitions not found" };
             }
@@ -243,43 +241,4 @@ async function deleteCanard(canardId) {
     }
 }
 
-async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
-    try {
-
-        const tabFestivals = [];
-        festivals.forEach(async festivalData => {
-            const festivalMoisIds = [];
-            festivalData.periode_mois?.forEach(el => {
-                festivalMoisIds.push(mois[el])
-            });
-
-            tabFestivals.push({
-                identifiant: festivalData.identifiant,
-                nom: festivalData.nom_du_festival,
-                site_internet: festivalData.site_internet_du_festival,
-                e_mail: festivalData.adresse_e_mail,
-                sous_categorie: festivalData.sous_categorie,
-                regionId: regions[festivalData.region_principale_de_deroulement],
-                communeId: communes[festivalData.commune_principale_de_deroulement],
-                disciplineId: disciplines[festivalData.discipline_dominante],
-                envergureId: envergures[festivalData.envergure_territoriale],
-                localisationId: localisations[festivalData.geocodage_xy?.lat + "; " + festivalData.geocodage_xy?.lon],
-                mois: festivalMoisIds
-            })
-        });
-
-        festivals = await Festival.bulkCreate(tabFestivals, {ignoreDuplicates: true })
-
-        for (const festival of festivals) {
-            let moisList = tabFestivals.filter(el => el.identifiant === festival.identifiant)[0].mois
-            await festival.addMois(moisList)
-        }
-        
-        console.log('Tous les festivals ont été créés avec succès.');
-
-    } catch (err) {
-        console.error('Erreur lors de la création des festivals :', err);
-    }
-}
-
-module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireCanardToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, createAllFestivals }
+module.exports = { createCanard, getAllCanards, getLimitedCanards, getCanardById, addRaceToCanard, addCommentaireCanardToCanard, addUtilisateurToCanard, addCompetitionToCanard, updateCanard, deleteCanard, }

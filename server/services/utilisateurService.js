@@ -137,12 +137,44 @@ async function addCommentaireCompetitionToUtilisateur(idCommentaireCompetition, 
     }
 }
 
-async function updateUtilisateur(id) {
+async function updateUtilisateur(utilisateurId, updatedData) {
+    const utilisateur = await Utilisateur.findByPk(utilisateurId);
+    if (utilisateur) {
+        if (updatedData.canardIds && Array.isArray(updatedData.canardIds)) {
+            const canards = await Canard.findAll({
+                where: { id: updatedData.canardIds }
+            });
+            await utilisateur.setCanards(canards);
+        }
 
+        if (updatedData.commentaireCanardIds && Array.isArray(updatedData.commentaireCanardIds)) {
+            const commentaireCanards = await CommentaireCanard.findAll({
+                where: { id: updatedData.commentaireCanardIds }
+            });
+            await utilisateur.setCommentaireCanards(commentaireCanards);
+        }
+
+        if (updatedData.commentaireCompetitionIds && Array.isArray(updatedData.commentaireCompetitionIds)) {
+            const commentaireCompetitions = await CommentaireCompetition.findAll({
+                where: { id: updatedData.commentaireCompetitionIds }
+            });
+            await utilisateur.setCommentaireCompetitions(commentaireCompetitions);
+        }
+        return utilisateur.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteUtilisateur(id) {
-
+async function deleteUtilisateur(utilisateurId) {
+    const utilisateur = await Utilisateur.findByPk(utilisateurId);
+    if (utilisateur) {
+        return utilisateur.destroy();
+    }
+    else {
+        return null;
+    }
 }
 
 
