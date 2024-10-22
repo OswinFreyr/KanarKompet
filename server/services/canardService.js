@@ -63,11 +63,17 @@ async function getAllCanards(criterias = {}) {
 async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
     const where = {};
     const offset = (pageId - 1) * itemsPerPage;
-    if (criterias.genre) {
-        where.genre = criterias.genre;
+    if (criterias.nom) {
+        where.nom = criterias.nom;
     }
     if (criterias.age) {
         where.age = criterias.age;
+    }
+    if (criterias.genre) {
+        where.genre = criterias.genre;
+    }
+    if (criterias.titre) {
+        where.titre = criterias.titre;
     }
     if (criterias.poids) {
         where.poids = criterias.poids;
