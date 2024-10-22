@@ -35,7 +35,6 @@ async function getAllCompetitions(criterias = {}) {
             model: Admin,
             model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
             model: Localisation,
         },
         limit,
@@ -79,7 +78,6 @@ async function getLimitedCompetitions(criterias = {}, pageId, itemsPerPage) {
             model: Admin,
             model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
             model: Localisation,
         },
         limit: itemsPerPage,
@@ -98,7 +96,6 @@ async function getCompetitionById(id) {
             model: Admin,
             model: CommentaireCompetition,
             model: Canard,
-            model: Utilisateur,
             model: Localisation,
         }
     });
@@ -222,4 +219,4 @@ async function deleteCompetition(competitionId) {
 }
 
 
-module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, }
+module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, }

@@ -15,7 +15,7 @@ async function getAllRaces(criterias = {}) {
     if (criterias.origine) {
         where.origine = criterias.origine;
     }
-    const Races = await Race.findAll({
+    const races = await Race.findAll({
         where,
         include: {
             model: Canard,
@@ -23,8 +23,8 @@ async function getAllRaces(criterias = {}) {
         limit,
         offset
     });
-    if(Races) {
-        return Races;
+    if(races) {
+        return races;
     }
     else {
         return null;
@@ -56,13 +56,13 @@ async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
 }
 
 async function getRaceById(id) {
-    const Race = await Race.findByPk(id, {
+    const race = await Race.findByPk(id, {
         include: {
             model: Canard,
         }
     });
-    if (Race) {
-        return Race.toJSON();
+    if (race) {
+        return race.toJSON();
     }
     else {
         return null;
@@ -70,7 +70,7 @@ async function getRaceById(id) {
 }
 
 async function addCanardToRace(idCanards, raceId) {
-    const Race = await Race.findByPk(raceId);
+    const race = await Race.findByPk(raceId);
     const tabIdCanards = idCanards.ids
     tabIdCanards.forEach(async CanardId => {
         const isCanard = await Canard.findByPk(CanardId)
@@ -81,7 +81,7 @@ async function addCanardToRace(idCanards, raceId) {
                 return null;
             }
             else {
-                return Race.addCanard(CanardId);
+                return race.addCanard(CanardId);
             }
         }
     })

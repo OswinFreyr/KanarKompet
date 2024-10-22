@@ -100,4 +100,4 @@ async function deletecommentaireCanard (req, res){
     }
 }
 
-module.exports = {createCommentaireCanard,getAllCommentairesCanard, getLimitedCommentairesCanard,getCommentaireCanardById,getCommentaireCanardById,addCanardToCommentaireCanard,deletecommentaireCanard}
+module.exports = {createCommentaireCanard, getAllCommentairesCanard, getLimitedCommentairesCanard, getCommentaireCanardById, getCommentaireCanardById, addCanardToCommentaireCanard, addUtilisateurToCommentaireCanard, deletecommentaireCanard}

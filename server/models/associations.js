@@ -1,5 +1,5 @@
 const { Admin } = require("./adminModel");
-const { Commentaire, CommentaireCanard } = require("./commentaireCanardModel");
+const { CommentaireCanard } = require("./commentaireCanardModel");
 const { Competition } = require("./competitionModel");
 const { Canard } = require("./canardModel");
 const { Localisation } = require("./localisationModel");
@@ -8,10 +8,10 @@ const { Utilisateur } = require("./utilisateurModel");
 const { CommentaireCompetition } = require("./commentaireCompetitionModel");
 
 
-Race.hasMany(Duck);
+Race.hasMany(Canard);
 Canard.belongsTo(Race);
 
-Canard.hasMany(CommentaireCanard);
+Canard.hasMany(CommentaireCanard, { onDelete: 'CASCADE' });
 CommentaireCanard.belongsTo(Canard);
 
 Utilisateur.hasMany(CommentaireCanard, { onDelete: 'CASCADE' });
