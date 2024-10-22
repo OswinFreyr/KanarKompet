@@ -1,10 +1,11 @@
 const { Admin } = require("./adminModel");
-const { Commentaire } = require("./commentaireCanardModel");
+const { Commentaire, CommentaireCanard } = require("./commentaireCanardModel");
 const { Competition } = require("./competitionModel");
 const { Canard } = require("./canardModel");
 const { Localisation } = require("./localisationModel");
 const { Race } = require("./raceModel");
 const { Utilisateur } = require("./utilisateurModel");
+const { CommentaireCompetition } = require("./commentaireCompetitionModel");
 
 
 Race.hasMany(Duck);
@@ -25,8 +26,8 @@ Canard.belongsTo(Utilisateur);
 Competition.hasMany(CommentaireCompetition);
 CommentaireCompetition.belongsTo(Competition);
 
-Admin.hasMany(Commentaire);
-Commentaire.belongsTo(Admin);
+Admin.hasMany(CommentaireCompetition);
+CommentaireCompetition.belongsTo(Admin);
 
 Admin.hasMany(Competition);
 Competition.belongsTo(Admin);
@@ -36,9 +37,6 @@ Competition.belongsTo(Localisation);
 
 Canard.belongsToMany(Competition, { through: "canardCompetition" });
 Competition.belongsToMany(Canard, { through: "canardCompetition" });
-
-Utilisateur.belongsToMany(Competition, { through: "utilisateurCompetition" });
-Competition.belongsToMany(Utilisateur, { through: "utilisateurCompetition" });
 
 
 module.exports = { Admin, Commentaire, Competition, Canard, Localisation, Race, Utilisateur };
