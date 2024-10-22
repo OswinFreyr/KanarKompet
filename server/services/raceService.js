@@ -69,14 +69,14 @@ async function getRaceById(id) {
     }
 }
 
-async function addCanardToRace(idCanards, RaceId) {
-    const Race = await Race.findByPk(RaceId);
+async function addCanardToRace(idCanards, raceId) {
+    const Race = await Race.findByPk(raceId);
     const tabIdCanards = idCanards.ids
     tabIdCanards.forEach(async CanardId => {
         const isCanard = await Canard.findByPk(CanardId)
         if (isCanard) {
             // verifier si Canard et Race deja associés
-            const isRaceCanard = await Race.findAll({ where: { id: RaceId } , include: { model: Canard, where: { id: CanardId } } });
+            const isRaceCanard = await Race.findAll({ where: { id: raceId } , include: { model: Canard, where: { id: CanardId } } });
             if (isRaceCanard.lenght > 0) {
                 return null;
             }
@@ -87,13 +87,31 @@ async function addCanardToRace(idCanards, RaceId) {
     })
 }
 
-async function updateRace(id) {
-
+async function updateRace(raceId, updatedData) {
+    const race = await Race.findByPk(raceId);
+    if (race) {
+        if (updatedData.canardIds && Array.isArray(updatedData.canardIds)) {
+            const canards = await Canard.findAll({
+                where: { id: updatedData.canardIds }
+            });
+            await race.setCanards(canards); // Updates related ducks
+        }
+        return race.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteRace(id) {
-
+async function deleteRace(raceId) {
+    const race = await Race.findByPk(raceId);
+    if (race) {
+        return race.destroy();
+    }
+    else {
+        return null;
+    }
 }
 
 
-module.exports = { createRace, getAllRaces, addCanardToRace, updateRace, deleteRace, getRaceById, }
+module.exports = { createRace, getAllRaces, addCanardToRace, getRaceById, updateRace, deleteRace, }

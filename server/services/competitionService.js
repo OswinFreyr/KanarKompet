@@ -188,6 +188,37 @@ async function addCanardToCompetition(idCanard, competitionId) {
 async function updateCompetition(competitionId, updatedData) {
     const competition = await Competition.findByPk(competitionId);
     if (competition) {
+        if (updatedData.adminId) {
+            const admin = await Admin.findByPk(updatedData.adminId);
+            if (admin) {
+                await competition.setAdmin(admin);
+            } else {
+                return { success: false, message: "Admin not found" };
+            }
+        }
+
+        if (updatedData.localisationId) {
+            const localisation = await Localisation.findByPk(updatedData.localisationId);
+            if (localisation) {
+                await competition.setLocalisation(localisation);
+            } else {
+                return { success: false, message: "Localisation not found" };
+            }
+        }
+
+        if (updatedData.commentaireCompetitionIds && Array.isArray(updatedData.commentaireCompetitionIds)) {
+            const commentairesCompetition = await CommentaireCompetition.findAll({
+                where: { id: updatedData.commentaireCompetitionIds }
+            });
+            await competition.setCommentaireCompetitions(commentairesCompetition);
+        }
+
+        if (updatedData.canardIds && Array.isArray(updatedData.canardIds)) {
+            const canards = await Canard.findAll({
+                where: { id: updatedData.canardIds }
+            });
+            await competition.setCanards(canards);
+        }
         return competition.update(updatedData);
     }
     else {
@@ -204,43 +235,6 @@ async function deleteCompetition(competitionId) {
         return null;
     }
 }
-async function createAllFestivals(festivals, regions, communes, disciplines, envergures, localisations, mois) {
-    try {
 
-        const tabFestivals = [];
-        festivals.forEach(async festivalData => {
-            const festivalMoisIds = [];
-            festivalData.periode_mois?.forEach(el => {
-                festivalMoisIds.push(mois[el])
-            });
 
-            tabFestivals.push({
-                identifiant: festivalData.identifiant,
-                nom: festivalData.nom_du_festival,
-                site_internet: festivalData.site_internet_du_festival,
-                e_mail: festivalData.adresse_e_mail,
-                sous_categorie: festivalData.sous_categorie,
-                regionId: regions[festivalData.region_principale_de_deroulement],
-                communeId: communes[festivalData.commune_principale_de_deroulement],
-                disciplineId: disciplines[festivalData.discipline_dominante],
-                envergureId: envergures[festivalData.envergure_territoriale],
-                localisationId: localisations[festivalData.geocodage_xy?.lat + "; " + festivalData.geocodage_xy?.lon],
-                mois: festivalMoisIds
-            })
-        });
-
-        festivals = await Festival.bulkCreate(tabFestivals, {ignoreDuplicates: true })
-
-        for (const festival of festivals) {
-            let moisList = tabFestivals.filter(el => el.identifiant === festival.identifiant)[0].mois
-            await festival.addMois(moisList)
-        }
-        
-        console.log('Tous les festivals ont été créés avec succès.');
-
-    } catch (err) {
-        console.error('Erreur lors de la création des festivals :', err);
-    }
-}
-
-module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, createAllFestivals }
+module.exports = { createCompetition, getAllCompetitions, getLimitedCompetitions, getCompetitionById, addAdminToCompetition, addCommentaireCompetitionToCompetition, addUtilisateurToCompetition, addCanardToCompetition, addLocalisationToCompetition, updateCompetition, deleteCompetition, }
