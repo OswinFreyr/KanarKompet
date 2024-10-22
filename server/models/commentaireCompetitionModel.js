@@ -1,11 +1,7 @@
 const { db } = require("./db");
 const { DataTypes } = require("sequelize")
 
-const Commentaire = db.define("commentaire", {
-    note: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
+const CommentaireCompetition = db.define("commentaireCompetition", {
     commentaire: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -13,4 +9,4 @@ const Commentaire = db.define("commentaire", {
 }, {
 });
 
-module.exports = { Commentaire };
+module.exports = { CommentaireCompetition };
