@@ -14,16 +14,16 @@ Canard.belongsTo(Race);
 Canard.hasMany(CommentaireCanard);
 CommentaireCanard.belongsTo(Canard);
 
-Utilisateur.hasMany(CommentaireCanard);
+Utilisateur.hasMany(CommentaireCanard, { onDelete: 'CASCADE' });
 CommentaireCanard.belongsTo(Utilisateur);
 
-Utilisateur.hasMany(CommentaireCompetition);
+Utilisateur.hasMany(CommentaireCompetition, { onDelete: 'CASCADE' });
 CommentaireCompetition.belongsTo(Utilisateur);
 
-Utilisateur.hasMany(Canard);
+Utilisateur.hasMany(Canard, { onDelete: 'CASCADE' });
 Canard.belongsTo(Utilisateur);
 
-Competition.hasMany(CommentaireCompetition);
+Competition.hasMany(CommentaireCompetition, { onDelete: 'CASCADE' });
 CommentaireCompetition.belongsTo(Competition);
 
 Admin.hasMany(CommentaireCompetition);

@@ -119,13 +119,15 @@ async function addCompetitionToAdmin(idCompetition, adminId) {
     }
 }
 
-async function updateAdmin(id) {
-
+async function updateAdmin(adminId, updatedData) {
+    const admin = await Admin.findByPk(adminId);
+    if (admin) {
+        return admin.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteAdmin(id) {
 
-}
-
-
-module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireCompetitionToAdmin, addCompetitionToAdmin, updateAdmin, deleteAdmin }
+module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireCompetitionToAdmin, addCompetitionToAdmin, updateAdmin, }
