@@ -6,7 +6,7 @@ const Admin = db.define("admin", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    prénom: {
+    prenom: {
         type: DataTypes.STRING,
         allowNull: false,
     },
