@@ -1,7 +1,7 @@
 {
   "name": "kanarkompet",
   "version": "1.0.0",
-  "description": "coucou",
+  "description": "Site de compétition pour canards",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

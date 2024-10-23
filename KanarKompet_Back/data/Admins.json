@@ -1,7 +1,0 @@
-{
-    "Admins": [
-      { "id": 1, "firstname": "Alice", "lastname": "Johnson", "mail": "alice.johnson@example.com", "password": "hashed_password_admin1" },
-      { "id": 2, "firstname": "Bob", "lastname": "Brown", "mail": "bob.brown@example.com", "password": "hashed_password_admin2" }
-    ]
-  }
-  

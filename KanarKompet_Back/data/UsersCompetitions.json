@@ -1,8 +1,0 @@
-{
-    "UsersCompetitions": [
-      { "id": 1, "id_user": 1, "id_competition": 1 },
-      { "id": 2, "id_user": 2, "id_competition": 1 },
-      { "id": 3, "id_user": 1, "id_competition": 2 }
-    ]
-  }
-  
