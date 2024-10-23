@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui-pro": "^1.4.4",
     "@nuxtjs/tailwindcss": "^6.12.2",
+    "argon2": "^0.41.1",
     "nuxt": "^3.13.2",
     "sequelize": "^6.37.4",
     "sqlite3": "^5.1.7",

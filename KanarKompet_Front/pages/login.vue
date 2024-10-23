@@ -1,35 +1,66 @@
-<template>
-    <div class="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        
-     <div class="flex justify-center mb-6">
-       <img src="/assets/logo_transparent-png.png" alt="Logo" class="h-40 w-auto">
-     </div>
-        <h2 class="text-2xl font-bold mb-6 text-center">Se connecter</h2>
-        
-        <form>
-          <div class="mb-4">
-            <label for="nom" class="block text-gray-700 font-semibold mb-2">Adresse mail</label>
-            <input type="text" id="mail" name="mail"  
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
-          </div>
-      
-          <div class="mb-4">
-            <label for="password" class="block text-gray-700 font-semibold mb-2">Mot de passe</label>
-            <input type="password" id="password" name="password" 
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
-          </div>
-  
-          <div>
-            <button type="submit" class="w-full bg-green-500 text-white font-semibold py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-500 focus:ring-opacity-50">
-             Connexion
-            </button>
-          </div>
+<script setup lang="ts">
+// import type { FormError } from '#ui/types'
+import argon2 from 'argon2';
+const fields = [{
+  name: 'email',
+  type: 'text',
+  label: 'Email',
+  placeholder: 'Enter your email'
+}, {
+  name: 'password',
+  label: 'Password',
+  type: 'password',
+  placeholder: 'Enter your password'
+}, {
+  name: 'remember',
+  label: 'Remember me',
+  type: 'checkbox'
+}]
 
-        </form>
-      </div>
-    </div>
-  </template>
-  
-  
-  
+const validate = (state: any) => {
+  const errors/*: FormError[] */= []
+  if (!state.email) errors.push({ path: 'email', message: 'Email is required' })
+  if (!state.password) errors.push({ path: 'password', message: 'Password is required' })
+  return errors
+}
+
+async function onSubmit (data: any) {
+  console.log('Submitted', data.email)
+  const hash = await argon2.hash(data.password);
+  console.log("🚀 ~ onSubmit ~ hash:", hash)
+
+  console.log("🚀 ~ onSubmit ~ hash:", data.password)
+}
+</script>
+
+<!-- eslint-disable vue/multiline-html-element-content-newline -->
+<!-- eslint-disable vue/singleline-html-element-content-newline -->
+<template>
+  <UCard class="max-w-sm w-full">
+    <UAuthForm
+      :fields="fields"
+      :validate="validate"
+      title="Welcome back!"
+      align="top"
+      icon="i-heroicons-lock-closed"
+      :ui="{ base: 'text-center', footer: 'text-center' }"
+      @submit="onSubmit"
+      
+    >
+      <template #description>
+        Don't have an account? <NuxtLink to="/" class="text-primary font-medium">Sign up</NuxtLink>.
+      </template>
+
+      <template #password-hint>
+        <NuxtLink to="/" class="text-primary font-medium">Forgot password?</NuxtLink>
+      </template>
+      <template #validation>
+        <UAlert color="red" icon="i-heroicons-information-circle-20-solid" title="Error signing in" />
+      </template>
+      <template #footer>
+        By signing in, you agree to our <NuxtLink to="/" class="text-primary font-medium">Terms of Service</NuxtLink>.
+      </template>
+    </UAuthForm>
+  </UCard>
+</template>
+
