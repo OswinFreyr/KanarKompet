@@ -134,6 +134,7 @@ async function getCanardById(id) {
 
 async function addRaceToCanard(idRace, canardId) {
     const canard = await Canard.findByPk(canardId);
+    // console.log(Object.keys(canard.__proto__));
     const isRace = await Race.findByPk(idRace)
     if (isRace) {
         // verifier si Canard et Race deja associés
