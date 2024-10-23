@@ -1,7 +1,0 @@
-{
-    "Competitions": [
-      { "id": 1, "title": "Duck Derby", "description": "Annual duck racing championship", "place": "Lake Michigan", "date": "2024-06-12", "id_admin": 1, "trophee": "Golden Feather", "max_participants": 20 },
-      { "id": 2, "title": "Quack Olympics", "description": "Top-tier racing event", "place": "Seine River", "date": "2024-07-20", "id_admin": 2, "trophee": "Silver Quack", "max_participants": 30 }
-    ]
-  }
-  

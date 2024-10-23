@@ -1,7 +1,0 @@
-{
-    "Users": [
-      { "id": 1, "firstname": "John", "lastname": "Doe", "mail": "john.doe@example.com", "password": "hashed_password_123" },
-      { "id": 2, "firstname": "Jane", "lastname": "Smith", "mail": "jane.smith@example.com", "password": "hashed_password_456" }
-    ]
-  }
-  
