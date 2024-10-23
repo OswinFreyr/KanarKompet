@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize")
 
 const CommentaireCanard = db.define("commentaireCanard", {
     note: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
     },
     commentaire: {

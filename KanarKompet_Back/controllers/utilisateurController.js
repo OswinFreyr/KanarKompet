@@ -1,7 +1,7 @@
 const utilisateurService = require('../services/utilisateurService');
 const canardService  = require('../services/canardService');
 const commentaireCanardService = require('../services/commentaireCanardService');
-const commentaireCompetitionAdminService = require('../services/commentaireCompetitionAdminService');
+const commentaireCompetitionService = require('../services/commentaireCompetitionService');
 
 async function createUtilisateur(req, res) {
     try {
@@ -70,8 +70,7 @@ async function addCommentaireCanardToUtilisateur(req, res){
         const idUtilisateur = req.params.idUtilisateur;
         const idCommentaireCanard = req.params.idCommentaireCanard;
         const commentaireCanardUtilisateur = await utilisateurService.addCommentaireCanardToUtilisateur(idCommentaireCanard, idUtilisateur);
-        const utilisateurCommentaireCanard = await commentaireCanardService.addUtilisateurToCommentaireCanard(idUtilisateur, idCommentaireCanard);
-        res.json({commentaireCanardUtilisateur: commentaireCanardUtilisateur,utilisateurCommentaireCanard: utilisateurCommentaireCanard});
+        res.json({ commentaireCanardUtilisateur: commentaireCanardUtilisateur, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -83,8 +82,7 @@ async function addCommentaireCompetitionToUtilisateur(req, res){
         const idUtilisateur = req.params.idUtilisateur;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const commentaireCompetitionUtilisateur = await utilisateurService.addCommentaireCompetitionToUtilisateur(idCommentaireCompetition, idUtilisateur);
-        const utilisateurCommentaireCompetition = await commentaireCompetitionService.addUtilisateurToCommentaireCompetition(idUtilisateur, idCommentaireCompetition);
-        res.json({commentaireCompetitionUtilisateur: commentaireCompetitionUtilisateur,utilisateurCommentaireCompetition: utilisateurCommentaireCompetition});
+        res.json({ commentaireCompetitionUtilisateur: commentaireCompetitionUtilisateur, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -95,9 +93,8 @@ async function addCanardToUtilisateur(req, res){
     try {
         const idCanard = req.params.idCanard;
         const idUtilisateur = req.params.idUtilisateur;
-        const CanardUtilisateur = await utilisateurService.addCanardToUtilisateur(idCanard, idUtilisateur);
-        const UtilisateurCanard = await canardService.addUtilisateurToCanard(idUtilisateur, idCanard);
-        res.json({CanardUtilisateur: CanardUtilisateur,UtilisateurCanard: UtilisateurCanard});
+        const canardUtilisateur = await utilisateurService.addCanardToUtilisateur(idCanard, idUtilisateur);
+        res.json({canardUtilisateur: canardUtilisateur, });
         
     } catch (error) {
         res.status(500).json({message: error.message})

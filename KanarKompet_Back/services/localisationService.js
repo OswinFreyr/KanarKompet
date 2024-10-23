@@ -43,20 +43,17 @@ async function getLocalisationById(id) {
 
 async function addCompetitionToLocalisation(idCompetitions, localisationId) {
     const localisation = await Localisation.findByPk(localisationId);
-    const tabIdCompetitions = idCompetitions.ids
-    tabIdCompetitions.forEach(async competitionId => {
-        const isCompetition = await Competition.findByPk(competitionId)
-        if (isCompetition) {
-            // verifier si Competition et Localisation deja associés
-            const isLocalisationCompetition = await Localisation.findAll({ where: { id: localisationId } , include: { model: Competition, where: { id: competitionId } } });
-            if (isLocalisationCompetition.lenght > 0) {
-                return null;
-            }
-            else {
-                return localisation.addCompetition(competitionId);
-            }
+    const isCompetition = await Competition.findByPk(competitionId)
+    if (isCompetition) {
+        // verifier si Competition et Localisation deja associés
+        const isLocalisationCompetition = await Localisation.findAll({ where: { id: localisationId } , include: { model: Competition, where: { id: competitionId } } });
+        if (isLocalisationCompetition.lenght > 0) {
+            return null;
         }
-    })
+        else {
+            return localisation.addCompetition(competitionId);
+        }
+    }
 }
 
 async function updateLocalisation(localisationId, updatedData) {

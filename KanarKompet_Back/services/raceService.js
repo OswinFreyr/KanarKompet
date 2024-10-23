@@ -1,8 +1,8 @@
 const { Canard } = require('../models/associations.js');
 const { Race } = require('../models/associations.js');
 
-async function createRace(Race) {
-    return await Race.create(Race);
+async function createRace(race) {
+    return await Race.create(race);
 }
 
 async function getAllRaces(criterias = {}) {
@@ -17,9 +17,9 @@ async function getAllRaces(criterias = {}) {
     }
     const races = await Race.findAll({
         where,
-        include: {
+        include:[ {
             model: Canard,
-        },
+        },],
         limit,
         offset
     });
@@ -42,9 +42,9 @@ async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
     }
     const {count, rows} = await Commentaire.findAndCountAll({
         where,
-        include: {
+        include: [{
             model: Canard,
-        },
+        }],
         limit: itemsPerPage,
         offset,
     });
@@ -57,9 +57,9 @@ async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
 
 async function getRaceById(id) {
     const race = await Race.findByPk(id, {
-        include: {
+        include:[ {
             model: Canard,
-        }
+        }]
     });
     if (race) {
         return race.toJSON();
@@ -69,22 +69,19 @@ async function getRaceById(id) {
     }
 }
 
-async function addCanardToRace(idCanards, raceId) {
+async function addCanardToRace(idCanard, raceId) {
     const race = await Race.findByPk(raceId);
-    const tabIdCanards = idCanards.ids
-    tabIdCanards.forEach(async CanardId => {
-        const isCanard = await Canard.findByPk(CanardId)
-        if (isCanard) {
-            // verifier si Canard et Race deja associés
-            const isRaceCanard = await Race.findAll({ where: { id: raceId } , include: { model: Canard, where: { id: CanardId } } });
-            if (isRaceCanard.lenght > 0) {
-                return null;
-            }
-            else {
-                return race.addCanard(CanardId);
-            }
+    const isCanard = await Canard.findByPk(idCanard)
+    if (isCanard) {
+        // verifier si Canard et Race deja associés
+        const isRaceCanard = await Race.findAll({ where: { id: raceId } , include: { model: Canard, where: { id: idCanard } } });
+        if (isRaceCanard.lenght > 0) {
+            return null;
         }
-    })
+        else {
+            return race.addCanard(idCanard);
+        }
+    }
 }
 
 async function updateRace(raceId, updatedData) {

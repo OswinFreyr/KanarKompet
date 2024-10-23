@@ -1,8 +1,0 @@
-{
-    "Comments": [
-      { "id": 1, "rating": 4, "content": "Great performance!", "id_user": 1, "id_duck": 1, "id_competition": 1 },
-      { "id": 2, "rating": 3, "content": "Could be better.", "id_user": 2, "id_duck": 2, "id_competition": 1 },
-      { "id": 3, "rating": 5, "content": "Amazing race!", "id_user": 1, "id_duck": 1, "id_competition": 2 }
-    ]
-  }
-  

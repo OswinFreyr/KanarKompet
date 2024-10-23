@@ -46,7 +46,6 @@ let loggedInAs = "Guest"
         </a>
       </div>
       <div>
-
         <NuxtLink
                role="button" class="btn m-1 text-white"
                   v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/login">
@@ -60,8 +59,6 @@ let loggedInAs = "Guest"
                   v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/signin">
                   Créer un compte
         </NuxtLink>
-
-
         <div class="dropdown dropdown-end" v-show="loggedInAs === 'User' || loggedInAs === 'Admin'">
           <div tabindex="0" role="button" class="btn m-1 text-white">
             Mon compte

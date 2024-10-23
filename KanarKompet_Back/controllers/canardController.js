@@ -75,8 +75,7 @@ async function addRaceToCanard(req, res){
         const idCanard = req.params.idCanard;
         const idRace = req.params.idRace;
         const raceCanard = await canardService.addRaceToCanard(idRace,idCanard);
-        const canardRace = await raceService.addCanardToRace(idCanard, idRace);
-        res.json({canardRace: canardRace, raceCanard: raceCanard});
+        res.json({ raceCanard: raceCanard, });
         
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -88,8 +87,7 @@ async function addCommentaireCanardToCanard(req, res){
         const idCanard = req.params.idCanard;
         const idCommentaireCanard = req.params.idCommentaireCanard;
         const commentaireCanardCanard = await canardService.addCommentaireCanardToCanard(idCommentaireCanard, idCanard);
-        const canardCommentaireCanard = await commentaireCanardService.addCanardToCommentaireCanard(idCanard, idCommentaireCanard);
-        res.json({commentaireCanardCanard: commentaireCanardCanard, canardCommentaireCanard: canardCommentaireCanard});
+        res.json({ commentaireCanardCanard: commentaireCanardCanard, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -101,8 +99,7 @@ async function addUtilisateurToCanard (req, res){
         const idUtilisateur = req.params.idUtilisateur;
         const idCanard = req.params.idCanard;
         const utilisateurCanard = await canardService.addUtilisateurToCanard(idUtilisateur, idCanard);
-        const canardUtilisateur = await utilisateurService.addCanardToUtilisateur(idCanard, idUtilisateur);
-        res.json({utilisateurCanard: utilisateurCanard,canardUtilisateur: canardUtilisateur});
+        res.json({ utilisateurCanard: utilisateurCanard, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -114,8 +111,7 @@ async function addCompetitionToCanard (req, res){
         const idCompetition = req.params.idCompetition;
         const idCanard = req.params.idCanard;
         const competitionCanard = await canardService.addCompetitionToCanard(idCompetition, idCanard);
-        const canardCompetition = await competitionService.addCanardToCompetition(idCanard, idCompetition);
-        res.json({competitionCanard: competitionCanard,canardCompetition: canardCompetition} );
+        res.json({ competitionCanard: competitionCanard, });
         
     } catch (error) {
         res.status(500).json({message: error.message})

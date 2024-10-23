@@ -25,11 +25,11 @@ async function getAllUtilisateurs(criterias = {}) {
     }
     const utilisateurs = await Utilisateur.findAll({
         where,
-        include: {
-            model: CommentaireCanard,
-            model: CommentaireCompetition,
-            model: Canard,
-        },
+        include: [
+            {model: CommentaireCanard},
+            {model: CommentaireCompetition},
+            {model: Canard},
+        ],
         limit,
         offset
     });
@@ -61,11 +61,11 @@ async function getLimitedUtilisateurs(criterias = {}, pageId, itemsPerPage) {
     }
     const {count, rows} = await Competition.findAndCountAll({
         where,
-        include: {
-            model: CommentaireCanard,
-            model: CommentaireCompetition,
-            model: Canard,
-        },
+        include: [
+            {model: CommentaireCanard},
+            {model: CommentaireCompetition},
+            {model: Canard},
+        ],
         limit: itemsPerPage,
         offset,
     });
@@ -77,12 +77,12 @@ async function getLimitedUtilisateurs(criterias = {}, pageId, itemsPerPage) {
 }
 
 async function getUtilisateurById(id) {
-    const utilisateur = await utilisateur.findByPk(id, {
-        include: {
-            model: CommentaireCanard,
-            model: Canard,
-            model: CommentaireCompetition,
-        }
+    const utilisateur = await Utilisateur.findByPk(id, {
+        include: [
+            {model: CommentaireCanard},
+            {model: CommentaireCompetition},
+            {model: Canard},
+        ]
     });
     if (utilisateur) {
         return utilisateur.toJSON();

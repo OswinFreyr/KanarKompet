@@ -69,8 +69,7 @@ async function addCommentaireCompetitionToAdmin(req, res){
         const idAdmin = req.params.idAdmin;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const commentaireCompetitionAdmin = await adminService.addCommentaireCompetitionToAdmin(idCommentaireCompetition, idAdmin);
-        const adminCommentaireCompetition = await commentaireCompetitionService.addAdminToCommentaireCompetition(idAdmin, idCommentaireCompetition);
-        res.json({commentaireCompetitionAdmin: commentaireCompetitionAdmin,adminCommentaireCompetition: adminCommentaireCompetition});
+        res.json({ commentaireCompetitionAdmin: commentaireCompetitionAdmin, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -82,8 +81,7 @@ async function addCompetitionToAdmin(req, res){
         const idCompetition = req.params.idCompetition;
         const idAdmin = req.params.idAdmin;
         const competitionAdmin = await adminService.addCompetitionToAdmin(idCompetition, idAdmin);
-        const adminCompetition = competitionService.addAdminToCompetition(idAdmin,idCompetition)
-        res.json({competitionAdmin: competitionAdmin,adminCompetition: adminCompetition});
+        res.json({ competitionAdmin: competitionAdmin, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -102,4 +100,4 @@ async function updateAdmin (req, res){
 }
 
 
-module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin,deleteAdmin}
+module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin, }

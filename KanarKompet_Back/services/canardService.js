@@ -44,12 +44,12 @@ async function getAllCanards(criterias = {}) {
     }
     const canards = await Canard.findAll({
         where,
-        include: {
-            model: Race,
-            model: CommentaireCanard,
-            model: Competition,
-            model: Utilisateur,
-        },
+        include:[ 
+            {model: Race},
+            {model: CommentaireCanard},
+            {model: Competition},
+            {model: Utilisateur},
+        ],
         limit,
         offset
     });
@@ -97,17 +97,17 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
     if (criterias.limit) {
         limit = criterias.limit;
     }
-        const {count, rows} = await Canard.findAndCountAll({
-            where,
-            include: {
-                model: Race,
-                model: CommentaireCanard,
-                model: Competition,
-                model: Utilisateur,
-            },
-            limit: itemsPerPage,
-            offset,
-        });
+    const { count, rows } = await Canard.findAndCountAll({
+        where,
+        include: [
+           { model: Race},
+            {model: CommentaireCanard},
+            {model: Competition},
+           { model: Utilisateur},
+        ],
+        limit: itemsPerPage,
+        offset,
+    });
     return {
         canards: rows,
         count: count,
@@ -117,12 +117,12 @@ async function getLimitedCanards(criterias = {}, pageId, itemsPerPage) {
 
 async function getCanardById(id) {
     const canard = await Canard.findByPk(id, {
-        include: {
-            model: Race,
-            model: CommentaireCanard,
-            model: Competition,
-            model: Utilisateur,
-        }
+        include: [
+            { model: Race },
+            { model: CommentaireCanard },
+            { model: Competition },
+            { model: Utilisateur },
+        ]
     });
     if (canard) {
         return canard.toJSON();
@@ -134,6 +134,7 @@ async function getCanardById(id) {
 
 async function addRaceToCanard(idRace, canardId) {
     const canard = await Canard.findByPk(canardId);
+    // console.log(Object.keys(canard.__proto__));
     const isRace = await Race.findByPk(idRace)
     if (isRace) {
         // verifier si Canard et Race deja associés
@@ -198,32 +199,32 @@ async function updateCanard(canardId, updatedData) {
         if (updatedData.raceId) {
             const race = await Race.findByPk(updatedData.raceId);
             if (race) {
-              await canard.setRace(race);
+                await canard.setRace(race);
             } else {
-              return { success: false, message: "Race not found" };
+                return { success: false, message: "Race not found" };
             }
-          }
-      
-          if (updatedData.utilisateurId) {
+        }
+
+        if (updatedData.utilisateurId) {
             const utilisateur = await Utilisateur.findByPk(updatedData.utilisateurId);
             if (utilisateur) {
-              await canard.setUtilisateur(utilisateur);
+                await canard.setUtilisateur(utilisateur);
             } else {
-              return { success: false, message: "Utilisateur not found" };
+                return { success: false, message: "Utilisateur not found" };
             }
-          }
-      
-          if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+        }
+
+        if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
             const competitions = await Competition.findAll({
-              where: { id: updatedData.competitionIds }
+                where: { id: updatedData.competitionIds }
             });
-      
+
             if (competitions.length === updatedData.competitionIds.length) {
-              await canard.setCompetitions(competitions); 
+                await canard.setCompetitions(competitions);
             } else {
-              return { success: false, message: "One or more Competitions not found" };
+                return { success: false, message: "One or more Competitions not found" };
             }
-          }
+        }
         return canard.update(updatedData);
     }
     else {
