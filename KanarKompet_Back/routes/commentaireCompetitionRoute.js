@@ -8,10 +8,10 @@ router.get("/limit", commentaireCompetitionController.getLimitedCommentairesComp
 router.get("/:id", commentaireCompetitionController.getCommentaireCompetitionById);
 
 router.post("/", commentaireCompetitionController.createCommentaireCompetition);
-router.post("/commentaireCompetitionUtilisateur/:idCommentaireCompetition/:idUtilisateur", commentaireCompetitionController.addUtilisateurToCommentaireCompetition);
-router.post("/commentaireCompetitionCompetition/:idCommentaireCompetition/:idCompetition", commentaireCompetitionController.addCompetitionToCommentaireCompetition);
-router.post("/commentaireCompetitionAdmin/:idCommentaireCompetition/:idAdmin", commentaireCompetitionController.addAdminToCommentaireCompetition);
+// router.post("/commentaireCompetitionUtilisateur/:idCommentaireCompetition/:idUtilisateur", commentaireCompetitionController.addUtilisateurToCommentaireCompetition);
+// router.post("/commentaireCompetitionCompetition/:idCommentaireCompetition/:idCompetition", commentaireCompetitionController.addCompetitionToCommentaireCompetition);
+// router.post("/commentaireCompetitionAdmin/:idCommentaireCompetition/:idAdmin", commentaireCompetitionController.addAdminToCommentaireCompetition);
 
-router.delete("/:id", commentaireCompetitionController.deleteCommentaireCompetition)
+router.delete("/:idCommentaireCompetition", commentaireCompetitionController.deleteCommentaireCompetition)
 
 module.exports = router;
