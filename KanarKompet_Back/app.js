@@ -27,7 +27,7 @@ app.use("/api/v1/commentairesCanard", commentaireCanardRouter);
 app.use("/api/v1/commentairesCompetition", commentaireCompetitionRouter);
 app.use("/api/v1/competitions", competitionRouter);
 app.use("/api/v1/races", raceRouter);
-app.use("/api/v1/utilisateur", utilisateurRouter);
+app.use("/api/v1/utilisateurs", utilisateurRouter);
 
 db.sync({force : true})
     .then(async () => {
