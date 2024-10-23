@@ -14,7 +14,7 @@ async function createCommentaireCompetition(req, res) {
 async function getAllCommentairesCompetition(req, res) {
     try{
         const { offset, limit, } = req.query;
-        const commentairesCompetition = await commentaireCompetitionService.getAllCommentairesCompetition({ offset, limit, note});
+        const commentairesCompetition = await commentaireCompetitionService.getAllCommentairesCompetition({ offset, limit});
         res.json(commentairesCompetition);
     }
     catch (err) {

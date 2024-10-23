@@ -16,11 +16,11 @@ async function getAllCommentairesCompetition(criterias = {}) {
     }
     const commentairesCompetition = await CommentaireCompetition.findAll({
         where,
-        include: {
-            model: Utilisateur,
-            model: Competition,
-            model: Admin,
-        },
+        include: [
+            {model: Utilisateur},
+            {model: Competition},
+            {model: Admin},
+        ],
         limit,
         offset
     });
@@ -43,11 +43,11 @@ async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPe
     }
     const {count, rows} = await CommentaireCompetition.findAndCountAll({
         where,
-        include: {
-            model: Utilisateur,
-            model: Competition,
-            model: Admin,
-        },
+        include: [
+            {model: Utilisateur},
+            {model: Competition},
+            {model: Admin},
+        ],
         limit: itemsPerPage,
         offset,
     });
@@ -60,11 +60,11 @@ async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPe
 
 async function getCommentaireCompetitionById(id) {
     const commentaireCompetition = await CommentaireCompetition.findByPk(id, {
-        include: {
-            model: Utilisateur,
-            model: Competition,
-            model: Admin,
-        }
+        include: [
+            {model: Utilisateur},
+            {model: Competition},
+            {model: Admin},
+        ]
     });
     if (commentaireCompetition) {
         return commentaireCompetition.toJSON();

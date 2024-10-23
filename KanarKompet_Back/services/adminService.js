@@ -25,10 +25,10 @@ async function getAllAdmins(criterias = {}) {
     }
     const admins = await Admin.findAll({
         where,
-        include: {
-            model: CommentaireCompetition,
-            model: Competition,
-        },
+        include:[ 
+            {model: CommentaireCompetition},
+            {model: Competition},
+        ],
         limit,
         offset
     });
@@ -60,10 +60,10 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
     }
     const {count, rows} = await Admin.findAndCountAll({
         where,
-        include: {
-            model: CommentaireCompetition,
-            model: Competition,
-        },
+        include: [
+            {model: CommentaireCompetition},
+            {model: Competition},
+        ],
         limit: itemsPerPage,
         offset,
     });
@@ -76,10 +76,10 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
 
 async function getAdminById(id) {
     const admin = await Admin.findByPk(id, {
-        include: {
-            model: CommentaireCompetition,
-            model: Competition,
-        }
+        include: [
+            {model: CommentaireCompetition},
+            {model: Competition}]
+        
     });
     if (admin) {
         return admin.toJSON();

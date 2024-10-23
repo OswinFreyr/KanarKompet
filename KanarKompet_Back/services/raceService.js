@@ -17,9 +17,9 @@ async function getAllRaces(criterias = {}) {
     }
     const races = await Race.findAll({
         where,
-        include: {
+        include:[ {
             model: Canard,
-        },
+        },],
         limit,
         offset
     });
@@ -42,9 +42,9 @@ async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
     }
     const {count, rows} = await Commentaire.findAndCountAll({
         where,
-        include: {
+        include: [{
             model: Canard,
-        },
+        }],
         limit: itemsPerPage,
         offset,
     });
@@ -57,9 +57,9 @@ async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
 
 async function getRaceById(id) {
     const race = await Race.findByPk(id, {
-        include: {
+        include:[ {
             model: Canard,
-        }
+        }]
     });
     if (race) {
         return race.toJSON();

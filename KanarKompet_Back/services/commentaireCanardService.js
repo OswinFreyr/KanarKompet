@@ -19,10 +19,10 @@ async function getAllCommentairesCanard(criterias = {}) {
     }
     const commentairesCanard = await CommentaireCanard.findAll({
         where,
-        include: {
-            model: Canard,
-            model: Utilisateur,
-        },
+        include:[ 
+            {model: Canard},
+            {model: Utilisateur},
+        ],
         limit,
         offset
     });
@@ -48,10 +48,11 @@ async function getLimitedCommentairesCanard(criterias = {}, pageId, itemsPerPage
     }
     const {count, rows} = await Commentaire.findAndCountAll({
         where,
-        include: {
-            model: Canard,
-            model: Utilisateur,
-        },
+        include: [
+            {model: Canard},
+            {model: Utilisateur},
+        ]
+        ,
         limit: itemsPerPage,
         offset,
     });
@@ -64,10 +65,10 @@ async function getLimitedCommentairesCanard(criterias = {}, pageId, itemsPerPage
 
 async function getCommentaireCanardById(id) {
     const commentaireCanard = await CommentaireCanard.findByPk(id, {
-        include: {
-            model: Canard,
-            model: Utilisateur,
-        }
+        include: [
+            {model: Canard},
+            {model: Utilisateur},
+        ]
     });
     if (commentaireCanard) {
         return commentaireCanard.toJSON();

@@ -31,12 +31,12 @@ async function getAllCompetitions(criterias = {}) {
     }
     const competitions = await Competition.findAll({
         where,
-        include: {
-            model: Admin,
-            model: CommentaireCompetition,
-            model: Canard,
-            model: Localisation,
-        },
+        include: [
+            {model: Admin},
+            {model: CommentaireCompetition},
+            {model: Canard},
+            {model: Localisation},
+        ],
         limit,
         offset
     });
@@ -74,12 +74,12 @@ async function getLimitedCompetitions(criterias = {}, pageId, itemsPerPage) {
     }
     const {count, rows} = await Competition.findAndCountAll({
         where,
-        include: {
-            model: Admin,
-            model: CommentaireCompetition,
-            model: Canard,
-            model: Localisation,
-        },
+        include: [
+            {model: Admin},
+            {model: CommentaireCompetition},
+           { model: Canard},
+            {model: Localisation},
+        ],
         limit: itemsPerPage,
         offset,
     });
@@ -92,12 +92,12 @@ async function getLimitedCompetitions(criterias = {}, pageId, itemsPerPage) {
 
 async function getCompetitionById(id) {
     const competition = await Competition.findByPk(id, {
-        include: {
-            model: Admin,
-            model: CommentaireCompetition,
-            model: Canard,
-            model: Localisation,
-        }
+        include: [
+            {model: Admin},
+            {model: CommentaireCompetition},
+            {model: Canard},
+            {model: Localisation},
+        ]
     });
     if (competition) {
         return competition.toJSON();
