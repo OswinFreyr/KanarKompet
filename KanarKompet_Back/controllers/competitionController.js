@@ -13,7 +13,7 @@ async function createCompetition(req, res) {
 
 async function getAllCompetitions(req, res) {
     try{
-        const { offset, limit, nom, prenom, e_mail} = req.query;
+        const { offset, limit, titre, lieu, date, recompense, max_participants} = req.query;
         const competitions = await competitionService.getAllCompetitions({ offset, limit, titre, lieu, date, recompense, max_participants, });
         res.json(competitions);    
     }
@@ -24,7 +24,7 @@ async function getAllCompetitions(req, res) {
 
 async function getLimitedCompetitions(req, res) {
     try{
-        const { pageId: pageId1, itemsPerPage: itemsPerPage1, offset, limit, nom, prenom, e_mail } = req.query;
+        const { pageId: pageId1, itemsPerPage: itemsPerPage1, offset, limit, titre, lieu, date, recompense, max_participants } = req.query;
         const pageId = parseInt(pageId1) || 1;
         const itemsPerPage = parseInt(itemsPerPage1) || 10;
         
