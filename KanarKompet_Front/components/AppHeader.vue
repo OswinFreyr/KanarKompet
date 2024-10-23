@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-let loggedInAs = "User"
+let loggedInAs = "Guest"
 
 </script>
 
@@ -46,19 +46,22 @@ let loggedInAs = "User"
         </a>
       </div>
       <div>
-        <a
-          href="#"
-          role="button" class="btn m-1 text-white"
-          v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'"
-          >Se connecter</a
-        >
+
+        <NuxtLink
+               role="button" class="btn m-1 text-white"
+                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/login">
+                  Se connecter
+        </NuxtLink>
+
         <span class="text-white mx-3"v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'">|</span>
-        <a
-          href="#"
-          role="button" class="btn m-1 text-white"
-          v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'"
-          >Créer un compte</a
-        >
+
+        <NuxtLink
+               role="button" class="btn m-1 text-white"
+                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/signin">
+                  Créer un compte
+        </NuxtLink>
+
+
         <div class="dropdown dropdown-end" v-show="loggedInAs === 'User' || loggedInAs === 'Admin'">
           <div tabindex="0" role="button" class="btn m-1 text-white">
             Mon compte
