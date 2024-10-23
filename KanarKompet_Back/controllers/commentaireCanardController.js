@@ -67,8 +67,7 @@ async function addCanardToCommentaireCanard(req, res){
         const idCanard = req.params.idCanard;
         const idCommentaireCanard = req.params.idCommentaireCanard;
         const canardCommentaireCanard = await commentaireCanardService.addCanardToCommentaireCanard(idCanard, idCommentaireCanard);
-        const commentaireCanardCanard = await canardService.addCommentaireCanardToCanard(idCommentaireCanard,idCanard);
-        res.json({canardCommentaireCanard: canardCommentaireCanard, commentaireCanardCanard: commentaireCanardCanard});
+        res.json({ canardCommentaireCanard: canardCommentaireCanard, });
         
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -80,8 +79,7 @@ async function addUtilisateurToCommentaireCanard (req, res){
         const idUtilisateur = req.params.idUtilisateur;
         const idCommentaireCanard = req.params.idCommentaireCanard;
         const utilisateurCommentaireCanard = await commentaireCanardService.addUtilisateurToCommentaireCanard(idUtilisateur,idCommentaireCanard);
-        const commentaireCanardUtilisateur = await utilisateurService.addCommentaireCanardToUtilisateur(idCommentaireCanard,idUtilisateur);
-        res.json({utilisateurCommentaireCanard: utilisateurCommentaireCanard,commentaireCanardUtilisateur: commentaireCanardUtilisateur});
+        res.json({ utilisateurCommentaireCanard: utilisateurCommentaireCanard, });
     }
     catch (err) {
         res.status(500).json({message: err.message})

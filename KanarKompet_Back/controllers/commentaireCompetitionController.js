@@ -67,8 +67,7 @@ async function addCompetitionToCommentaireCompetition(req, res){
         const idCompetition = req.params.idCompetition;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const competitionCommentaireCompetition = await commentaireCompetitionService.addCompetitionToCommentaireCompetition(idCompetition, idCommentaireCompetition);
-        const commentaireCompetitionCompetition = await competitionService.addCommentaireCompetitionToCompetition(idCommentaireCompetition,idCompetition);
-        res.json({competitionCommentaireCompetition: competitionCommentaireCompetition, commentaireCompetitionCompetition: commentaireCompetitionCompetition});
+        res.json({ competitionCommentaireCompetition: competitionCommentaireCompetition, });
         
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -80,8 +79,7 @@ async function addUtilisateurToCommentaireCompetition (req, res){
         const idUtilisateur = req.params.idUtilisateur;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const utilisateurCommentaireCompetition = await commentaireCompetitionService.addUtilisateurToCommentaireCompetition(idUtilisateur,idCommentaireCompetition);
-        const commentaireCompetitionUtilisateur = await utilisateurService.addCommentaireCompetitionToUtilisateur(idCommentaireCompetition,idUtilisateur);
-        res.json({utilisateurCommentaireCompetition: utilisateurCommentaireCompetition,commentaireCompetitionUtilisateur: commentaireCompetitionUtilisateur});
+        res.json({ utilisateurCommentaireCompetition: utilisateurCommentaireCompetition, });
     }
     catch (err) {
         res.status(500).json({message: err.message})
@@ -93,8 +91,7 @@ async function addAdminToCommentaireCompetition (req, res){
         const idAdmin = req.params.idAdmin;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const adminCommentaireCompetition = await commentaireCompetitionService.addAdminToCommentaireCompetition(idAdmin,idCommentaireCompetition);
-        const commentaireCompetitionAdmin = await adminService.addCommentaireCompetitionToAdmin(idCommentaireCompetition,idAdmin);
-        res.json({adminCommentaireCompetition: adminCommentaireCompetition, commentaireCompetitionAdmin: commentaireCompetitionAdmin});
+        res.json({ adminCommentaireCompetition: adminCommentaireCompetition, });
     }
     catch (err) {
         res.status(500).json({message: err.message})

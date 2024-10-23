@@ -68,9 +68,8 @@ async function addAdminToCompetition(req, res) {
     try {
         const idCompetition = req.params.idCompetition;
         const idAdmin = req.params.idAdmin;
-        const CompetitionAdmin = await adminService.addCompetitionToAdmin(idCompetition, idAdmin);
         const adminCompetition = await competitionService.addAdminToCompetition(idAdmin, idCompetition);
-        res.json({CompetitionAdmin: CompetitionAdmin, adminCompetition: adminCompetition} );
+        res.json({ adminCompetition: adminCompetition, } );
 
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -81,9 +80,8 @@ async function addCommentaireCompetitionToCompetition(req, res){
     try {
         const idCompetition = req.params.idCompetition;
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
-        const competitionCommentaireCompetition = await commentaireCompetitionService.addCompetitionToCommentaireCompetition(idCompetition, idCommentaireCompetition);
         const commentaireCompetitionCompetition = await competitionService.addCommentaireCompetitionToCompetition(idCommentaireCompetition,idCompetition);
-        res.json({competitionCommentaireCompetition: competitionCommentaireCompetition, commentaireCompetitionCompetition: commentaireCompetitionCompetition});
+        res.json({ commentaireCompetitionCompetition: commentaireCompetitionCompetition, });
         
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -95,8 +93,7 @@ async function addLocalisationToCompetition (req, res){
         const idCompetition = req.params.idCompetition;
         const idLocalisation = req.params.idLocalisation;
         const localisationCompetition = await localisationService.addCompetitionToLocalisation(idCompetition,idLocalisation);
-        const competitionLocalisation = await competitionService.addLocalisationToCompetition(idLocalisation, idCompetition);
-        res.json({localisationCompetition: localisationCompetition, competitionLocalisation: competitionLocalisation});
+        res.json({ localisationCompetition: localisationCompetition, });
     }
     catch (err) {
         res.status(500).json({message: err.message})
@@ -107,9 +104,8 @@ async function addCanardToCompetition (req, res){
     try {
         const idCompetition = req.params.idCompetition;
         const idCanard = req.params.idCanard;
-        const competitionCanard = await canardService.addCompetitionToCanard(idCompetition, idCanard);
         const canardCompetition = await competitionService.addCanardToCompetition(idCanard, idCompetition);
-        res.json({competitionCanard: competitionCanard,canardCompetition: canardCompetition} );
+        res.json({ canardCompetition: canardCompetition, });
         
     } catch (error) {
         res.status(500).json({message: error.message})
