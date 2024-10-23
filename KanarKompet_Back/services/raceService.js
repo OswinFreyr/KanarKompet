@@ -69,17 +69,17 @@ async function getRaceById(id) {
     }
 }
 
-async function addCanardToRace(idCanards, raceId) {
+async function addCanardToRace(idCanard, raceId) {
     const race = await Race.findByPk(raceId);
-    const isCanard = await Canard.findByPk(CanardId)
+    const isCanard = await Canard.findByPk(idCanard)
     if (isCanard) {
         // verifier si Canard et Race deja associés
-        const isRaceCanard = await Race.findAll({ where: { id: raceId } , include: { model: Canard, where: { id: CanardId } } });
+        const isRaceCanard = await Race.findAll({ where: { id: raceId } , include: { model: Canard, where: { id: idCanard } } });
         if (isRaceCanard.lenght > 0) {
             return null;
         }
         else {
-            return race.addCanard(CanardId);
+            return race.addCanard(idCanard);
         }
     }
 }
