@@ -43,7 +43,6 @@ async function getLocalisationById(id) {
 
 async function addCompetitionToLocalisation(idCompetitions, localisationId) {
     const localisation = await Localisation.findByPk(localisationId);
-    const tabIdCompetitions = idCompetitions.ids
     const isCompetition = await Competition.findByPk(competitionId)
     if (isCompetition) {
         // verifier si Competition et Localisation deja associés

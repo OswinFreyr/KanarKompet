@@ -77,7 +77,7 @@ async function getLimitedUtilisateurs(criterias = {}, pageId, itemsPerPage) {
 }
 
 async function getUtilisateurById(id) {
-    const utilisateur = await utilisateur.findByPk(id, {
+    const utilisateur = await Utilisateur.findByPk(id, {
         include: {
             model: CommentaireCanard,
             model: Canard,

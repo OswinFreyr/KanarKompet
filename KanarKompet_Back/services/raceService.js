@@ -71,7 +71,6 @@ async function getRaceById(id) {
 
 async function addCanardToRace(idCanards, raceId) {
     const race = await Race.findByPk(raceId);
-    const tabIdCanards = idCanards.ids
     const isCanard = await Canard.findByPk(CanardId)
     if (isCanard) {
         // verifier si Canard et Race deja associés
