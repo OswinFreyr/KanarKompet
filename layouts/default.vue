@@ -5,8 +5,10 @@
 <template>
   <div> 
     <AppHeader/>
-  <index/>
-  <NuxtPage/>
+    <!-- <signin/> -->
+   <!--<index/>  -->
+   <slot/>
+  <!-- <NuxtPage/> -->
   <AppFooter/>
 </div>
  
