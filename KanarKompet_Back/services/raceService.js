@@ -1,8 +1,8 @@
 const { Canard } = require('../models/associations.js');
 const { Race } = require('../models/associations.js');
 
-async function createRace(Race) {
-    return await Race.create(Race);
+async function createRace(race) {
+    return await Race.create(race);
 }
 
 async function getAllRaces(criterias = {}) {
