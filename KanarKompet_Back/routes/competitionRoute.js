@@ -13,7 +13,7 @@ router.post("/:idCompetition/:idAdmin", competitionController.addAdminToCompetit
 router.post("/:idCompetition/:idLocalisation", competitionController.addLocalisationToCompetition);
 router.post("/:idCompetition/:idCommentaireCompetition", competitionController.addCommentaireCompetitionToCompetition);
 
-router.update("/update/:id", competitionController.updateCompetition);
+router.patch("/update/:id", competitionController.updateCompetition);
 
 router.delete("/:id", competitionController.deleteCompetition)
 

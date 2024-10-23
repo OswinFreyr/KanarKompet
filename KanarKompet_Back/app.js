@@ -2,15 +2,13 @@ const express = require("express");
 
 const { db } = require("./models/db");
 
-const Init = require("./data/integration")
-
-const festivalRouter = require("./routes/festivalRoutes");
-const regionRouter = require("./routes/regionRoute");
-const communeRouter = require("./routes/communeRoute");
-const disciplineRouter = require("./routes/disciplineRoute");
-const envergureRouter = require("./routes/envergureRoute");
-const localisationRouter = require("./routes/localisationRoute");
-const moisRouter = require("./routes/moisRoute");
+const adminRouter = require("./routes/adminRoute");
+const canardRouter = require("./routes/canardRoute");
+const commentaireCanardRouter = require("./routes/commentaireCanardRoute");
+const commentaireCompetitionRouter = require("./routes/commentaireCompetitionRoute");
+const competitionRouter = require("./routes/competitionRoute");
+const raceRouter = require("./routes/raceRoute");
+const utilisateurRouter = require("./routes/utilisateurRoute");
 
 const app = express();
 const PORT = 2000;
@@ -23,18 +21,17 @@ app.use(function(req, res, next) {
 
 app.use(express.json({limit: "2mb"}));
 
-app.use("/api/v1/festivals", festivalRouter);
-app.use("/api/v1/regions", regionRouter);
-app.use("/api/v1/communes", communeRouter);
-app.use("/api/v1/disciplines", disciplineRouter);
-app.use("/api/v1/envergures", envergureRouter);
-app.use("/api/v1/localisations", localisationRouter);
-app.use("/api/v1/mois", moisRouter);
+app.use("/api/v1/admins", adminRouter);
+app.use("/api/v1/canards", canardRouter);
+app.use("/api/v1/commentairesCanard", commentaireCanardRouter);
+app.use("/api/v1/commentairesCompetition", commentaireCompetitionRouter);
+app.use("/api/v1/competitions", competitionRouter);
+app.use("/api/v1/races", raceRouter);
+app.use("/api/v1/utilisateur", utilisateurRouter);
 
-db.sync(/*{force : true}*/)
+db.sync({force : true})
     .then(async () => {
-        // Init.runInit()
-        app.listen(PORT, () => {
+            app.listen(PORT, () => {
             console.log(`http://localhost:${PORT}`);
         })
     });

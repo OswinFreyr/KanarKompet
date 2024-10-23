@@ -13,7 +13,7 @@ router.post("/:idCanard/:idUtilisateur", canardController.addUtilisateurToCanard
 router.post("/:idCanard/:idCompetition", canardController.addCompetitionToCanard);
 router.post("/:idCanard/:idCommentaireCanard", canardController.addCommentaireCanardToCanard);
 
-router.update("/update/:id", canardController.updateCanard);
+router.patch("/update/:id", canardController.updateCanard);
 
 router.delete("/:id", canardController.deleteCanard)
 

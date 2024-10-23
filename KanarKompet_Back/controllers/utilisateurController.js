@@ -1,7 +1,7 @@
 const utilisateurService = require('../services/utilisateurService');
 const canardService  = require('../services/canardService');
 const commentaireCanardService = require('../services/commentaireCanardService');
-const commentaireCompetitionService = require('../services/commentaireCompetitionAdminService');
+const commentaireCompetitionService = require('../services/commentaireCompetitionService');
 
 async function createUtilisateur(req, res) {
     try {

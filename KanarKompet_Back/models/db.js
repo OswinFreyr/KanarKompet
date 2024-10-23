@@ -1,17 +1,22 @@
 // server/db.js
 
-const { Sequelize } = require('sequelize');
+const Sequelize = require('sequelize');
 
 // Crée une instance Sequelize pour SQLite
-const sequelize = new Sequelize({
+const db = new Sequelize({
   dialect: 'sqlite',
-  storage: './database/kanarkompet.sqlite' // Chemin vers ta base de données SQLite
+  storage: './database/kanarkompet.sqlite', // Chemin vers ta base de données SQLite
+  logging: false
 });
+
+/*const db = new Sequelize("sqlite:database.sqlite3", {
+  logging: false
+});*/
 
 // Test de connexion à la base de données
 async function testConnection() {
   try {
-    await sequelize.authenticate();
+    await db.authenticate();
     console.log('Connexion à SQLite réussie.');
   } catch (error) {
     console.error('Impossible de se connecter à la base de données :', error);
@@ -20,4 +25,4 @@ async function testConnection() {
 
 testConnection();
 
-module.exports = sequelize;
+module.exports = { db };

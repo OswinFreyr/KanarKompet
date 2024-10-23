@@ -10,7 +10,7 @@ router.get("/:id", raceController.getRaceById);
 router.post("/", raceController.createRace);
 router.post("/:idRace/:idCanard", raceController.addCanardToRace);
 
-router.update("/update/:id", raceController.updateRace);
+router.patch("/update/:id", raceController.updateRace);
 
 router.delete("/:id", raceController.deleteRace)
 

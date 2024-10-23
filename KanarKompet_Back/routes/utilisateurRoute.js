@@ -12,7 +12,7 @@ router.post("/:idUtilisateur/:idCanard", utilisateurController.addCanardToUtilis
 router.post("/:idUtilisateur/:idCommentaireCompetition", utilisateurController.addCommentaireCompetitionToUtilisateur);
 router.post("/:idUtilisateur/:idCommentaireCanard", utilisateurController.addCommentaireCanardToUtilisateur);
 
-router.update("/update/:id", utilisateurController.updateUtilisateur);
+router.patch("/update/:id", utilisateurController.updateUtilisateur);
 
 router.delete("/:id", utilisateurController.deleteUtilisateur);
 
