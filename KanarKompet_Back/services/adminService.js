@@ -1,4 +1,4 @@
-const { Admin, Commentaire, Competition, } = require('../models/associations.js');
+const { Admin, Competition, CommentaireCompetition, } = require('../models/associations.js');
 
 async function createAdmin(admin) {
     return await Admin.create(admin);
@@ -26,7 +26,7 @@ async function getAllAdmins(criterias = {}) {
     const admins = await Admin.findAll({
         where,
         include: {
-            model: Commentaire,
+            model: CommentaireCompetition,
             model: Competition,
         },
         limit,
@@ -58,17 +58,17 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
     if (criterias.limit) {
         limit = criterias.limit;
     }
-    const {count, rows} = await Competition.findAndCountAll({
+    const {count, rows} = await Admin.findAndCountAll({
         where,
         include: {
-            model: Commentaire,
+            model: CommentaireCompetition,
             model: Competition,
         },
         limit: itemsPerPage,
         offset,
     });
     return {
-        utilisateurs: rows,
+        admins: rows,
         count: count,
         hasMore: count > offset + rows.length
     };
@@ -77,7 +77,7 @@ async function getLimitedAdmins(criterias = {}, pageId, itemsPerPage) {
 async function getAdminById(id) {
     const admin = await Admin.findByPk(id, {
         include: {
-            model: Commentaire,
+            model: CommentaireCompetition,
             model: Competition,
         }
     });
@@ -89,17 +89,17 @@ async function getAdminById(id) {
     }
 }
 
-async function addCommentaireToAdmin(idCommentaire, adminId) {
+async function addCommentaireCompetitionToAdmin(idCommentaireCompetition, adminId) {
     const admin = await Admin.findByPk(adminId);
-    const isCommentaire = await Commentaire.findByPk(idCommentaire)
-    if (isCommentaire) {
-        // verifier si Admin et Commentaire deja associés
-        const isCommentaireAdmin = await Admin.findAll({ where: { id: adminId }, include: { model: Commentaire, where: { id: idCommentaire } } });
-        if (isCommentaireAdmin.lenght > 0) {
+    const isCommentaireCompetition = await CommentaireCompetition.findByPk(idCommentaireCompetition)
+    if (isCommentaireCompetition) {
+        // verifier si Admin et CommentaireCompetition deja associés
+        const isCommentaireCompetitionAdmin = await Admin.findAll({ where: { id: adminId }, include: { model: CommentaireCompetition, where: { id: idCommentaireCompetition } } });
+        if (isCommentaireCompetitionAdmin.lenght > 0) {
             return null;
         }
         else {
-            return admin.addCommentaire(idCommentaire);
+            return admin.addCommentaireCompetition(idCommentaireCompetition);
         }
     }
 }
@@ -119,13 +119,27 @@ async function addCompetitionToAdmin(idCompetition, adminId) {
     }
 }
 
-async function updateAdmin(id) {
-
+async function updateAdmin(adminId, updatedData) {
+    const admin = await Admin.findByPk(adminId);
+    if (admin) {
+        if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+            const competitions = await Competition.findAll({
+                where: { id: updatedData.competitionIds }
+            });
+            await admin.setCompetitions(competitions);
+        }
+        if (updatedData.commentaireCompetitionIds && Array.isArray(updatedData.commentaireCompetitionIds)) {
+            const commentairesCompetition = await CommentaireCompetition.findAll({
+                where: { id: updatedData.commentaireCompetitionIds }
+            });
+            await admin.setCommentaireCompetitions(commentairesCompetition);
+        }
+        return admin.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteAdmin(id) {
 
-}
-
-
-module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireToAdmin, addCompetitionToAdmin, updateAdmin, deleteAdmin }
+module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireCompetitionToAdmin, addCompetitionToAdmin, updateAdmin, }

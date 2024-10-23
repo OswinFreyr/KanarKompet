@@ -59,26 +59,30 @@ async function addCompetitionToLocalisation(idCompetitions, localisationId) {
     })
 }
 
-async function updateLocalisation(id) {
-
+async function updateLocalisation(localisationId, updatedData) {
+    const localisation = await Localisation.findByPk(localisationId);
+    if (localisation) {
+        if (updatedData.competitionIds && Array.isArray(updatedData.competitionIds)) {
+            const competitions = await Competition.findAll({
+                where: { id: updatedData.competitionIds }
+            });
+            await localisation.setCompetitions(competitions);
+        }
+        return localisation.update(updatedData);
+    }
+    else {
+        return null;
+    }
 }
 
-async function deleteLocalisation(id) {
-
+async function deleteLocalisation(localisationId) {
+    const localisation = await Localisation.findByPk(localisationId);
+    if (localisation) {
+        return localisation.destroy();
+    }
+    else {
+        return null;
+    }
 }
 
-async function createAllLocalisations(localisations) {
-    const tabLocalisations = [];
-    localisations.forEach(async localisation => {
-        tabLocalisations.push(localisation)
-    })
-    localisations = await Localisation.bulkCreate(tabLocalisations, {ignoreDuplicates: true, returning: true})
-    const localisationList = {}
-    localisations.forEach(localisation => {
-        
-        localisationList[localisation.latitude + "; " + localisation.longitude] = localisation.id
-    })
-    return localisationList;
-}
-
-module.exports = { createLocalisation, getAllLocalisations, addCompetitionToLocalisation, getLocalisationById, createAllLocalisations }
+module.exports = { createLocalisation, getAllLocalisations, addCompetitionToLocalisation, getLocalisationById, updateLocalisation, deleteLocalisation, }
