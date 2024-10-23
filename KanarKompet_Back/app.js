@@ -29,7 +29,7 @@ app.use("/api/v1/competitions", competitionRouter);
 app.use("/api/v1/races", raceRouter);
 app.use("/api/v1/utilisateurs", utilisateurRouter);
 
-db.sync({force : true})
+db.sync(/*{force : true}*/)
     .then(async () => {
             app.listen(PORT, () => {
             console.log(`http://localhost:${PORT}`);

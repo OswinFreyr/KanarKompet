@@ -8,8 +8,8 @@ router.get("/limit", commentaireCanardController.getLimitedCommentairesCanard);
 router.get("/:id", commentaireCanardController.getCommentaireCanardById);
 
 router.post("/", commentaireCanardController.createCommentaireCanard);
-router.post("/:idCanard/:idUtilisateur", commentaireCanardController.addUtilisateurToCommentaireCanard);
-router.post("/:idCommentaireCanard/:idCanard", commentaireCanardController.addCanardToCommentaireCanard);
+router.post("/commentaireCanardUtilisateur/:idCommentaireCanard/:idUtilisateur", commentaireCanardController.addUtilisateurToCommentaireCanard);
+router.post("/commentaireCanardCanard/:idCommentaireCanard/:idCanard", commentaireCanardController.addCanardToCommentaireCanard);
 
 router.delete("/:id", commentaireCanardController.deleteCommentaireCanard)
 

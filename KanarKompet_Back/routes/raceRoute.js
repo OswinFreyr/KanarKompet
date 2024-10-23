@@ -8,7 +8,7 @@ router.get("/limit", raceController.getLimitedRaces);
 router.get("/:id", raceController.getRaceById);
 
 router.post("/", raceController.createRace);
-router.post("/:idRace/:idCanard", raceController.addCanardToRace);
+router.post("/raceCanard/:idRace/:idCanard", raceController.addCanardToRace);
 
 router.patch("/update/:id", raceController.updateRace);
 

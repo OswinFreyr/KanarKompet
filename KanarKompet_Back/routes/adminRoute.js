@@ -8,8 +8,8 @@ router.get("/limit", adminController.getLimitedAdmins);
 router.get("/:id", adminController.getAdminById);
 
 router.post("/", adminController.createAdmin);
-router.post("/:idAdmin/:idCompetition", adminController.addCompetitionToAdmin);
-router.post("/:idAdmin/:idCommentaireCompetition", adminController.addCommentaireCompetitionToAdmin);
+router.post("/adminCompetition/:idAdmin/:idCompetition", adminController.addCompetitionToAdmin);
+router.post("/adminCommentaireCompetition/:idAdmin/:idCommentaireCompetition", adminController.addCommentaireCompetitionToAdmin);
 
 router.patch("/update/:id", adminController.updateAdmin);
 
