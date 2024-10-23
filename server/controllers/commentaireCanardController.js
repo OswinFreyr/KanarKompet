@@ -5,6 +5,7 @@ async function createCommentaireCanard(req, res) {
     try {
         const commentaireCanard = await commentaireCanardService.createCommentaireCanard(req.body);
         res.json(commentaireCanard);
+        
     }
     catch (err) {
         res.status(500).json({message: err.message})

@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 // Crée une instance Sequelize pour SQLite
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './database/kanarkompet.sqlite' // Chemin vers ta base de données SQLite
+  storage: './database/kanarkompet.sqlite3' // Chemin vers ta base de données SQLite
 });
 
 // Test de connexion à la base de données
@@ -20,4 +20,4 @@ async function testConnection() {
 
 testConnection();
 
-module.exports = sequelize;
+module.exports = {db: sequelize};

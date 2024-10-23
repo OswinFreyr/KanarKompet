@@ -6,8 +6,8 @@ async function createCommentaireCompetition(commentaireCompetition) {
 
 async function getAllCommentairesCompetition(criterias = {}) {
     const where = {};
-    const offset = 0;
-    const limit = 10;
+    let offset = 0;
+    let limit = 10;
     if (criterias.offset) {
         offset = criterias.offset;
     }
@@ -34,7 +34,7 @@ async function getAllCommentairesCompetition(criterias = {}) {
 
 async function getLimitedCommentairesCompetition(criterias = {}, pageId, itemsPerPage) {
     const where = {};
-    const offset = (pageId - 1) * itemsPerPage;
+    let offset = (pageId - 1) * itemsPerPage;
     if (criterias.offset) {
         offset = criterias.offset;
     }

@@ -6,8 +6,8 @@ async function createAdmin(admin) {
 
 async function getAllAdmins(criterias = {}) {
     const where = {};
-    const offset = 0;
-    const limit = 10;
+    let offset = 0;
+    let limit = 10;
     if (criterias.nom) {
         where.nom = criterias.nom;
     }

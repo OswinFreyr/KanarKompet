@@ -7,8 +7,8 @@ async function createRace(Race) {
 
 async function getAllRaces(criterias = {}) {
     const where = {}
-    const offset = 0;
-    const limit = 10;
+    let offset = 0;
+    let limit = 10;
     if (criterias.nom) {
         where.nom = criterias.nom;
     }
@@ -33,7 +33,7 @@ async function getAllRaces(criterias = {}) {
 
 async function getLimitedRaces(criterias = {}, pageId, itemsPerPage) {
     const where = {};
-    const offset = (pageId - 1) * itemsPerPage;
+    let offset = (pageId - 1) * itemsPerPage;
     if (criterias.nom) {
         where.nom = criterias.nom;
     }

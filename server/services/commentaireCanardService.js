@@ -6,8 +6,8 @@ async function createCommentaireCanard(commentaireCanard) {
 
 async function getAllCommentairesCanard(criterias = {}) {
     const where = {};
-    const offset = 0;
-    const limit = 10;
+    let offset = 0;
+    let limit = 10;
     if (criterias.note) {
         where.note = criterias.note;
     }
@@ -36,7 +36,7 @@ async function getAllCommentairesCanard(criterias = {}) {
 
 async function getLimitedCommentairesCanard(criterias = {}, pageId, itemsPerPage) {
     const where = {};
-    const offset = (pageId - 1) * itemsPerPage;
+    let offset = (pageId - 1) * itemsPerPage;
     if (criterias.note) {
         where.note = criterias.note;
     }
