@@ -12,8 +12,8 @@ router.post("/utilisateurCanard/:idUtilisateur/:idCanard", utilisateurController
 router.post("/utilisateurCommentaireCompetition/:idUtilisateur/:idCommentaireCompetition", utilisateurController.addCommentaireCompetitionToUtilisateur);
 router.post("/utilisateurCommentaireCanard/:idUtilisateur/:idCommentaireCanard", utilisateurController.addCommentaireCanardToUtilisateur);
 
-router.patch("/update/:id", utilisateurController.updateUtilisateur);
+router.patch("/update/:idUtilisateur", utilisateurController.updateUtilisateur);
 
-router.delete("/:id", utilisateurController.deleteUtilisateur);
+router.delete("/:idUtilisateur", utilisateurController.deleteUtilisateur);
 
 module.exports = router;
