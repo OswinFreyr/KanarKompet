@@ -11,7 +11,7 @@ router.post("/", adminController.createAdmin);
 router.post("/adminCompetition/:idAdmin/:idCompetition", adminController.addCompetitionToAdmin);
 router.post("/adminCommentaireCompetition/:idAdmin/:idCommentaireCompetition", adminController.addCommentaireCompetitionToAdmin);
 
-router.patch("/update/:id", adminController.updateAdmin);
+router.patch("/update/:idAdmin", adminController.updateAdmin);
 
 
 module.exports = router;

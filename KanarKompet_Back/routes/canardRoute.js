@@ -13,8 +13,8 @@ router.post("/canardRace/:idCanard/:idRace", canardController.addRaceToCanard);
 // router.post("/canardCompetition/:idCanard/:idCompetition", canardController.addCompetitionToCanard);
 router.post("/canardCommentaireCanard/:idCanard/:idCommentaireCanard", canardController.addCommentaireCanardToCanard);
 
-router.patch("/update/:id", canardController.updateCanard);
+router.patch("/update/:idCanard", canardController.updateCanard);
 
-router.delete("/:id", canardController.deleteCanard)
+router.delete("/:idCanard", canardController.deleteCanard)
 
 module.exports = router;

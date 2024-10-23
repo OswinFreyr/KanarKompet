@@ -13,8 +13,8 @@ router.post("/competitionAdmin/:idCompetition/:idAdmin", competitionController.a
 // router.post("/competitionLocalisation/:idCompetition/:idLocalisation", competitionController.addLocalisationToCompetition);
 router.post("/competitionCommentaireCompetition/:idCompetition/:idCommentaireCompetition", competitionController.addCommentaireCompetitionToCompetition);
 
-router.patch("/update/:id", competitionController.updateCompetition);
+router.patch("/update/:idCompetition", competitionController.updateCompetition);
 
-router.delete("/:id", competitionController.deleteCompetition)
+router.delete("/:idCompetition", competitionController.deleteCompetition)
 
 module.exports = router;
