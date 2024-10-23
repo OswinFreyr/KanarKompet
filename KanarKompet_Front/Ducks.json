@@ -1,0 +1,10 @@
+{
+  "Ducks": [
+    { "id": 1, "name": "Quacky", "weight": 49.3, "race": "Bleu de Suède", "age": 47, "title": "Champion", "color": "Green", "rating": 4.9, "vmx": 20.5, "vmoy": 18.0, "id_race": 1, "nb_participation": 10, "nb_win": 7 },
+    { "id": 2, "name": "Waddles", "weight": 45.0, "race": "Pékin", "age": 30, "title": "Fastest Duck", "color": "White", "rating": 4.7, "vmx": 22.0, "vmoy": 19.5, "id_race": 2, "nb_participation": 8, "nb_win": 6 },
+    { "id": 3, "name": "Daisy", "weight": 42.5, "race": "Muscovy", "age": 28, "title": "Best Feathers", "color": "Black and White", "rating": 4.8, "vmx": 21.0, "vmoy": 18.7, "id_race": 3, "nb_participation": 12, "nb_win": 9 },
+    { "id": 4, "name": "Puddles", "weight": 50.2, "race": "Rouen", "age": 35, "title": "Strongest Duck", "color": "Brown", "rating": 4.5, "vmx": 19.5, "vmoy": 17.5, "id_race": 4, "nb_participation": 5, "nb_win": 3 },
+    { "id": 5, "name": "Flapper", "weight": 48.0, "race": "Indian Runner", "age": 25, "title": "Most Agile", "color": "Cream", "rating": 4.6, "vmx": 23.0, "vmoy": 20.0, "id_race": 5, "nb_participation": 9, "nb_win": 5 },
+    { "id": 6, "name": "Daffy", "weight": 46.8, "race": "Call Duck", "age": 22, "title": "Loudest Quacker", "color": "Mixed", "rating": 4.4, "vmx": 18.5, "vmoy": 17.0, "id_race": 6, "nb_participation": 7, "nb_win": 4 }
+  ]
+}
