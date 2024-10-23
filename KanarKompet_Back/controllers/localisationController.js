@@ -40,9 +40,10 @@ async function getLocalisationById(req, res) {
 
 async function addCompetitionToLocalisation (req, res){
     try {
-        const id = req.params.id;
-        const localisationCompetition = await localisationService.addCompetitionToLocalisation(req.body,id);
-        const competitionLocalisation = await competitionService.addLocalisationToCompetition(req.body,id);
+        const idCompetition = req.params.idCompetition;
+        const idLocalisation = req.params.idLocalisation;
+        const localisationCompetition = await localisationService.addCompetitionToLocalisation(idCompetition,idLocalisation);
+        const competitionLocalisation = await competitionService.addLocalisationToCompetition(idLocalisation, idCompetition);
         res.json({localisationCompetition: localisationCompetition, competitionLocalisation: competitionLocalisation});
     }
     catch (err) {

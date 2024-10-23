@@ -102,7 +102,7 @@ async function addAdminToCommentaireCompetition (req, res){
 }
 
 
-async function deletecommentaireCompetition (req, res){
+async function deleteCommentaireCompetition (req, res){
     try {
         const idCommentaireCompetition = req.params.idCommentaireCompetition;
         const commentaireCompetition = await commentaireCompetitionService.deleteCommentaireCompetition(idCommentaireCompetition);
@@ -113,4 +113,4 @@ async function deletecommentaireCompetition (req, res){
     }
 }
 
-module.exports = {createCommentaireCompetition, getAllCommentairesCompetition, getLimitedCommentairesCompetition,getCommentaireCompetitionById, getCommentaireCompetitionById, addCompetitionToCommentaireCompetition, addUtilisateurToCommentaireCompetition, addAdminToCommentaireCompetition, deletecommentaireCompetition}
+module.exports = {createCommentaireCompetition, getAllCommentairesCompetition, getLimitedCommentairesCompetition,getCommentaireCompetitionById, getCommentaireCompetitionById, addCompetitionToCommentaireCompetition, addUtilisateurToCommentaireCompetition, addAdminToCommentaireCompetition, deleteCommentaireCompetition}

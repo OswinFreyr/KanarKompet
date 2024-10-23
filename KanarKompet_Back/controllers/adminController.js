@@ -102,4 +102,4 @@ async function updateAdmin (req, res){
 }
 
 
-module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin,deleteAdmin}
+module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin, }

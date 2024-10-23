@@ -95,7 +95,7 @@ async function addLocalisationToCompetition (req, res){
         const idCompetition = req.params.idCompetition;
         const idLocalisation = req.params.idLocalisation;
         const localisationCompetition = await localisationService.addCompetitionToLocalisation(idCompetition,idLocalisation);
-        const competitionLocalisation = await competitionService.addLocalisationToCompetition(req.body,id);
+        const competitionLocalisation = await competitionService.addLocalisationToCompetition(idLocalisation, idCompetition);
         res.json({localisationCompetition: localisationCompetition, competitionLocalisation: competitionLocalisation});
     }
     catch (err) {
