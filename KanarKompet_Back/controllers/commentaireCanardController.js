@@ -89,7 +89,7 @@ async function addUtilisateurToCommentaireCanard (req, res){
 }
 
 
-async function deletecommentaireCanard (req, res){
+async function deleteCommentaireCanard (req, res){
     try {
         const idCommentaireCanard = req.params.idCommentaireCanard;
         const commentaireCanard = await commentaireCanardService.deleteCommentaireCanard(idCommentaireCanard);
@@ -100,4 +100,4 @@ async function deletecommentaireCanard (req, res){
     }
 }
 
-module.exports = {createCommentaireCanard, getAllCommentairesCanard, getLimitedCommentairesCanard, getCommentaireCanardById, getCommentaireCanardById, addCanardToCommentaireCanard, addUtilisateurToCommentaireCanard, deletecommentaireCanard}
+module.exports = {createCommentaireCanard, getAllCommentairesCanard, getLimitedCommentairesCanard, getCommentaireCanardById, getCommentaireCanardById, addCanardToCommentaireCanard, addUtilisateurToCommentaireCanard, deleteCommentaireCanard}
