@@ -44,11 +44,22 @@ let loggedInAs = "Guest"
         >
           Canards
         </a>
+       
+        <NuxtLink
+               role="button" class="btn m-1 text-white"
+                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/addCanard">
+                  Ajouter un canard
+        </NuxtLink>
+        <NuxtLink
+               role="button" class="btn m-1 text-white"
+                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/addEvenement">
+                  AJouter un événement
+        </NuxtLink>
       </div>
       <div>
         <NuxtLink
                role="button" class="btn m-1 text-white"
-                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/login">
+                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="./login">
                   Se connecter
         </NuxtLink>
 
