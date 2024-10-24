@@ -103,7 +103,7 @@
           </div>
         </div>
         <div v-for="commentaire in canard.commentaireCanards" :key="id">
-          <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p>
+          <!-- <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p> -->
           <p>{{ commentaire.commentaire }}</p>
           <br>
         </div>
