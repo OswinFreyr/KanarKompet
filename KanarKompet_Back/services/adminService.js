@@ -16,9 +16,7 @@ async function createAdmin(admin) {
         }
     };
     
-    admin.mot_de_passe = hashPassword(admin.mot_de_passe);
-    console.log(admin.mot_de_passe);
-    
+    admin.mot_de_passe = await hashPassword(admin.mot_de_passe);
     return await Admin.create(admin);
 }
 
