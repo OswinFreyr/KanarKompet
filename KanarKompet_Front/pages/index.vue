@@ -1,38 +1,74 @@
+<script setup>
+const { data } = await useFetch("http://localhost:2000/api/v1/canards");
+
+const canardsToShow = computed(() => {
+  if (data.value && data.value.length > 0) {
+    // selectionner trois canards aleatoires
+    const shuffled = data.value.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 3);
+  }
+  return [];
+});
+</script>
+
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen">
+  <!-- LANDING SECTION -->
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="w-full max-w-5xl mx-auto mb-12">
       <ULandingCTA
-        title="Trusted and supported by our amazing community"
-        description="We've built a strong, lasting partnership. Their trust is our driving force, propelling us towards shared success."
+        title="Rejoignez la première communauté de compétitions de canards !"
+        description="Inscrivez vos canards, participez à des compétitions, et découvrez ce que la communauté pense des champions à plumes. Notre plateforme réunit les passionnés et offre un espace de partage et d'évaluation des plus beaux canards et des compétitions les plus palpitantes."
         card
-        class="mb-12"
+      />
+    </div>
+
+    <ULandingGrid class="grid grid-cols-12 gap-4 max-w-5xl">
+
+        <ULandingCard
+        class="col-span-6 row-span-2"
+        icon="i-heroicons-puzzle-piece"
+        title="Ajoutez vos Canards"
+        description="Créez un profil pour chacun de vos canards, avec des photos, des descriptions, et montrez-les à la communauté."
       />
       
-      <ULandingGrid class="grid grid-cols-12 gap-4 max-w-5xl">
-        <ULandingCard
-          class="col-span-6 row-span-2"
-          icon="i-heroicons-swatch"
-          title="Color Palette"
-          description="Choose a primary and a gray color from your Tailwind CSS color palette."
-        />
-        <ULandingCard
-          class="col-span-6 row-span-4"
-          icon="i-heroicons-wrench-screwdriver"
-          title="Fully Customizable"
-          description="Change the style of any component in your App Config or with ui prop."
-        />
-        <ULandingCard
-          class="col-span-6 row-span-4"
-          icon="i-heroicons-face-smile"
-          title="Icons"
-          description="Choose any of the 100k+ icons from the most popular icon libraries."
-        />
-        <ULandingCard
-          class="col-span-6 row-span-2"
-          icon="i-heroicons-computer-desktop"
-          title="Keyboard Shortcuts"
-          description="Nuxt UI comes with a set of Vue composables to easily handle shortcuts."
-        />
-      </ULandingGrid>
+      <ULandingCard
+        class="col-span-6 row-span-4"
+        icon="i-heroicons-trophy"
+        title="Inscrivez vos Canards à des Compétitions"
+        description="Participez à des compétitions locales ou internationales et voyez si votre canard peut être couronné champion !"
+      />
+
+      <ULandingCard
+        class="col-span-6 row-span-4"
+        icon="i-heroicons-star"
+        title="Notez et Commentez"
+        description="Donnez votre avis sur les canards des autres membres et les compétitions. Chaque note compte !"
+      />
+
+      <ULandingCard
+        class="col-span-6 row-span-2"
+        icon="i-heroicons-eye"
+        title="Découvrez les Meilleurs Canards"
+        description="Explorez les canards les mieux notés et les plus appréciés par la communauté."
+      />
+    </ULandingGrid>
+  </div>
+
+  <!-- NOS CANARDS -->
+  <div class="p-8 m-20">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-4xl font-bold uppercase">Nos canards</h2>
+      <nuxt-link to="/canards" class="text-blue-500 font-semibold hover:underline">
+        Voir plus
+      </nuxt-link>
     </div>
-  </template>
-  
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+      <div v-for="canard in canardsToShow" :key="canard.id" class="w-full max-w-sm">
+        <DuckCard :canard="canard" />
+      </div>
+    </div>
+  </div>
+
+  <!-- NOS DERNIERES COMPETITIONS -->
+  <div></div>
+</template>
