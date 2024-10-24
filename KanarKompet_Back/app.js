@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const { db } = require("./models/db");
-const cors = require("cors");
 
 const adminRouter = require("./routes/adminRoute");
 const canardRouter = require("./routes/canardRoute");
