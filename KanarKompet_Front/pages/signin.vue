@@ -38,12 +38,19 @@ const validate = (state: any) => {
   return errors;
 };
 
+const loggedInAs = ref('Guest'); 
+
+const updateLoggedInAs = () => {
+  loggedInAs.value = localStorage.getItem('loggedInAs') || 'Guest';
+  console.log("🚀 ~ loggedInAs:", loggedInAs.value); // Pour débogage
+};
+
 async function onSubmit(data: any) {
   const prenom = data.firstname;
   const nom = data.lastname;
   const e_mail = data.email;
   const mot_de_passe = data.password;
-
+  const router = useRouter();
   try {
     const res = await $fetch('http://localhost:2000/api/v1/utilisateurs', {
       method: 'POST',
@@ -55,6 +62,12 @@ async function onSubmit(data: any) {
       }
     });
     errorMessage.value = ''; 
+
+    localStorage.setItem('loggedInAs', 'User');
+    updateLoggedInAs(); 
+
+    await router.push('/');
+
   } catch (error) {
     // console.error('Error:', error);
     errorMessage.value = 'Une erreur est survenue lors de la création de votre compte.'; 

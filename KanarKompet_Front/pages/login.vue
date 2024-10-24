@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'; 
+import { useRouter } from 'vue-router';
 import logo from '@/assets/logo-transparent-png.png';
+
+// Champs du formulaire
 const fields = [
   {
     name: 'email',
@@ -13,16 +16,12 @@ const fields = [
     label: 'Password',
     type: 'password',
     placeholder: 'Entrez votre mot de passe'
-  },
-  // {
-  //   name: 'remember',
-  //   label: 'Remember me',
-  //   type: 'checkbox'
-  // }
+  }
 ];
 
-const errorMessage = ref(''); 
+const errorMessage = ref('');
 
+// Validation des champs
 const validate = (state: any) => {
   const errors = [];
   if (!state.email) errors.push({ path: 'email', message: 'Email requis' });
@@ -39,14 +38,15 @@ interface ApiResponse {
   login: boolean;
 }
 
-const loggedInAs = localStorage.getItem('loggedInAs') || 'Guest'; 
-console.log("🚀 ~ loggedInAs before:", loggedInAs)
+const router = useRouter(); 
+
 async function onSubmit(data: LoginData): Promise<void> {
   const e_mail = data.email;
   const mot_de_passe = data.password;
 
   try {
-    const resUser: Response = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
+    // Requête pour verifier l'utilisateur
+    const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
       method: 'POST',
       body: {
         "e_mail": e_mail,
@@ -54,15 +54,12 @@ async function onSubmit(data: LoginData): Promise<void> {
       }
     });
 
-    const dataUser = await resUser.json();
-
     if (dataUser.login) {
-      localStorage.setItem('loggedInAs', 'User');
-console.log("🚀 ~ loggedInAs user:", loggedInAs)
-
-      errorMessage.value = ''; 
+      localStorage.setItem('loggedInAs', 'User'); // maj local storage
+      await router.push('/'); // redirection home
     } else {
-      const resAdmin: Response = await $fetch('http://localhost:2000/api/v1/admins/login', {
+      // Requête pour l'admin si la connexion utilisateur échoue
+      const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/admins/login', {
         method: 'POST',
         body: {
           "e_mail": e_mail,
@@ -70,11 +67,9 @@ console.log("🚀 ~ loggedInAs user:", loggedInAs)
         }
       });
 
-      const dataAdmin = await resAdmin.json();
-
       if (dataAdmin.login) {
-        localStorage.setItem('loggedInAs', 'Admin');
-        errorMessage.value = ''; 
+        localStorage.setItem('loggedInAs', 'Admin'); // maj local storage
+        await router.push('/'); 
       } else {
         errorMessage.value = 'Email ou mot de passe incorrect.';
       }
@@ -84,47 +79,43 @@ console.log("🚀 ~ loggedInAs user:", loggedInAs)
     errorMessage.value = 'Une erreur est survenue lors de la connexion.';
   }
 }
-
-
-
 </script>
+
 
 <template>
   <div class="flex items-center justify-center min-h-screen">
-    <!-- <img :src="logo"/> -->
     <UCard class="max-w-sm w-full shadow-lg rounded-lg">
-  <UAuthForm
-    :fields="fields"
-    :validate="validate"
-    title="Vous revoilà !"
-    align="top"
-    :ui="{ base: 'text-center', footer: 'text-center' }"
-    @submit="onSubmit"
-  >
-    <template #icon>
-      <img :src="logo" alt="Logo" class="h-30 w-30 object-contain mx-auto" /> 
-    </template>
-    
-    <template #description>
-      Vous n'avez pas de compte ? <NuxtLink to="/signin" class="text-primary font-medium">Créer un compte</NuxtLink>.
-    </template>
+      <UAuthForm
+        :fields="fields"
+        :validate="validate"
+        title="Vous revoilà !"
+        align="top"
+        :ui="{ base: 'text-center', footer: 'text-center' }"
+        @submit="onSubmit"
+      >
+        <template #icon>
+          <img :src="logo" alt="Logo" class="h-30 w-30 object-contain mx-auto" /> 
+        </template>
 
-    <template #password-hint>
-      <NuxtLink to="/" class="text-primary font-medium">Mot de passe oublié ?</NuxtLink>
-    </template>
+        <template #description>
+          Vous n'avez pas de compte ? <NuxtLink to="/signin" class="text-primary font-medium">Créer un compte</NuxtLink>.
+        </template>
 
-    <template #validation>
-      <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" title="Erreur de connexion">
-        {{ errorMessage }}
-      </UAlert>
-    </template>
+        <template #password-hint>
+          <NuxtLink to="/" class="text-primary font-medium">Mot de passe oublié ?</NuxtLink>
+        </template>
 
-    <template #footer>
-      <NuxtLink to="/" class="text-primary font-medium">Conditions d'utilisations</NuxtLink>.
-    </template>
-  </UAuthForm>
-</UCard>
-  
+        <template #validation>
+          <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" title="Erreur de connexion">
+            {{ errorMessage }}
+          </UAlert>
+        </template>
+
+        <template #footer>
+          <NuxtLink to="/" class="text-primary font-medium">Conditions d'utilisations</NuxtLink>.
+        </template>
+      </UAuthForm>
+    </UCard>
   </div>
 </template>
 
