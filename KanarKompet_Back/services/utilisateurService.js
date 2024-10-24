@@ -209,10 +209,10 @@ async function loginUtilisateur(utilisateurData) {
     const verif = await verifyPassword(utilisateurData.mot_de_passe, utilisateur.mot_de_passe)
 
     if (verif) {
-        return {login: true}
+        return utilisateur
     }
     else {
-        return {login: false}
+        return null
     }
 }
 

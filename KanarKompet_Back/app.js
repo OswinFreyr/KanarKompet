@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { db } = require("./models/db");
+const jwt = require("./middlewares/jwtMiddleware");
 
 const adminRouter = require("./routes/adminRoute");
 const canardRouter = require("./routes/canardRoute");
@@ -25,7 +26,14 @@ app.use(cors({
 //     next();
 // });
 
-app.use(jwtMiddleware())
+app.use(function(req,res,next) {
+    req.header("Authorization")
+    console.log("Headers", req.headers);
+    next();
+
+})
+
+// app.use(jwt.jwtMiddleware(req, res, next));
 
 app.use(express.json({limit: "2mb"}));
 
