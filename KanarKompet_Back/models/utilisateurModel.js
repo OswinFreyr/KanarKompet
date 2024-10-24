@@ -13,12 +13,21 @@ const Utilisateur = db.define("utilisateur", {
     e_mail: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     mot_de_passe: {
         type: DataTypes.STRING,
         allowNull: false,
     },
 }, {
+    defaultScope: {
+        attributes: { exclude: ['mot_de_passe'] },
+    },
+    scopes: {
+        withPassword: {
+            attributes: { },
+        }
+    },
 });
 
 module.exports = { Utilisateur };

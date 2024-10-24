@@ -1,6 +1,23 @@
 const { Utilisateur, Canard, CommentaireCanard, CommentaireCompetition } = require('../models/associations.js');
+const bcrypt = require('bcrypt');
 
 async function createUtilisateur(utilisateur) {
+    const saltRounds = 5; 
+    
+    const hashPassword = async (plainPassword) => {
+        try {
+            const salt = await bcrypt.genSalt(saltRounds);
+            const hashedPassword = await bcrypt.hash(plainPassword, salt);
+            // console.log('Mot de passe haché :', hashedPassword);
+            return hashedPassword;
+        } catch (error) {
+            console.error('Erreur lors du hachage du mot de passe :', error);
+            throw error;
+        }
+    };
+    
+    utilisateur.mot_de_passe = await hashPassword(utilisateur.mot_de_passe);
+
     return await Utilisateur.create(utilisateur);
 }
 
@@ -177,5 +194,27 @@ async function deleteUtilisateur(utilisateurId) {
     }
 }
 
+async function loginUtilisateur(utilisateurData) {
+    const utilisateur = await Utilisateur.scope("withPassword").findOne({ where: { e_mail: utilisateurData.e_mail}});
+    
+    const verifyPassword = async (plainPassword, hashedPassword) => {
+        const match = await bcrypt.compare(plainPassword, hashedPassword);
+        if (match) {
+            return true;
+        } else {
+            return false;
+        }
+    }; 
+    
+    const verif = await verifyPassword(utilisateurData.mot_de_passe, utilisateur.mot_de_passe)
 
-module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCanardToUtilisateur, addCommentaireCanardToUtilisateur, addCommentaireCompetitionToUtilisateur, updateUtilisateur, deleteUtilisateur }
+    if (verif) {
+        return {login: true}
+    }
+    else {
+        return {login: false}
+    }
+}
+
+
+module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCanardToUtilisateur, addCommentaireCanardToUtilisateur, addCommentaireCompetitionToUtilisateur, updateUtilisateur, deleteUtilisateur, loginUtilisateur, }
