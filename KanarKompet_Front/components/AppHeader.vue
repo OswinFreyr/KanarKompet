@@ -38,12 +38,10 @@ let loggedInAs = "Guest"
         >
           Compétitions
         </a>
-        <a
-          href="#responsive-header"
-          class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
-        >
+
+        <nuxt-link class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white" to="/canards">
           Canards
-        </a>
+        </nuxt-link>
       </div>
       <div>
         <NuxtLink
@@ -69,7 +67,6 @@ let loggedInAs = "Guest"
           >
             <li v-show="loggedInAs === 'User'"><a>Mes inscriptions</a></li>
             <li v-show="loggedInAs === 'User'"><a>Mes canards</a></li>
-            <li v-show="loggedInAs === 'User'"><a>Favoris</a></li>
             <li><a>Mes informations</a></li>
             <li><a>Se déconnecter</a></li>
           </ul>

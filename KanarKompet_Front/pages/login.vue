@@ -3,7 +3,7 @@
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         
      <div class="flex justify-center mb-6">
-       <img src="/assets/logo_transparent-png.png" alt="Logo" class="h-40 w-auto">
+       <img src="../assets/logo-transparent-png.png" alt="Logo" class="h-40 w-auto">
      </div>
         <h2 class="text-2xl font-bold mb-6 text-center">Se connecter</h2>
         
