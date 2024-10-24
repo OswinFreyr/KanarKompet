@@ -11,6 +11,6 @@ router.post("/", commentaireCanardController.createCommentaireCanard);
 // router.post("/commentaireCanardUtilisateur/:idCommentaireCanard/:idUtilisateur", commentaireCanardController.addUtilisateurToCommentaireCanard);
 // router.post("/commentaireCanardCanard/:idCommentaireCanard/:idCanard", commentaireCanardController.addCanardToCommentaireCanard);
 
-router.delete("/:id", commentaireCanardController.deleteCommentaireCanard)
+router.delete("/:idCommentaireCanard", commentaireCanardController.deleteCommentaireCanard)
 
 module.exports = router;

@@ -12,6 +12,6 @@ router.post("/", commentaireCompetitionController.createCommentaireCompetition);
 // router.post("/commentaireCompetitionCompetition/:idCommentaireCompetition/:idCompetition", commentaireCompetitionController.addCompetitionToCommentaireCompetition);
 // router.post("/commentaireCompetitionAdmin/:idCommentaireCompetition/:idAdmin", commentaireCompetitionController.addAdminToCommentaireCompetition);
 
-router.delete("/:id", commentaireCompetitionController.deleteCommentaireCompetition)
+router.delete("/:idCommentaireCompetition", commentaireCompetitionController.deleteCommentaireCompetition)
 
 module.exports = router;

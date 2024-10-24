@@ -11,10 +11,10 @@ router.post("/", competitionController.createCompetition);
 router.post("/competitionCanard/:idCompetition/:idCanard", competitionController.addCanardToCompetition);
 router.post("/competitionAdmin/:idCompetition/:idAdmin", competitionController.addAdminToCompetition);
 // router.post("/competitionLocalisation/:idCompetition/:idLocalisation", competitionController.addLocalisationToCompetition);
-router.post("/competitionComentaireCompetition/:idCompetition/:idCommentaireCompetition", competitionController.addCommentaireCompetitionToCompetition);
+router.post("/competitionCommentaireCompetition/:idCompetition/:idCommentaireCompetition", competitionController.addCommentaireCompetitionToCompetition);
 
-router.patch("/update/:id", competitionController.updateCompetition);
+router.patch("/update/:idCompetition", competitionController.updateCompetition);
 
-router.delete("/:id", competitionController.deleteCompetition)
+router.delete("/:idCompetition", competitionController.deleteCompetition)
 
 module.exports = router;

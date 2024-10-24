@@ -11,9 +11,10 @@ router.post("/", utilisateurController.createUtilisateur);
 router.post("/utilisateurCanard/:idUtilisateur/:idCanard", utilisateurController.addCanardToUtilisateur);
 router.post("/utilisateurCommentaireCompetition/:idUtilisateur/:idCommentaireCompetition", utilisateurController.addCommentaireCompetitionToUtilisateur);
 router.post("/utilisateurCommentaireCanard/:idUtilisateur/:idCommentaireCanard", utilisateurController.addCommentaireCanardToUtilisateur);
+router.post("/login", utilisateurController.loginUtilisateur);
 
-router.patch("/update/:id", utilisateurController.updateUtilisateur);
+router.patch("/update/:idUtilisateur", utilisateurController.updateUtilisateur);
 
-router.delete("/:id", utilisateurController.deleteUtilisateur);
+router.delete("/:idUtilisateur", utilisateurController.deleteUtilisateur);
 
 module.exports = router;
