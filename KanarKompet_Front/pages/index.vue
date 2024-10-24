@@ -1,4 +1,32 @@
 <script setup>
+
+import { computed } from 'vue';
+
+// recuperations et gestions des competitions
+
+const { data: competitionsData } = await useFetch("http://localhost:2000/api/v1/competitions");
+
+const currentDate = new Date();
+
+const upcomingCompetitions = computed(() => {
+  if (competitionsData.value && competitionsData.value.length > 0) {
+    // filtrer les compet qui ont lieu ap la date actuelle
+    const filteredCompetitions = competitionsData.value.filter(comp => {
+      const compDate = new Date(comp.date);
+      return compDate >= currentDate;
+    });
+
+    // trier croissant
+    const sortedCompetitions = filteredCompetitions.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // trois premiers
+    return sortedCompetitions.slice(0, 3);
+  }
+  return [];
+});
+
+
+// Recuperation et gestion des canards
 const { data } = await useFetch("http://localhost:2000/api/v1/canards");
 
 const canardsToShow = computed(() => {
@@ -9,7 +37,10 @@ const canardsToShow = computed(() => {
   }
   return [];
 });
+
 </script>
+
+
 
 <template>
   <!-- LANDING SECTION -->
@@ -69,6 +100,19 @@ const canardsToShow = computed(() => {
     </div>
   </div>
 
-  <!-- NOS DERNIERES COMPETITIONS -->
-  <div></div>
+  <!-- NOS PROCHAINES COMPETITIONS -->
+  <div class="p-8 m-20">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-4xl font-bold uppercase">Nos Dernières Compétitions</h2>
+      <nuxt-link to="/competitions" class="text-blue-500 font-semibold hover:underline">
+        Voir plus
+      </nuxt-link>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+      <div v-for="competition in upcomingCompetitions" :key="competition.titre" class="w-full max-w-sm">
+        <!-- CHANGER AVEC LE COMPOSANT CARTE COMPETITION -->
+        <CardCompetition :competition="competition" />
+      </div>
+    </div>
+  </div>
 </template>
