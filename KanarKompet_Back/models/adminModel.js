@@ -20,6 +20,14 @@ const Admin = db.define("admin", {
         allowNull: false,
     },
 }, {
+    defaultScope: {
+        attributes: { exclude: ['mot_de_passe'] },
+    },
+    scopes: {
+        withPassword: {
+            attributes: { },
+        }
+    },
 });
 
 module.exports = { Admin };

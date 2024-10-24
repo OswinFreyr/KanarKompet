@@ -20,6 +20,14 @@ const Utilisateur = db.define("utilisateur", {
         allowNull: false,
     },
 }, {
+    defaultScope: {
+        attributes: { exclude: ['mot_de_passe'] },
+    },
+    scopes: {
+        withPassword: {
+            attributes: { },
+        }
+    },
 });
 
 module.exports = { Utilisateur };

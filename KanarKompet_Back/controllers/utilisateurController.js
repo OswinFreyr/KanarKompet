@@ -123,4 +123,13 @@ async function deleteUtilisateur (req, res){
     }
 }
 
-module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCommentaireCompetitionToUtilisateur, addCommentaireCanardToUtilisateur, addCanardToUtilisateur, updateUtilisateur, deleteUtilisateur }
+async function loginUtilisateur(req, res){
+    try {
+        const login = await utilisateurService.loginUtilisateur(req.body);
+        res.json(login);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
+module.exports = { createUtilisateur, getAllUtilisateurs, getLimitedUtilisateurs, getUtilisateurById, addCommentaireCompetitionToUtilisateur, addCommentaireCanardToUtilisateur, addCanardToUtilisateur, updateUtilisateur, deleteUtilisateur, loginUtilisateur, }
