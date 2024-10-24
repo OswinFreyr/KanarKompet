@@ -29,5 +29,7 @@ logs
 .sqlite
 .sqlite3
 
+database
+
 KanarKompet_Back/database
 KanarKompet_Back/database/kanarkompet.sqlite

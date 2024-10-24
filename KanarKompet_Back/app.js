@@ -1,5 +1,5 @@
 const express = require("express");
-
+const cors = require("cors");
 const { db } = require("./models/db");
 const cors = require("cors");
 
@@ -15,6 +15,12 @@ const app = express();
 const PORT = 2000;
 app.use(cors({
     origin: 'http://localhost:3000/', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type'],
+}));
+
+app.use(cors({
+    origin: 'http://localhost:3000', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
     allowedHeaders: ['Content-Type'],
 }));
