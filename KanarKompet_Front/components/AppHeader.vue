@@ -79,16 +79,13 @@ onUnmounted(() => {
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
         >
           Canards
-      </NuxtLink>       
+        </NuxtLink>       
+
         <NuxtLink
-               role="button" class="btn m-1 text-white"
-                  v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" to="/addCanard">
-                  Ajouter un canard
-        </NuxtLink>
-        <NuxtLink
-               role="button" class="btn m-1 text-white"
-                  v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" to="/addEvenement">
-                  AJouter un événement
+          v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" to="/addEvenement"
+          class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
+          >
+          AJouter un événement
         </NuxtLink>
       </div>
       <div>
