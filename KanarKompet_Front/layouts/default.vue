@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div> 
+  <div style="background-color: #EEEADE;"> 
     <AppHeader/>
     <!-- <signin/> -->
    <!--<index/>  -->
