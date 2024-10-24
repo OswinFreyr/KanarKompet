@@ -28,7 +28,7 @@
     });
 
 
-    const resCanard = await $fetch(`http://localhost:2000/commentaireCanardCanard/${resCom.id}/${props.canard.id}`, {
+    const resCanard = await $fetch(`http://localhost:2000/api/v1/canards/canardCommentaireCanard/${props.canard.id}/${resCom.id}`, {
       method: 'POST',
   });
     errorMessage.value = ''; 
