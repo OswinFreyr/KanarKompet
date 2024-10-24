@@ -1,6 +1,24 @@
 const { Admin, Competition, CommentaireCompetition, } = require('../models/associations.js');
+const bcrypt = require('bcrypt');
 
 async function createAdmin(admin) {
+    const saltRounds = 5; 
+    
+    const hashPassword = async (plainPassword) => {
+        try {
+            const salt = await bcrypt.genSalt(saltRounds);
+            const hashedPassword = await bcrypt.hash(plainPassword, salt);
+            // console.log('Mot de passe haché :', hashedPassword);
+            return hashedPassword;
+        } catch (error) {
+            console.error('Erreur lors du hachage du mot de passe :', error);
+            throw error;
+        }
+    };
+    
+    admin.mot_de_passe = hashPassword(admin.mot_de_passe);
+    console.log(admin.mot_de_passe);
+    
     return await Admin.create(admin);
 }
 
@@ -141,5 +159,27 @@ async function updateAdmin(adminId, updatedData) {
     }
 }
 
+async function loginAdmin(adminData) {
+    const admin = await Admin.scope("withPassword").findOne({ where: {e_mail: adminData.e_mail}});
+    
+    const verifyPassword = async (plainPassword, hashedPassword) => {
+        const match = await bcrypt.compare(plainPassword, hashedPassword);
+        if (match) {
+            return true;
+        } else {
+            return false;
+        }
+    }; 
+    
+    const verif = await verifyPassword(adminData.mot_de_passe, admin.mot_de_passe)
 
-module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireCompetitionToAdmin, addCompetitionToAdmin, updateAdmin, }
+    if (verif) {
+        return {login: true}
+    }
+    else {
+        return {login: false}
+    }
+}
+
+
+module.exports = { createAdmin, getAllAdmins, getLimitedAdmins, getAdminById, addCommentaireCompetitionToAdmin, addCompetitionToAdmin, updateAdmin, loginAdmin, }

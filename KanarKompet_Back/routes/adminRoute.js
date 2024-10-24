@@ -10,6 +10,7 @@ router.get("/:id", adminController.getAdminById);
 router.post("/", adminController.createAdmin);
 router.post("/adminCompetition/:idAdmin/:idCompetition", adminController.addCompetitionToAdmin);
 router.post("/adminCommentaireCompetition/:idAdmin/:idCommentaireCompetition", adminController.addCommentaireCompetitionToAdmin);
+router.post("/login", adminController.loginAdmin);
 
 router.patch("/update/:idAdmin", adminController.updateAdmin);
 
