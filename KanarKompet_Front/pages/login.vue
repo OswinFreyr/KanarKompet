@@ -25,8 +25,8 @@ const errorMessage = ref('');
 
 const validate = (state: any) => {
   const errors = [];
-  if (!state.email) errors.push({ path: 'email', message: 'Email is required' });
-  if (!state.password) errors.push({ path: 'password', message: 'Password is required' });
+  if (!state.email) errors.push({ path: 'email', message: 'Email requis' });
+  if (!state.password) errors.push({ path: 'password', message: 'Mot de passe requis' });
   return errors;
 };
 
@@ -35,7 +35,7 @@ async function onSubmit(data: any) {
   const mot_de_passe = data.password;
 
   try {
-    const res = await $fetch('http://localhost:2000/api/v1/utilisateurs', {
+    const resUser = await $fetch('http://localhost:2000/api/v1/utilisateurs', {
       method: 'POST',
       body: {
         "e_mail": e_mail,
