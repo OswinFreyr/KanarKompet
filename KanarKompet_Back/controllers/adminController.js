@@ -99,5 +99,14 @@ async function updateAdmin (req, res){
     }
 }
 
+async function loginAdmin(req, res){
+    try {
+        const login = await adminService.loginAdmin(req.body);
+        res.json(login);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
 
-module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin, }
+
+module.exports = {createAdmin, getAllAdmins,getLimitedAdmins,getAdminById,addCommentaireCompetitionToAdmin,addCompetitionToAdmin,updateAdmin, loginAdmin, }
