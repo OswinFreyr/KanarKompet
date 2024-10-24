@@ -30,24 +30,63 @@ const validate = (state: any) => {
   return errors;
 };
 
-async function onSubmit(data: any) {
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+interface ApiResponse {
+  login: boolean;
+}
+
+const loggedInAs = localStorage.getItem('loggedInAs') || 'Guest'; 
+console.log("🚀 ~ loggedInAs before:", loggedInAs)
+async function onSubmit(data: LoginData): Promise<void> {
   const e_mail = data.email;
   const mot_de_passe = data.password;
 
   try {
-    const resUser = await $fetch('http://localhost:2000/api/v1/utilisateurs', {
+    const resUser: Response = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
       method: 'POST',
       body: {
         "e_mail": e_mail,
         "mot_de_passe": mot_de_passe
       }
     });
-    errorMessage.value = ''; 
+
+    const dataUser = await resUser.json();
+
+    if (dataUser.login) {
+      localStorage.setItem('loggedInAs', 'User');
+console.log("🚀 ~ loggedInAs user:", loggedInAs)
+
+      errorMessage.value = ''; 
+    } else {
+      const resAdmin: Response = await $fetch('http://localhost:2000/api/v1/admins/login', {
+        method: 'POST',
+        body: {
+          "e_mail": e_mail,
+          "mot_de_passe": mot_de_passe
+        }
+      });
+
+      const dataAdmin = await resAdmin.json();
+
+      if (dataAdmin.login) {
+        localStorage.setItem('loggedInAs', 'Admin');
+        errorMessage.value = ''; 
+      } else {
+        errorMessage.value = 'Email ou mot de passe incorrect.';
+      }
+    }
   } catch (error) {
     console.error('Error:', error);
     errorMessage.value = 'Une erreur est survenue lors de la connexion.';
   }
 }
+
+
+
 </script>
 
 <template>
