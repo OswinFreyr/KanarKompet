@@ -2,7 +2,6 @@
 
 const { data } = await useFetch("http://localhost:2000/api/v1/canards")
 
-console.log(data.value)
 
 </script>
 

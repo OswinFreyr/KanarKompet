@@ -1,5 +1,45 @@
 <script setup>
+
+  import { ref } from 'vue';
+
   const { data } = await useFetch("http://localhost:2000/api/v1/utilisateurs")
+
+  const commentText = ref('');
+  const errorMessage = ref('');
+
+  const props = defineProps({
+    canard: {
+      type: Object,
+      required: true,
+    }
+  });
+
+
+  async function onSubmit() {
+
+  const commentaire = commentText.value;
+
+  try {
+    const resCom = await $fetch('http://localhost:2000/api/v1/commentairesCanard', {
+      method: 'POST',
+      body: {
+        "commentaire": commentaire,
+      }
+    });
+
+
+    const resCanard = await $fetch(`http://localhost:2000/commentaireCanardCanard/${resCom.id}/${props.canard.id}`, {
+      method: 'POST',
+  });
+    errorMessage.value = ''; 
+  } catch (error) {
+    // console.error('Error:', error);
+    errorMessage.value = 'Une erreur est survenue lors de la publication de votre commentaire.'; 
+  } 
+  }
+
+
+  
 </script>
 
 <template>
@@ -69,14 +109,17 @@
         </div>
         <div class="mt-4">
           <h4 class="font-bold text-lg mb-2">Laisser un commentaire pour {{ canard.nom }}:</h4>
-          <form>
+          <form @submit.prevent="onSubmit">
             <textarea
+              v-model="commentText"
               placeholder="Laisser votre commentaire ici..."
               class="textarea textarea-bordered w-full"
               rows="3"
               required
             ></textarea>
-            <button class="btn bg-green-400 hover:bg-green-800 hover:text-white border-none btn-neutral mt-2" type="submit">Envoyer</button>
+            <button class="btn bg-green-400 hover:bg-green-800 hover:text-white border-none btn-neutral mt-2" type="submit">
+              Envoyer
+            </button>
           </form>
         </div>
       </div>
