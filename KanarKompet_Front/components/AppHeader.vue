@@ -79,7 +79,7 @@ onUnmounted(() => {
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
         >
           Canards
-        </a>       
+      </NuxtLink>       
         <NuxtLink
                role="button" class="btn m-1 text-white"
                   v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/addCanard">
