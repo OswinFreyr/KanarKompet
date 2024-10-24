@@ -2,74 +2,81 @@
 import { ref } from 'vue' 
 import logo from '@/assets/logo-transparent-png.png';
 
+const races = await useFetch("http://localhost:2000/api/v1/races")
+
 const fields = [
   {
-    name: 'lastname',
+    name: 'name',
     type: 'text',
     label: 'Nom',
-    placeholder: 'Viaire'
+    placeholder: 'Poupette',
+    required: true 
   },
   {
-    name: 'firstname',
-    type: 'text',
-    label: 'Prénom',
-    placeholder: 'Marie'
+    name: 'age',
+    type: 'number',
+    label: 'Age',
+    placeholder: '8',
+    min: 1,
+    required: true 
   },
   {
-    name: 'email',
-    type: 'text',
-    label: 'Email',
-    placeholder: 'marieviaire@gmail.com'
+    name: 'gender',
+    label: 'Genre',
+    placeholder: 'Sélectionner un genre',
+    type: 'select', 
+    options: [
+      { label: 'Mâle', value: 'M' },
+      { label: 'Femelle', value: 'F' }
+    ],
+    required: true 
   },
   {
-    name: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Entrez votre mot de passe'
+    name: 'weight',
+    label: 'Poids',
+    type: 'number',
+    placeholder: '4.6',
+    step: 0.1,
+    required: true 
   }
 ];
 
 const errorMessage = ref(''); 
-
+const successMessage = ref('');
+const selectedGender = ref<string | null>(null); 
 const validate = (state: any) => {
-  const errors = [];
-  if (!state.email) errors.push({ path: 'email', message: 'Email is required' });
-  if (!state.password) errors.push({ path: 'password', message: 'Password is required' });
+const errors: any = [];
+  
+  fields.forEach(field => {
+    if (field.required && !state[field.name]) {
+      errors.push({ path: field.name, message: `${field.label} est requis` });
+    }
+  });
+
   return errors;
 };
 
-const loggedInAs = ref('Guest'); 
-
-const updateLoggedInAs = () => {
-  loggedInAs.value = localStorage.getItem('loggedInAs') || 'Guest';
-  console.log("🚀 ~ loggedInAs:", loggedInAs.value); // Pour débogage
-};
-
 async function onSubmit(data: any) {
-  const prenom = data.firstname;
-  const nom = data.lastname;
-  const e_mail = data.email;
-  const mot_de_passe = data.password;
-  const router = useRouter();
+  const nom = data.name;
+  const age = data.age;
+  const poids = data.weight;
+  const genre = data.gender; 
+  
   try {
-    const res = await $fetch('http://localhost:2000/api/v1/utilisateurs', {
+    const res = await $fetch('http://localhost:2000/api/v1/canards', {
       method: 'POST',
       body: {
         "nom": nom,
-        "prenom": prenom,
-        "e_mail": e_mail,
-        "mot_de_passe": mot_de_passe
+        "age": age,
+        "genre": genre,
+        "poids": poids
       }
     });
     errorMessage.value = ''; 
-
-    localStorage.setItem('loggedInAs', 'User');
-    updateLoggedInAs(); 
-
-    await router.push('/');
+    successMessage.value = `${nom} a été créé(e) avec succès !`; 
 
   } catch (error) {
-    // console.error('Error:', error);
+    successMessage.value = ''; 
     errorMessage.value = 'Une erreur est survenue lors de la création de votre compte.'; 
   }
 }
@@ -81,7 +88,7 @@ async function onSubmit(data: any) {
       <UAuthForm
         :fields="fields"
         :validate="validate"
-        title="Bienvenue"
+        title="Ajouter un canard"
         align="top"
         :ui="{ base: 'text-center', footer: 'text-center' }"
         @submit="onSubmit"
@@ -91,18 +98,28 @@ async function onSubmit(data: any) {
         <img :src="logo" alt="Logo" class="h-30 w-30 object-contain mx-auto" /> 
       </template>
         <template #description>
-          Vous avez déjà un compte ? <NuxtLink to="/login" class="text-primary font-medium">Connexion</NuxtLink>.
+          Présentez-nous votre compagnon.
         </template>
 
         <template #validation>
           <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" title="Problème lors de la création du compte">
             {{ errorMessage }}
           </UAlert>
+          <UAlert v-if="successMessage" color="green" icon="i-heroicons-check-circle-20-solid" title="Canard créé avec succès">
+            {{ successMessage }}
+          </UAlert>
         </template>
 
-        <template #footer>
-          En vous inscrivant, vous acceptez nos <NuxtLink to="/" class="text-primary font-medium">Condiditions d'utilisation</NuxtLink>.
-        </template>
+
+        <div>
+          <label class="font-bold">{{ fields[2].label }}</label>
+          <select v-model="selectedGender" name="gender">
+            <option disabled value="">Sélectionnez un genre</option>
+            <option v-for="option in fields[2].options" :key="option.value" :value="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
       </UAuthForm>
     </UCard>
   </div>
