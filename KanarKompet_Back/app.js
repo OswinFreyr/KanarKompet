@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const { db } = require("./models/db");
 
-const cors = require("cors");
-
 const adminRouter = require("./routes/adminRoute");
 const canardRouter = require("./routes/canardRoute");
 const commentaireCanardRouter = require("./routes/commentaireCanardRoute");
@@ -17,7 +15,7 @@ const PORT = 2000;
 
 app.use(cors({
     origin: 'http://localhost:3000', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
     allowedHeaders: ['Content-Type'],
 }));
 
