@@ -27,14 +27,14 @@ app.use(cors({
 //     next();
 // });
 
-/*app.use(function(req,res,next) {
+app.use(function(req,res,next) {
     console.log(req.headers);
     next();
-})*/
+})
 
 app.use(express.json({limit: "2mb"}));
 
-app.use("api/v1/login", authRouter);
+app.use("/api/v1/login", authRouter);
 
 app.use("/api/v1/admins", jwtMiddleware.jwtMiddleware, adminRouter);
 app.use("/api/v1/canards", jwtMiddleware.jwtMiddleware, canardRouter);
