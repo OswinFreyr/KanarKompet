@@ -1,78 +1,118 @@
+<script setup lang="ts">
+import { ref } from 'vue'; 
+import logo from '@/assets/logo-transparent-png.png';
+
+const fields = ref([
+  {
+    name: 'title',
+    type: 'text',
+    label: 'Titre',
+    placeholder: 'Super Kompetition'
+  },
+  {
+    name: 'description',
+    type: 'text',
+    label: 'Description',
+    placeholder: 'Une compétition à vous tenir en haleine.'
+  },
+  {
+    name: 'address',
+    type: 'text',
+    label: 'Adresse',
+    placeholder: '4 rue des Canards, 33000 Bordeaux'
+  },
+  {
+    name: 'date',
+    label: 'Date',
+    type: 'date',
+    placeholder: 'Sélectionner une date'
+  },
+  {
+    name: 'hour',
+    label: 'Heure',
+    type: 'time',
+    placeholder: 'Sélectionner une heure'
+  },
+  {
+    name: 'trophee',
+    label: 'Récompense',
+    type: 'text',
+    placeholder: 'Une récompense incroyable'
+  },
+  {
+    name: 'max_participants',
+    label: 'Maximum participants',
+    type: 'number',
+    min: 2,
+    placeholder: '1'
+  },
+]);
+
+const errorMessage = ref('');
+
+async function onSubmit(data: any) {
+  const titre = data.title;
+  const description = data.description;
+  const lieu = data.address;
+  const date = data.date;
+  const horaire = data.hour;
+  const recompense = data.trophee;
+  const max_participants = data.max_participants;
+
+  try {
+    const res = await $fetch('http://localhost:2000/api/v1/competitions', {
+      method: 'POST',
+      body: {
+        "titre": titre,
+        "description": description,
+        "lieu": lieu,
+        "date": date,
+        "horaire": horaire,
+        "recompense": recompense,
+        "max_participants": max_participants,
+      }
+    });
+
+
+    errorMessage.value = ''; 
+
+  } catch (error) {
+    errorMessage.value = 'Une erreur est survenue lors de la création de la compétition.'; 
+  }
+}
+</script>
+
 <template>
-    <div>
-      <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 mt-10 mb-10">
-        <h2 class="text-2xl font-bold text-center mb-2">Ajouter un événement</h2>
-        <hr class="border-gray-300 mb-6">
-            <form>        
-          <div class="flex items-center mb-4">
-            <label for="titre" class="w-32 text-gray-700">Titre :</label>
-            <input
-              type="text"
-              id="titre"
-              name="titre"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-            />
-          </div>
-  
-          <div class="flex items-center mb-4">
-            <label for="description" class="w-32 text-gray-700">Description :</label>
-            <textarea
-              id="description"
-              name="description"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-            ></textarea>
-          </div>
-  
-          <div class="flex items-center mb-4">
-            <label for="adresse" class="w-32 text-gray-700">Adresse :</label>
-            <input
-              type="text"
-              id="adresse"
-              name="adresse"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-            />
-          </div>
-  
-          <div class="flex items-center mb-4">
-            <label for="date" class="w-32 text-gray-700">Date :</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-            />
-          </div>
-  
-          <div class="flex items-center mb-4">
-            <label for="heure" class="w-32 text-gray-700">Heure :</label>
-            <input
-              type="time"
-              id="heure"
-              name="heure"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-            />
-          </div>
-          <div class="flex items-center mb-4">
-            <label for="titre" class="w-32 text-gray-700">Prix :</label>
-            <input
-              type="text"
-              id="prix"
-              name="prix"
-              class="border border-gray-300 rounded-lg p-2 w-full"
-              placeholder="en euros"
-            />
-          </div>
-  
-          <div class="text-center">
-            <button
-              type="submit"
-              class="bg-green-400  py-2 px-4 rounded-lg hover:bg-green-700"
-            >
-              Valider
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </template>
-  
+  <div class="flex items-center justify-center min-h-screen">
+    <UCard class="max-w-sm w-full shadow-lg rounded-lg">
+      <UAuthForm
+        :fields="fields"
+        title="Ajouter une compétition"
+        align="top"
+        :ui="{ base: 'text-center', footer: 'text-center' }"
+        @submit="onSubmit"
+      >
+        <template #icon>
+          <img :src="logo" alt="Logo" class="h-30 w-30 object-contain mx-auto" /> 
+        </template>
+        <template #description>
+          Faites vibrer les foules.
+        </template>
+        <template #validation>
+          <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" title="Problème lors de la création du compte">
+            {{ errorMessage }}
+          </UAlert>
+        </template>
+      </UAuthForm>
+    </UCard>
+  </div>
+</template>
+
+<style scoped>
+.shadow-lg {
+  box-shadow: 0 4px 30px rgba(156, 155, 155, 0.6);
+}
+.shadow-lg:hover {
+  box-shadow: 0 4px 30px #4ade80;
+}
+</style>
