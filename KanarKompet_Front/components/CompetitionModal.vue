@@ -67,7 +67,7 @@ async function onSubmit() {
     </button>
 
     <dialog :id="`${competition.id}modal`" class="modal flex justify-center">
-      <div class="modal-box bg-white">
+      <div class="modal-box dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
         <div class="">
           <img
             src="https://picsum.photos/500/200"
@@ -75,18 +75,19 @@ async function onSubmit() {
             alt="Duck photo"
           />
           <br>
-          <div class="ml-5 w-full text-black">
-            <h3 class="text-lg font-bold">{{ competition.titre }}</h3>
+          <div class="ml-5 w-full">
+            <h3 class=" font-bold text-white text-4xl">{{ competition.titre }}</h3>
+            <br>
             <div class="text-start">
-              <p>
+              <p class="text-white text-xl">
                 {{ competition.description }}
               </p>
               <br>
               <p>
-                <span class="font-bold">Lieu :</span> {{ competition.lieu }}
+                <span class="font-bold text-white">Lieu :</span> {{ competition.lieu }}
               </p>
               <p>
-                <span class="font-bold">Date :</span>
+                <span class="font-bold text-white">Date :</span>
                 {{
                   new Date(competition.date).toLocaleDateString("fr-FR", {
                     day: "2-digit",
@@ -96,18 +97,18 @@ async function onSubmit() {
                 }}
               </p>
               <p>
-                <span class="font-bold"
-                  >Heure de début (Accueil des participants jusqu'à 20 minutes
-                  avant le départ) :</span
+                <span class="font-bold text-white"
+                  >Heure de début > :</span
                 >
                 {{ competition.horaire }}
               </p>
+              <p><span class="font-thin italic">(Arrivez 20 minutes avant)</span></p>
               <p>
-                <span class="font-bold">Nombre de participants :</span>
+                <span class="font-bold text-white">Nombre de participants :</span>
                 {{ competition.max_participants }}
               </p>
               <p>
-                <span class="font-bold">Cash Prize :</span>
+                <span class="font-bold text-white">Cash Prize :</span>
                 {{ competition.recompense || 0 }}
               </p>
             </div>
@@ -123,24 +124,23 @@ async function onSubmit() {
         <div
           v-for="commentaire in competition.commentaireCompetitions"
           :key="id"
-          class="text-black"
         >
           <!-- <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p> -->
           <p>{{ commentaire.commentaire }}</p>
           <br />
         </div>
-        <div class="mt-4 text-black">
-          <h4 class="font-bold text-lg mb-2">Laisser un commentaire :</h4>
+        <div class="mt-4">
+          <h4 class="font-bold text-lg mb-2 text-white">Laisser un commentaire :</h4>
           <form @submit.prevent="onSubmit">
             <textarea
               v-model="commentText"
               placeholder="Laisser votre commentaire ici..."
-              class="textarea textarea-bordered w-full"
+              class="textarea textarea-bordered w-full text-white"
               rows="3"
               required
             ></textarea>
             <button
-              class="btn bg-green-400 hover:bg-green-800 hover:text-white border-none btn-neutral mt-2"
+              class="btn text-black bg-green-400 hover:bg-green-800 hover:text-white border-none btn-neutral mt-2"
               type="submit"
             >
               Envoyer
