@@ -109,7 +109,8 @@ onUnmounted(() => {
           </div>
           <ul
             tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow bg-white"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            style="background-color: #111828;"
           >
             <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-inscriptions"><a>Mes inscriptions</a></NuxtLink></li>
             <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-canards"><a>Mes canards</a></NuxtLink></li>

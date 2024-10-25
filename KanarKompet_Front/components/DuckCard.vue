@@ -25,7 +25,9 @@
 
           <p class="font-normal text-gray-700 dark:text-gray-400 text-base">
             <span class="text-white font-semibold">Race :</span> {{ canard.race ? canard.race.nom : "Non Renseignée" }} <br />
+
             <span class="text-white font-semibold">Dresseur :</span> {{ canard.utilisateur ? canard.utilisateur.prenom : "Non renseigné"}} {{ canard.utilisateur ? canard.utilisateur.nom : ""}}
+
           </p>
         </div>
 
