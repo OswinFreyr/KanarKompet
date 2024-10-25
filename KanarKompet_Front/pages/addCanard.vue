@@ -1,10 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue' 
 import logo from '@/assets/logo-transparent-png.png';
 
-const races = await useFetch("http://localhost:2000/api/v1/races")
+interface Race {
+  id: number; 
+  nom: string; 
+}
 
-const fields = [
+const { data: races } = await useFetch<Race[]>("http://localhost:2000/api/v1/races");
+
+interface Field {
+  name: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  required: boolean;
+  min?: number;
+  step?: number;
+  options?: Array<{ label: string; value: any }>;
+}
+
+const fields: Field[] = [
   {
     name: 'name',
     type: 'text',
@@ -37,15 +52,30 @@ const fields = [
     type: 'number',
     placeholder: '4.6',
     step: 0.1,
+    min: 1,
+    required: true 
+  },
+  {
+    name: 'race',
+    label: 'Race',
+    placeholder: 'Sélectionner une race',
+    type: 'select',
+    options: [
+      { label: 'Inconnue', value: null }, 
+      ...races.value.map((race: Race) => ({
+        label: race.nom, 
+        value: race.id
+      }))
+    ],
     required: true 
   }
 ];
 
-const errorMessage = ref(''); 
-const successMessage = ref('');
-const selectedGender = ref<string | null>(null); 
-const validate = (state: any) => {
-const errors: any = [];
+const errorMessage = ref<string>(''); 
+const successMessage = ref<string>('');
+
+const validate = (state: Record<string, any>) => {
+  const errors: Array<{ path: string; message: string }> = [];
   
   fields.forEach(field => {
     if (field.required && !state[field.name]) {
@@ -56,31 +86,52 @@ const errors: any = [];
   return errors;
 };
 
-async function onSubmit(data: any) {
+interface FormData {
+  name: string;
+  age: number;
+  gender: { value: string };
+  weight: number;
+  race: { value: any };
+}
+
+interface CanardResponse {
+  id: number; 
+}
+
+async function onSubmit(data: FormData) {
   const nom = data.name;
   const age = data.age;
+  const genre = data.gender.value; 
   const poids = data.weight;
-  const genre = data.gender; 
-  
+  const race = data.race.value; 
+
   try {
-    const res = await $fetch('http://localhost:2000/api/v1/canards', {
+    const resCanard = await $fetch<CanardResponse>('http://localhost:2000/api/v1/canards', {
       method: 'POST',
       body: {
         "nom": nom,
         "age": age,
         "genre": genre,
-        "poids": poids
+        "poids": poids,
       }
     });
+
+    if (races.value){ 
+      const idCanard = resCanard.id; 
+      await $fetch(`http://localhost:2000/api/v1/races/raceCanard/${race}/${idCanard}`);
+    }
+    
     errorMessage.value = ''; 
-    successMessage.value = `${nom} a été créé(e) avec succès !`; 
+    successMessage.value = `${nom} a été ajouté(e) avec succès !`; 
 
   } catch (error) {
     successMessage.value = ''; 
-    errorMessage.value = 'Une erreur est survenue lors de la création de votre compte.'; 
+    errorMessage.value = `Une erreur est survenue lors de l'ajout de ${nom}.`; 
   }
 }
 </script>
+
+
 
 <template>
   <div class="flex items-center justify-center min-h-screen">
@@ -102,7 +153,7 @@ async function onSubmit(data: any) {
         </template>
 
         <template #validation>
-          <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" title="Problème lors de la création du compte">
+          <UAlert v-if="errorMessage" color="red" icon="i-heroicons-information-circle-20-solid" >
             {{ errorMessage }}
           </UAlert>
           <UAlert v-if="successMessage" color="green" icon="i-heroicons-check-circle-20-solid" title="Canard créé avec succès">
@@ -110,12 +161,21 @@ async function onSubmit(data: any) {
           </UAlert>
         </template>
 
-
         <div>
-          <label class="font-bold">{{ fields[2].label }}</label>
-          <select v-model="selectedGender" name="gender">
+          <label class="font-bold">{{ fields[2].label }} <span class="text-red-500">*</span></label>
+          <select v-model="formData.gender" name="gender" required>
             <option disabled value="">Sélectionnez un genre</option>
             <option v-for="option in fields[2].options" :key="option.value" :value="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold">{{ fields[4].label }} <span class="text-red-500">*</span></label>
+          <select v-model="formData.race" name="race" required>
+            <option disabled value="">Sélectionnez une race</option>
+            <option v-for="option in fields[4].options" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
           </select>
@@ -125,8 +185,15 @@ async function onSubmit(data: any) {
   </div>
 </template>
 
+
 <style scoped>
-.shadow-lg {
-  box-shadow: 0 4px 30px rgba(156, 155, 155, 0.6);
-}
+
+  .shadow-lg {
+    box-shadow: 0 4px 30px rgba(156, 155, 155, 0.6);
+  }
+
+  .shadow-lg:hover {
+    box-shadow: 0 4px 30px #4ade80 ;
+  }
+
 </style>
