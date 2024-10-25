@@ -47,8 +47,7 @@ async function onSubmit(data: LoginData): Promise<void> {
   const mot_de_passe = data.password;
 
   try {
-    // Request to verify the user
-    const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
+    const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/utilisateur', {
       method: 'POST',
       body: {
         "e_mail": e_mail,
@@ -57,12 +56,11 @@ async function onSubmit(data: LoginData): Promise<void> {
     });
 
     if (dataUser.token) {
-      localStorage.setItem('access_token', dataUser.token); // Store access token
-      await router.push('/'); // Redirect to home
-      console.log(dataUser.token)
-    } else {
-      // If user login fails, request admin login
-      const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/admins/login', {
+      localStorage.setItem('access_token', dataUser.token); 
+      await router.push('/');
+    } 
+    else {
+      const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/admin', {
         method: 'POST',
         body: {
           "e_mail": e_mail,
@@ -70,16 +68,18 @@ async function onSubmit(data: LoginData): Promise<void> {
         }
       });
 
-      if (dataAdmin.login) {
-        localStorage.setItem('loggedInAs', 'Admin'); // Update local storage
-        await router.push('/'); // Redirect to home
-      } else {
-        errorMessage.value = 'Email ou mot de passe incorrect.'; // User feedback
+      if (dataAdmin.token) {
+        localStorage.setItem('access_token', dataAdmin.token); 
+        await router.push('/');
+      } 
+      else {
+        errorMessage.value = 'Email ou mot de passe incorrect.'; 
       }
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error:', error);
-    errorMessage.value = 'Une erreur est survenue lors de la connexion.'; // Error handling
+    errorMessage.value = 'Une erreur est survenue lors de la connexion.'; 
   }
 }
 
