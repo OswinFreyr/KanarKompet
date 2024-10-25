@@ -35,17 +35,19 @@ interface LoginData {
 }
 
 interface ApiResponse {
-  login: boolean;
+  token?: string;
 }
 
 const router = useRouter(); 
+
+// const accessToken = localStorage.getItem('access_token');
 
 async function onSubmit(data: LoginData): Promise<void> {
   const e_mail = data.email;
   const mot_de_passe = data.password;
 
   try {
-    // Requête pour verifier l'utilisateur
+    // Request to verify the user
     const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
       method: 'POST',
       body: {
@@ -54,11 +56,12 @@ async function onSubmit(data: LoginData): Promise<void> {
       }
     });
 
-    if (dataUser.login) {
-      localStorage.setItem('loggedInAs', 'User'); // maj local storage
-      await router.push('/'); // redirection home
+    if (dataUser.token) {
+      localStorage.setItem('access_token', dataUser.token); // Store access token
+      await router.push('/'); // Redirect to home
+      console.log(dataUser.token)
     } else {
-      // Requête pour l'admin si la connexion utilisateur échoue
+      // If user login fails, request admin login
       const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/admins/login', {
         method: 'POST',
         body: {
@@ -68,17 +71,18 @@ async function onSubmit(data: LoginData): Promise<void> {
       });
 
       if (dataAdmin.login) {
-        localStorage.setItem('loggedInAs', 'Admin'); // maj local storage
-        await router.push('/'); 
+        localStorage.setItem('loggedInAs', 'Admin'); // Update local storage
+        await router.push('/'); // Redirect to home
       } else {
-        errorMessage.value = 'Email ou mot de passe incorrect.';
+        errorMessage.value = 'Email ou mot de passe incorrect.'; // User feedback
       }
     }
   } catch (error) {
     console.error('Error:', error);
-    errorMessage.value = 'Une erreur est survenue lors de la connexion.';
+    errorMessage.value = 'Une erreur est survenue lors de la connexion.'; // Error handling
   }
 }
+
 </script>
 
 
