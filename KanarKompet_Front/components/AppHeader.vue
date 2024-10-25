@@ -1,21 +1,32 @@
-<script setup lang="ts">
+<script setup >
 import { ref, onMounted, onUnmounted } from 'vue'; 
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const loggedInAs = ref('Guest'); 
+const { dataUser } = ref({})
+const { dataAdmin } = ref({})
+if(process.client){
+  dataUser.value = await useFetch(`http://localhost:2000/api/v1/utilisateurs/${localStorage.getItem('currentUserId')}`);
+  dataAdmin.value = await useFetch(`http://localhost:2000/api/v1/admins/${localStorage.getItem('currentUserId')}`)
+}
 
 const updateLoggedInAs = () => {
-  loggedInAs.value = localStorage.getItem('loggedInAs') || 'Guest';
+  if(localStorage.getItem('currentUserMail') === dataUser.value.e_mail){
+    loggedInAs.value = "User";
+  } else if (localStorage.getItem('currentUserMail') === dataAdmin.value.e_mail){
+    loggedInAs.value = "Admin";
+  } else {
+    loggedInAs.value = "Guest";
+  }
 };
 
 const logout = () => {
-  localStorage.setItem('loggedInAs', 'Guest'); 
-  updateLoggedInAs(); // Met à jour l'état après la déconnexion
+  loggedInAs.value = "Guest";
   router.push('/login'); 
 };
 
-const storageEventListener = (event: any) => {
+const storageEventListener = (event) => {
   if (event.key === 'loggedInAs') {
     updateLoggedInAs();
   }
@@ -82,10 +93,10 @@ onUnmounted(() => {
         </NuxtLink>       
 
         <NuxtLink
-          v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" to="/addEvenement"
+          v-show="loggedInAs == 'Admin'" to="/addEvenement"
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
           >
-          AJouter un événement
+          Ajouter un événement
         </NuxtLink>
       </div>
       <div>
