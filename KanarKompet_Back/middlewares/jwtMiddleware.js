@@ -2,10 +2,10 @@
 const jwt = require('jsonwebtoken');
 
 // Secret key for signing tokens
-const SECRET_KEY = 'your_secret_key';
+const SECRET_KEY = process.env.JWT_KEY;
 
 exports.jwtMiddleware = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Authorization header
+  const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
