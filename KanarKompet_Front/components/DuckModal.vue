@@ -102,12 +102,12 @@
             </div>
           </div>
         </div>
-        <div v-for="commentaire in canard.commentaireCanards" :key="id">
+        <div v-for="commentaire in canard.commentaireCanards" :key="id" class="text-black">
           <!-- <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p> -->
           <p>{{ commentaire.commentaire }}</p>
           <br>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 text-black">
           <h4 class="font-bold text-lg mb-2">Laisser un commentaire pour {{ canard.nom }}:</h4>
           <form @submit.prevent="onSubmit">
             <textarea
