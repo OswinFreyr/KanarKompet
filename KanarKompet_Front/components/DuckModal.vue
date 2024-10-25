@@ -31,9 +31,9 @@
       method: 'POST',
   });
 
-  const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
-      method: 'POST',
-  });
+  // const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
+  //     method: 'POST',
+  // });
     errorMessage.value = ''; 
   } catch (error) {
     // console.error('Error:', error);

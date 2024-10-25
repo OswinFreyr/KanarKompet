@@ -35,9 +35,9 @@ async function onSubmit() {
       }
     );
 
-    const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
-      method: 'POST',
-  });
+  //   const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
+  //     method: 'POST',
+  // });
 
     errorMessage.value = "";
   } catch (error) {
@@ -47,31 +47,31 @@ async function onSubmit() {
   }
 
 
-  let userCanards = []
+  // let userCanards = []
 
-  dataCanard.forEach(canard => {
+  // dataCanard.forEach(canard => {
 
-    if(canard.utilisateur.id == localStorage.getItem("current_user_id")) {
-      userCanards.push(canard)
-    }
+  //   if(canard.utilisateur.id == localStorage.getItem("current_user_id")) {
+  //     userCanards.push(canard)
+  //   }
     
-  });
+  // });
 
-  console.log(userCanard);
+  // console.log(userCanard);
 
-  const userCanard = ref(userCanards[0])
+  // const userCanard = ref(userCanards[0])
 
 
-  async function inscrireCanard(){
-    const choosenCanard = userCanard.value
+  // async function inscrireCanard(){
+  //   const choosenCanard = userCanard.value
 
-    const res = await $fetch(
-      `http://localhost:2000/api/v1/competitions/competitionCanard/${props.competition.id}/${choosenCanard.id}`,
-      {
-        method: "POST",
-      }
-    );
-  }
+  //   const res = await $fetch(
+  //     `http://localhost:2000/api/v1/competitions/competitionCanard/${props.competition.id}/${choosenCanard.id}`,
+  //     {
+  //       method: "POST",
+  //     }
+  //   );
+  // }
 
   
 
