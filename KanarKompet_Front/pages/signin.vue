@@ -112,4 +112,7 @@ async function onSubmit(data: any) {
 .shadow-lg {
   box-shadow: 0 4px 30px rgba(156, 155, 155, 0.6);
 }
+.shadow-lg:hover {
+    box-shadow: 0 4px 30px #4ade80 ;
+  }
 </style>

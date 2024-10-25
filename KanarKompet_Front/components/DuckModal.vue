@@ -84,7 +84,8 @@
               <p><span class="font-bold">Race :</span> {{ canard.race ? canard.race.nom : "Non renseignée" }}</p>
               <p>
                 <span class="font-bold">Dresseur :</span>
-                {{ canard.utilisateur? canard.utilisateur.prenom : "Non renseigné"  }} {{ canard.utilisateur? canard.utilisateur.nom : "" }}
+                {{ canard.utilisateur ? canard.utilisateur.prenom : "Non renseigné"}} {{ canard.utilisateur ? canard.utilisateur.nom : ""}}
+
               </p>
               <p>
                 <span class="font-bold">Participations :</span>
