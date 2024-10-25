@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const { db } = require("./models/db");
-const jwt = require("./middlewares/jwtMiddleware");
+const jwtMiddleware = require('./middlewares/jwtMiddleware');
+
+const authRouter = require("./routes/authRoute");
 
 const adminRouter = require("./routes/adminRoute");
 const canardRouter = require("./routes/canardRoute");
@@ -26,24 +28,22 @@ app.use(cors({
 //     next();
 // });
 
-app.use(function(req,res,next) {
-    req.header("Authorization")
-    console.log("Headers", req.headers);
+/*app.use(function(req,res,next) {
+    console.log(req.headers);
     next();
-
-})
-
-// app.use(jwt.jwtMiddleware(req, res, next));
+})*/
 
 app.use(express.json({limit: "2mb"}));
 
-app.use("/api/v1/admins", adminRouter);
-app.use("/api/v1/canards", canardRouter);
-app.use("/api/v1/commentairesCanard", commentaireCanardRouter);
-app.use("/api/v1/commentairesCompetition", commentaireCompetitionRouter);
-app.use("/api/v1/competitions", competitionRouter);
-app.use("/api/v1/races", raceRouter);
-app.use("/api/v1/utilisateurs", utilisateurRouter);
+app.use("api/v1/login", authRouter);
+
+app.use("/api/v1/admins", jwtMiddleware.jwtMiddleware, adminRouter);
+app.use("/api/v1/canards", jwtMiddleware.jwtMiddleware, canardRouter);
+app.use("/api/v1/commentairesCanard", jwtMiddleware.jwtMiddleware, commentaireCanardRouter);
+app.use("/api/v1/commentairesCompetition", jwtMiddleware.jwtMiddleware, commentaireCompetitionRouter);
+app.use("/api/v1/competitions", jwtMiddleware.jwtMiddleware, competitionRouter);
+app.use("/api/v1/races", jwtMiddleware.jwtMiddleware, raceRouter);
+app.use("/api/v1/utilisateurs", jwtMiddleware.jwtMiddleware, utilisateurRouter);
 
 db.sync(/*{force : true}*/)
     .then(async () => {
