@@ -40,6 +40,17 @@ interface ApiResponse {
 
 const router = useRouter(); 
 
+
+const parseJwt = function(token: any) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+      }
+
 // const accessToken = localStorage.getItem('access_token');
 
 async function onSubmit(data: LoginData): Promise<void> {
@@ -56,9 +67,13 @@ async function onSubmit(data: LoginData): Promise<void> {
     });
 
     if (dataUser.token) {
+
       localStorage.setItem('access_token', dataUser.token); 
+      const current_user_id = parseJwt(dataUser.token);
+      localStorage.setItem('current_user_id', current_user_id.id);
       await router.push('/');
-    } 
+    }
+
     else {
       const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/admin', {
         method: 'POST',
@@ -70,6 +85,8 @@ async function onSubmit(data: LoginData): Promise<void> {
 
       if (dataAdmin.token) {
         localStorage.setItem('access_token', dataAdmin.token); 
+        const current_user_id = parseJwt(dataUser.token);
+        localStorage.setItem('current_user_id', current_user_id.id);
         await router.push('/');
       } 
       else {
