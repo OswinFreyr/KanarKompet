@@ -2,6 +2,7 @@
 import { ref } from "vue";
 
 const { data } = await useFetch("http://localhost:2000/api/v1/utilisateurs");
+const { dataCanard } = await useFetch("http://localhost:2000/api/v1/canards")
 
 const commentText = ref("");
 const errorMessage = ref("");
@@ -33,12 +34,47 @@ async function onSubmit() {
         method: "POST",
       }
     );
+
+    const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
+      method: 'POST',
+  });
+
     errorMessage.value = "";
   } catch (error) {
     // console.error('Error:', error);
     errorMessage.value =
       "Une erreur est survenue lors de la publication de votre commentaire.";
   }
+
+
+  let userCanards = []
+
+  dataCanard.forEach(canard => {
+
+    if(canard.utilisateur.id == localStorage.getItem("current_user_id")) {
+      userCanards.push(canard)
+    }
+    
+  });
+
+  console.log(userCanard);
+
+  const userCanard = ref(userCanards[0])
+
+
+  async function inscrireCanard(){
+    const choosenCanard = userCanard.value
+
+    const res = await $fetch(
+      `http://localhost:2000/api/v1/competitions/competitionCanard/${props.competition.id}/${choosenCanard.id}`,
+      {
+        method: "POST",
+      }
+    );
+  }
+
+  
+
 }
 </script>
 
@@ -118,6 +154,19 @@ async function onSubmit() {
               </form>
             </div>
           </div>
+        </div>
+        <br>
+        <hr>
+        <div>
+          <form @submit.prevent="inscrireCanard">
+            <USelect v-model="userCanard" :options="userCanards" />
+            <button
+              class="btn text-black bg-green-400 hover:bg-green-800 hover:text-white border-none btn-neutral mt-2"
+              type="submit"
+            >
+            Inscrire
+          </button>
+          </form>
         </div>
         <br>
         <hr>
