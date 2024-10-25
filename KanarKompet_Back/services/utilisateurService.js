@@ -1,5 +1,6 @@
 const { Utilisateur, Canard, CommentaireCanard, CommentaireCompetition } = require('../models/associations.js');
 const bcrypt = require('bcrypt');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
 async function createUtilisateur(utilisateur) {
     const saltRounds = 5; 
@@ -209,10 +210,11 @@ async function loginUtilisateur(utilisateurData) {
     const verif = await verifyPassword(utilisateurData.mot_de_passe, utilisateur.mot_de_passe)
 
     if (verif) {
-        return {login: true}
+        const token = jwtMiddleware.generateToken(user);
+        return {token: token}
     }
     else {
-        return {login: false}
+        return null
     }
 }
 

@@ -11,7 +11,7 @@ router.post("/", utilisateurController.createUtilisateur);
 router.post("/utilisateurCanard/:idUtilisateur/:idCanard", utilisateurController.addCanardToUtilisateur);
 router.post("/utilisateurCommentaireCompetition/:idUtilisateur/:idCommentaireCompetition", utilisateurController.addCommentaireCompetitionToUtilisateur);
 router.post("/utilisateurCommentaireCanard/:idUtilisateur/:idCommentaireCanard", utilisateurController.addCommentaireCanardToUtilisateur);
-router.post("/login", utilisateurController.loginUtilisateur);
+// router.post("/login", utilisateurController.loginUtilisateur);
 
 router.patch("/update/:idUtilisateur", utilisateurController.updateUtilisateur);
 
