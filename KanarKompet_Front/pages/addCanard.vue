@@ -100,9 +100,6 @@ async function onSubmit(data: any) {
           </UAlert>
         </template>
 
-        <template #footer>
-          En vous inscrivant, vous acceptez nos <NuxtLink to="/" class="text-primary font-medium">Condiditions d'utilisation</NuxtLink>.
-        </template>
       </UAuthForm>
     </UCard>
   </div>
