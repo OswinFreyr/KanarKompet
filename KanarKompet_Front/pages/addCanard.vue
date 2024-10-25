@@ -115,11 +115,16 @@ async function onSubmit(data: FormData) {
         "poids": poids,
       }
     });
+    const idCanard = resCanard.id;
+    await $fetch(`http://localhost:2000/api/v1/races/raceCanard/1/${idCanard}`, {
+      method: 'POST',
+    });
 
-    if (races.value){ 
-      const idCanard = resCanard.id; 
-      await $fetch(`http://localhost:2000/api/v1/races/raceCanard/${race}/${idCanard}`);
-    }
+    await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCanard/2/${idCanard}`, {
+      method: 'POST',
+    });
+
+    
     
     errorMessage.value = ''; 
     successMessage.value = `${nom} a été ajouté(e) avec succès !`; 

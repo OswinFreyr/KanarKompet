@@ -56,6 +56,8 @@ const parseJwt = function(token: any) {
 async function onSubmit(data: LoginData): Promise<void> {
   const e_mail = data.email;
   const mot_de_passe = data.password;
+  localStorage.setItem('loggedInAs', "User");
+  console.log(localStorage.getItem('loggedInAs'));
 
   try {
     const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/utilisateur', {

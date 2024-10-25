@@ -1,6 +1,13 @@
 <script setup>
+
+  import { ref, computed } from 'vue';
+
   const { data } = await useFetch("http://localhost:2000/api/v1/canards")
-  currentUserId = localStorage.getItem("current_user_id")
+  let currentUserId = ref(2)
+
+  const userDucks = computed(() => 
+  data.value ? data.value.filter(canard => canard.utilisateur && canard.utilisateur.id === currentUserId.value) : []
+);
 </script>
 
 <template>
@@ -26,8 +33,9 @@
 
   <!-- affichege des cartes canards -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-y-10 justify-items-center my-5">
-    <div v-for="canard in data" :key="canard.id">
-      <DuckCard :canard="canard" v-if="canard.utilisateur.id == currentUserId" />
+    <div v-for="canard in userDucks" :key="canard.id">
+      <DuckCard :canard="canard" 
+      />
     </div>
   </div>
 </template>

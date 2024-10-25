@@ -35,9 +35,9 @@ async function onSubmit() {
       }
     );
 
-  //   const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
-  //     method: 'POST',
-  // });
+    const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/2/${resCom.id}`, {
+      method: 'POST',
+  });
 
     errorMessage.value = "";
   } catch (error) {
@@ -47,31 +47,31 @@ async function onSubmit() {
   }
 
 
-  // let userCanards = []
+  let userCanards = []
 
-  // dataCanard.forEach(canard => {
+  dataCanard.forEach(canard => {
 
-  //   if(canard.utilisateur.id == localStorage.getItem("current_user_id")) {
-  //     userCanards.push(canard)
-  //   }
+    if(canard.utilisateur.id == 2) {
+      userCanards.push(canard)
+    }
     
-  // });
+  });
 
-  // console.log(userCanard);
+  console.log(userCanard);
 
-  // const userCanard = ref(userCanards[0])
+  const userCanard = ref(userCanards[0])
 
 
-  // async function inscrireCanard(){
-  //   const choosenCanard = userCanard.value
+  async function inscrireCanard(){
+    const choosenCanard = userCanard.value
 
-  //   const res = await $fetch(
-  //     `http://localhost:2000/api/v1/competitions/competitionCanard/${props.competition.id}/${choosenCanard.id}`,
-  //     {
-  //       method: "POST",
-  //     }
-  //   );
-  // }
+    const res = await $fetch(
+      `http://localhost:2000/api/v1/competitions/competitionCanard/${props.competition.id}/${choosenCanard.id}`,
+      {
+        method: "POST",
+      }
+    );
+  }
 
   
 
@@ -134,7 +134,7 @@ async function onSubmit() {
               </p>
               <p>
                 <span class="font-bold text-white"
-                  >Heure de début > :</span
+                  >Heure de début :</span
                 >
                 {{ competition.horaire }}
               </p>
@@ -157,7 +157,7 @@ async function onSubmit() {
         </div>
         <br>
         <hr>
-        <div>
+        <!-- <div>
           <form @submit.prevent="inscrireCanard">
             <USelect v-model="userCanard" :options="userCanards" />
             <button
@@ -169,10 +169,11 @@ async function onSubmit() {
           </form>
         </div>
         <br>
-        <hr>
+        <hr> -->
         <div
           v-for="commentaire in competition.commentaireCompetitions"
           :key="id"
+          class="mt-3"
         >
           <!-- <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p> -->
           <p>{{ commentaire.commentaire }}</p>

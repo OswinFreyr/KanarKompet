@@ -31,9 +31,9 @@
       method: 'POST',
   });
 
-  // const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/${localStorage.getItem("current_user_id")}/${resCom.id}`, {
-  //     method: 'POST',
-  // });
+  const resUser = await $fetch(`http://localhost:2000/api/v1/utilisateurs/utilisateurCommentaireCanard/2/${resCom.id}`, {
+      method: 'POST',
+  });
     errorMessage.value = ''; 
   } catch (error) {
     // console.error('Error:', error);
@@ -106,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div v-for="commentaire in canard.commentaireCanards" :key="id" class="text-black">
+        <div v-for="commentaire in canard.commentaireCanards" :key="id" class="text-white">
           <p class="font-bold">{{ data[commentaire.utilisateurId -1].prenom }} {{ data[commentaire.utilisateurId -1].nom }} -</p>
           <p>{{ commentaire.commentaire }}</p>
           <br>
