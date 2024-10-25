@@ -35,18 +35,30 @@ interface LoginData {
 }
 
 interface ApiResponse {
-  login: boolean;
+  token?: string;
 }
 
 const router = useRouter(); 
+
+
+const parseJwt = function(token: any) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+      }
+
+// const accessToken = localStorage.getItem('access_token');
 
 async function onSubmit(data: LoginData): Promise<void> {
   const e_mail = data.email;
   const mot_de_passe = data.password;
 
   try {
-    // Requête pour verifier l'utilisateur
-    const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/utilisateurs/login', {
+    const dataUser: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/utilisateur', {
       method: 'POST',
       body: {
         "e_mail": e_mail,
@@ -54,12 +66,16 @@ async function onSubmit(data: LoginData): Promise<void> {
       }
     });
 
-    if (dataUser.login) {
-      localStorage.setItem('loggedInAs', 'User'); // maj local storage
-      await router.push('/'); // redirection home
-    } else {
-      // Requête pour l'admin si la connexion utilisateur échoue
-      const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/admins/login', {
+    if (dataUser.token) {
+
+      localStorage.setItem('access_token', dataUser.token); 
+      const current_user_id = parseJwt(dataUser.token);
+      localStorage.setItem('current_user_id', current_user_id.id);
+      await router.push('/');
+    }
+
+    else {
+      const dataAdmin: ApiResponse = await $fetch('http://localhost:2000/api/v1/login/admin', {
         method: 'POST',
         body: {
           "e_mail": e_mail,
@@ -67,18 +83,23 @@ async function onSubmit(data: LoginData): Promise<void> {
         }
       });
 
-      if (dataAdmin.login) {
-        localStorage.setItem('loggedInAs', 'Admin'); // maj local storage
-        await router.push('/'); 
-      } else {
-        errorMessage.value = 'Email ou mot de passe incorrect.';
+      if (dataAdmin.token) {
+        localStorage.setItem('access_token', dataAdmin.token); 
+        const current_user_id = parseJwt(dataUser.token);
+        localStorage.setItem('current_user_id', current_user_id.id);
+        await router.push('/');
+      } 
+      else {
+        errorMessage.value = 'Email ou mot de passe incorrect.'; 
       }
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error:', error);
-    errorMessage.value = 'Une erreur est survenue lors de la connexion.';
+    errorMessage.value = 'Une erreur est survenue lors de la connexion.'; 
   }
 }
+
 </script>
 
 

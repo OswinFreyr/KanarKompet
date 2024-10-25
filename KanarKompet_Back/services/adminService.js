@@ -172,10 +172,11 @@ async function loginAdmin(adminData) {
     const verif = await verifyPassword(adminData.mot_de_passe, admin.mot_de_passe)
 
     if (verif) {
-        return {login: true}
+        const token = jwtMiddleware.generateToken(admin);
+        return {token: token}
     }
     else {
-        return {login: false}
+        return null
     }
 }
 
