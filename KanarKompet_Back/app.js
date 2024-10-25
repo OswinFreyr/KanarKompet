@@ -21,16 +21,10 @@ app.use(cors({
     allowedHeaders: ['Content-Type'],
 }));
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     next();
-// });
-
-app.use(function(req,res,next) {
+/*app.use(function(req,res,next) {
     console.log(req.headers);
     next();
-})
+})*/
 
 app.use(express.json({limit: "2mb"}));
 
