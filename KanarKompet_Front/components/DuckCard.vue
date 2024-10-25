@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-full"
+      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 h-full"
     >
       <a href="#">
         <img class="rounded-t-lg object-cover h-48 w-full" src="https://picsum.photos/400/200" alt="" />
@@ -48,3 +48,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.shadow-lg {
+  box-shadow: 0 4px 30px rgba(156, 155, 155, 0.6);
+}
+
+.shadow-lg:hover {
+    box-shadow: 0 4px 30px #4ade80 ;
+  }
+</style>

@@ -6,7 +6,7 @@
 
   <!-- titre et bouton redirection creer canard -->
   <div class="flex justify-between items-center mb-5">
-    <h2 class="text-3xl font-bold uppercase">Nos Canards</h2>
+    <h2 class="text-3xl text-white font-bold uppercase">Nos Canards</h2>
       <!-- v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" -->
        <!-- CONDITIONNER LA VUE DU BOUTON  -->
     <router-link
@@ -30,3 +30,4 @@
     </div>
   </div>
 </template>
+
