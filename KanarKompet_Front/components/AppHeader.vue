@@ -26,29 +26,29 @@ const logout = () => {
   router.push('/login'); 
 };
 
-const storageEventListener = (event) => {
-  if (event.key === 'loggedInAs') {
-    updateLoggedInAs();
-  }
-};
+// const storageEventListener = (event: any) => {
+//   if (event.key === 'loggedInAs') {
+//     updateLoggedInAs();
+//   }
+// };
 
 onMounted(() => {
   updateLoggedInAs();
 
   // Vérifiez si l'environnement est un client
-  if (typeof window !== 'undefined') {
-    window.addEventListener('storage', storageEventListener);
-  }
-  // Ajout d'un écouteur pour les changements dans le même onglet
-  window.addEventListener('storagechange', updateLoggedInAs); // Juste pour sécurité
+  // if (typeof window !== 'undefined') {
+  //   window.addEventListener('storage', storageEventListener);
+  // }
+  // // Ajout d'un écouteur pour les changements dans le même onglet
+  // window.addEventListener('storagechange', updateLoggedInAs); // Juste pour sécurité
 });
 
-onUnmounted(() => {
-  if (typeof window !== 'undefined') {
-    window.removeEventListener('storage', storageEventListener);
-    window.removeEventListener('storagechange', updateLoggedInAs);
-  }
-});
+// onUnmounted(() => {
+//   if (typeof window !== 'undefined') {
+//     window.removeEventListener('storage', storageEventListener);
+//     window.removeEventListener('storagechange', updateLoggedInAs);
+//   }
+// });
 </script>
 
 <template>
@@ -120,12 +120,11 @@ onUnmounted(() => {
           </div>
           <ul
             tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-white border-grey-900"
             style="background-color: #111828;"
           >
             <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-inscriptions"><a>Mes inscriptions</a></NuxtLink></li>
-            <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-canards"><a>Mes canards</a></NuxtLink></li>
-            <li v-show="loggedInAs === 'User'"><NuxtLink to="/favoris"><a>Favoris</a></NuxtLink></li>
+            <li v-show="loggedInAs === 'User'"><NuxtLink to="/mesCanards"><a>Mes canards</a></NuxtLink></li>
             <li><a>Mes informations</a></li>
             <li><a @click="logout">Se déconnecter</a></li>
           </ul>

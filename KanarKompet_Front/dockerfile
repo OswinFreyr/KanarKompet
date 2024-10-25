@@ -1,0 +1,6 @@
+FROM node
+WORKDIR /KanarKompet_Front
+COPY package*.json ./
+RUN npm install
+COPY . ./
+CMD [ "npm", "run", "build" ]

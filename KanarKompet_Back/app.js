@@ -30,13 +30,13 @@ app.use(express.json({limit: "2mb"}));
 
 app.use("/api/v1/login", authRouter);
 
-app.use("/api/v1/admins", jwtMiddleware.jwtMiddleware, adminRouter);
-app.use("/api/v1/canards", jwtMiddleware.jwtMiddleware, canardRouter);
-app.use("/api/v1/commentairesCanard", jwtMiddleware.jwtMiddleware, commentaireCanardRouter);
-app.use("/api/v1/commentairesCompetition", jwtMiddleware.jwtMiddleware, commentaireCompetitionRouter);
-app.use("/api/v1/competitions", jwtMiddleware.jwtMiddleware, competitionRouter);
-app.use("/api/v1/races", jwtMiddleware.jwtMiddleware, raceRouter);
-app.use("/api/v1/utilisateurs", jwtMiddleware.jwtMiddleware, utilisateurRouter);
+app.use("/api/v1/admins", /*jwtMiddleware.jwtMiddleware,*/ adminRouter);
+app.use("/api/v1/canards", /*jwtMiddleware.jwtMiddleware,*/ canardRouter);
+app.use("/api/v1/commentairesCanard", /*jwtMiddleware.jwtMiddleware,*/ commentaireCanardRouter);
+app.use("/api/v1/commentairesCompetition", /*jwtMiddleware.jwtMiddleware,*/ commentaireCompetitionRouter);
+app.use("/api/v1/competitions", /*jwtMiddleware.jwtMiddleware,*/ competitionRouter);
+app.use("/api/v1/races", /*jwtMiddleware.jwtMiddleware,*/ raceRouter);
+app.use("/api/v1/utilisateurs", /*jwtMiddleware.jwtMiddleware,*/ utilisateurRouter);
 
 db.sync(/*{force : true}*/)
     .then(async () => {

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: ./KanarKompet_Front
+      dockerfile: ./KanarKompet_Front/dockerfile
+    ports:
+      - ${PORT_DOCKER_FRONT}:3000
+    environment:
+      - PORT_DOCKER_FRONT
+  backend:
+    build:
+      context: ./KanarKompet_Back
+      dockerfile: ./KanarKompet_Back/dockerfile
+    ports:
+      - ${PORT_DOCKER_BACK}:2000
+    environment:
+      - PORT_DOCKER_BACK
+    depends_on:
+      - db
+  db: 
+    image: sqlite
+    volumes:
+      - sqlite:/database/kanarkompet.sqlite
+
+volumes:
+  sqlite:

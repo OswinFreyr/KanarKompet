@@ -1,0 +1,6 @@
+FROM node
+WORKDIR /KanarKompet_Back
+COPY package*.json ./
+RUN npm install
+COPY . ./
+CMD [ "node","--env-file=.env" , "./app.js" ]
