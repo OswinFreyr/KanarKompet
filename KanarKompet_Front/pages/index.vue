@@ -110,8 +110,7 @@ const canardsToShow = computed(() => {
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
       <div v-for="competition in upcomingCompetitions" :key="competition.titre" class="w-full max-w-sm">
-        <!-- CHANGER AVEC LE COMPOSANT CARTE COMPETITION -->
-        <CardCompetition :competition="competition" />
+        <CompetitionCard :competition="competition" />
       </div>
     </div>
   </div>
