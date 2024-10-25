@@ -7,7 +7,7 @@ async function createCompetition(competition) {
 async function getAllCompetitions(criterias = {}) {
     const where = {};
     const offset = 0;
-    const limit = 10;
+    const limit = 50;
     if (criterias.titre) {
         where.titre = criterias.titre;
     }

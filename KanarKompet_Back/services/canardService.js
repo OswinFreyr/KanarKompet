@@ -8,7 +8,7 @@ async function createCanard(canard) {
 async function getAllCanards(criterias = {}) {
     const where = {};
     const offset = 0;
-    const limit = 10;
+    const limit = 50;
     if (criterias.nom) {
         where.nom = criterias.nom;
     }

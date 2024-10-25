@@ -88,7 +88,7 @@ const canardsToShow = computed(() => {
   <!-- NOS CANARDS -->
   <div class="p-8 m-20">
     <div class="flex items-center justify-between mb-8">
-      <h2 class="text-4xl font-bold uppercase">Nos canards</h2>
+      <h2 class="text-4xl font-bold uppercase text-white">Nos canards</h2>
       <nuxt-link to="/canards" class="text-blue-500 font-semibold hover:underline">
         Voir plus
       </nuxt-link>
@@ -103,7 +103,7 @@ const canardsToShow = computed(() => {
   <!-- NOS PROCHAINES COMPETITIONS -->
   <div class="p-8 m-20">
     <div class="flex items-center justify-between mb-8">
-      <h2 class="text-4xl font-bold uppercase">Nos Prochaines Compétitions</h2>
+      <h2 class="text-4xl font-bold uppercase text-white">Nos Prochaines Compétitions</h2>
       <nuxt-link to="/competitions" class="text-blue-500 font-semibold hover:underline">
         Voir plus
       </nuxt-link>
