@@ -1,7 +1,43 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'; 
+import { useRouter } from 'vue-router';
 
-let loggedInAs = "Guest"
+const router = useRouter();
+const loggedInAs = ref('Guest'); 
 
+const updateLoggedInAs = () => {
+  loggedInAs.value = localStorage.getItem('loggedInAs') || 'Guest';
+};
+
+const logout = () => {
+  localStorage.setItem('loggedInAs', 'Guest'); 
+  updateLoggedInAs(); // Met à jour l'état après la déconnexion
+  router.push('/login'); 
+};
+
+const storageEventListener = (event: any) => {
+  if (event.key === 'loggedInAs') {
+    updateLoggedInAs();
+  }
+};
+
+onMounted(() => {
+  updateLoggedInAs();
+
+  // Vérifiez si l'environnement est un client
+  if (typeof window !== 'undefined') {
+    window.addEventListener('storage', storageEventListener);
+  }
+  // Ajout d'un écouteur pour les changements dans le même onglet
+  window.addEventListener('storagechange', updateLoggedInAs); // Juste pour sécurité
+});
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('storage', storageEventListener);
+    window.removeEventListener('storagechange', updateLoggedInAs);
+  }
+});
 </script>
 
 <template>
@@ -26,52 +62,61 @@ let loggedInAs = "Guest"
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="text-sm lg:flex-grow">
-        <a
-          href="#responsive-header"
+        <NuxtLink
+          to="/"
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white mr-4"
         >
           Accueil
-        </a>
-        <a
-          href="#responsive-header"
+        </NuxtLink>
+        <NuxtLink
+          to="/competitions"
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white mr-4"
         >
           Compétitions
-        </a>
-        <a
-          href="#responsive-header"
+        </NuxtLink>
+        <NuxtLink
+          to="/canards"
           class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
         >
           Canards
-        </a>
+        </NuxtLink>       
+
+        <NuxtLink
+          v-show="loggedInAs == 'User' || loggedInAs == 'Admin'" to="/addEvenement"
+          class="block mt-4 lg:inline-block lg:mt-0 hover:text-teal-200 text-white"
+          >
+          AJouter un événement
+        </NuxtLink>
       </div>
       <div>
         <NuxtLink
-               role="button" class="btn m-1 text-white"
-                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/login">
-                  Se connecter
+          role="button" class="btn m-1 text-white"
+          v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/login">
+          Se connecter
         </NuxtLink>
 
-        <span class="text-white mx-3"v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'">|</span>
+        <span class="text-white mx-3" v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'">|</span>
 
         <NuxtLink
-               role="button" class="btn m-1 text-white"
-                  v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/signin">
-                  Créer un compte
+          role="button" class="btn m-1 text-white"
+          v-show="loggedInAs !== 'User' && loggedInAs !== 'Admin'" to="/signin">
+          Créer un compte
         </NuxtLink>
+
         <div class="dropdown dropdown-end" v-show="loggedInAs === 'User' || loggedInAs === 'Admin'">
           <div tabindex="0" role="button" class="btn m-1 text-white">
             Mon compte
           </div>
           <ul
             tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow bg-white"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            style="background-color: #111828;"
           >
-            <li v-show="loggedInAs === 'User'"><a>Mes inscriptions</a></li>
-            <li v-show="loggedInAs === 'User'"><a>Mes canards</a></li>
-            <li v-show="loggedInAs === 'User'"><a>Favoris</a></li>
+            <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-inscriptions"><a>Mes inscriptions</a></NuxtLink></li>
+            <li v-show="loggedInAs === 'User'"><NuxtLink to="/mes-canards"><a>Mes canards</a></NuxtLink></li>
+            <li v-show="loggedInAs === 'User'"><NuxtLink to="/favoris"><a>Favoris</a></NuxtLink></li>
             <li><a>Mes informations</a></li>
-            <li><a>Se déconnecter</a></li>
+            <li><a @click="logout">Se déconnecter</a></li>
           </ul>
         </div>
       </div>

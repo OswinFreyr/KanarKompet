@@ -15,7 +15,6 @@ const utilisateurRouter = require("./routes/utilisateurRoute");
 
 const app = express();
 const PORT = 2000;
-
 app.use(cors({
     origin: 'http://localhost:3000', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
